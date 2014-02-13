@@ -1,4 +1,6 @@
 RECS = STUFF*
 DATE = #"\n\d+:\d+\n" 
+DISPOSITION = #"Disposition: (.+)" <NL>
+ID = #"\d+" <NL>
 STUFF = #".*" <NL>
 <NL> =  #"\n+"
