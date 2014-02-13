@@ -8,10 +8,14 @@
 
 (comment
 
-
   (ip/parse
    (ip/parser (slurp "resources/ppd.bnf"))
-   (slurp "resources/testdata/PPDdailymediabulletin2014-02-09.txt"))
+   (slurp "resources/testdata/well-formed.txt"))
+
+  
+  (ip/parse
+   (ip/parser (slurp "resources/ppd.bnf"))
+   (slurp "resources/testdata/poorly-formed.txt"))
               
 
   
