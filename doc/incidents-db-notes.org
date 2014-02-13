@@ -1,0 +1,26 @@
+incidents reporting db notes
+
+
+* data scraping
+** grabbing
+   http://www.pacificaindex.com/policelogs/PPDdailymediabulletin2013-02-06.pd
+*** also    http://www.pacificaindex.com/policelogs/4883-PPDdailymediabulletin(2012-05-15).pdf
+**** thru 12/31/12
+*** DONE generate range of dates somehow
+*** TODO dl them all
+*** TODO convert them with pdftotext
+** parsing
+*** parse based on the incident id regexp?
+**** 130206017
+**** 140206010
+*** TODO or parse based on time xx:xx
+**** again, first one has none
+*** all subsq lines have format
+**** time
+**** id
+**** description
+***** multiple lines!
+***** the text "Disposition: " is used to mark out the disposition
+*** there is also noise,  PDF created, etc.
+**** the noise begins with Page, and oes until blank line!
+**** there's also PDF created
