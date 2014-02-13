@@ -1,5 +1,4 @@
-RECS = <HEADER> (DATE STUFF*)
-DATE = <NLS>#"\d+:\d+"<NLS>
-<NLS>  = #"\n+"
-STUFF = #".*"
-HEADER = "PACIFICA POLICE DEPARTMENT\nMEDIA BULLETIN\n"
+RECS = STUFF*
+DATE = #"\n\d+:\d+\n" 
+STUFF = #".*" <NL>
+<NL> =  #"\n+"
