@@ -1,7 +1,9 @@
 (ns incidents.parse
+  (:import org.joda.time.DateTime)
   (:require [instaparse.core :as ip]
             [clojure.string :as s]
             [clojure.edn :as edn]
+            [clj-time.format :as tfmt]
             [clojure.walk :as walk]
             [utilza.misc :as umisc]
             [utilza.repl :as urepl]))
@@ -56,12 +58,11 @@
              slurp
              page-delim-hack)        
         :unhide :all) ;; for debuggging!
-       transform-all
+       ;;transform-all ;; don't do the transforms becasue the errors choke.
        (urepl/massive-spew "/tmp/output.edn"))
 
   
-
-
+  
 
   
   (ip/parse
@@ -70,5 +71,15 @@
   
 
   
+  
+  )
+
+
+(comment
+   (tfmt/show-formatters)
+
+  (tfmt/parse
+   (tfmt/formatter "MMMM d, yyyy")
+    "February 5, 2014")
   
   )

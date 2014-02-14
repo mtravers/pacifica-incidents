@@ -1,4 +1,4 @@
-recs = <header> rec+
+recs = header rec+
 rec = time type id (!time !id stuff)+
 time = #"\d+:\d+" <nl>
 date = #"\d+/\d+/\d+" <nl>
@@ -8,5 +8,6 @@ id = #"\d+" <nl>
 stuff = #".*" <nl>
 type = #".+" <nl>
 <nl> =  #"\n+"
-<header> = "PACIFICA POLICE DEPARTMENT" <nl> "MEDIA BULLETIN" <nl> #"DAILY.*" <nl>
+<header> = <"PACIFICA POLICE DEPARTMENT" <nl> "MEDIA BULLETIN"> <nl> hdate
+hdate = <#"DAILY --- \S+, "> #"\S+ \d+, \d+" <nl>
 <pagedelim> = <nl>+ page date <nl>+
