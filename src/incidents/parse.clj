@@ -18,6 +18,7 @@
   (s/replace s #"\nPage.*?\n\d+/\d+/\d+\n" ""))
 
 
+;; TODO:  the dates/times are going to be interesting. clj-time fo sho.
 (def transforms {:id  (comp clojure.edn/read-string str)})
 
 (defn transform-all
