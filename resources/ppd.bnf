@@ -1,12 +1,12 @@
 recs = <header> rec+
-rec = time summary id (!time !id stuff)+
+rec = time type id (!time !id stuff)+
 time = #"\d+:\d+" <nl>
 date = #"\d+/\d+/\d+" <nl>
 page = #"Page .*" <nl>
 disposition = #"Disposition: (.+)" <nl>
 id = #"\d+" <nl>
 stuff = #".*" <nl>
-summary = #".+" <nl>
+type = #".+" <nl>
 <nl> =  #"\n+"
 <header> = "PACIFICA POLICE DEPARTMENT" <nl> "MEDIA BULLETIN" <nl> #"DAILY.*" <nl>
 <pagedelim> = <nl>+ page date <nl>+
