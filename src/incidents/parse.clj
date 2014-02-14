@@ -17,11 +17,19 @@
         (ip/parser (slurp "resources/ppd.bnf"))
         (slurp "resources/testdata/well-formed.txt"))
        (urepl/massive-spew "/tmp/output.edn"))
+
+  (->> (ip/parse
+        (ip/parser (slurp "resources/ppd.bnf"))
+        (slurp "resources/testdata/well-formed.txt")
+        :unhide :all) ;; for debuggging!
+       (urepl/massive-spew "/tmp/output.edn"))
+
+
   
   (ip/parse
    (ip/parser (slurp "resources/ppd.bnf"))
    (slurp "resources/testdata/poorly-formed.txt"))
-              
+  
 
   
   

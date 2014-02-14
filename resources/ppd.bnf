@@ -1,8 +1,8 @@
 recs = <header> rec+
-rec = time <pagedelim>*  (!time stuff)+
+rec = time  (!time stuff)+
 time = #"\d+:\d+" <nl>
 date = #"\d+/\d+/\d+" <nl>
-page = #"Page.*" <nl>
+page = #"Page .*" <nl>
 disposition = #"Disposition: (.+)" <nl>
 id = #"\d+" <nl>
 stuff = #".*" <nl>
