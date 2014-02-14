@@ -2,6 +2,8 @@
   (:require [instaparse.core :as ip]
             [clojure.string :as s]
             [clojure.edn :as edn]
+            [clojure.walk :as walk]
+            [utilza.misc :as umisc]
             [utilza.repl :as urepl]))
 
 
@@ -16,12 +18,18 @@
   (s/replace s #"\nPage.*?\n\d+/\d+/\d+\n" ""))
 
 
-;; TODO: time, which will need to be added to date.
-(defn transforms
+(def transforms {:id  (comp clojure.edn/read-string str)})
+
+(defn transform-all
   [t]
-  (ip/transform
-   {:id (comp clojure.edn/read-string str)}
-        t))
+  (walk/postwalk  (fn [d]
+                    (if  (vector? d)
+                      (let [[k v] d]
+                        (if (k transforms)
+                          [k ((k transforms) v)]
+                          d))
+                      d))
+                  t))
 
 
 (comment
@@ -36,16 +44,18 @@
         (->  "resources/testdata/well-formed.txt"
              slurp
              page-delim-hack))
-       ;;transforms
+       transform-all
        (urepl/massive-spew "/tmp/output.edn"))
 
+
+  
   (->> (ip/parse
         (ip/parser (slurp "resources/ppd.bnf"))
         (->  "resources/testdata/well-formed.txt"
              slurp
              page-delim-hack)        
         :unhide :all) ;; for debuggging!
-       ;; transforms
+       transform-all
        (urepl/massive-spew "/tmp/output.edn"))
 
   
