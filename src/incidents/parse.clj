@@ -6,7 +6,12 @@
 
 
 
+;; XXX this wouldn't be necessary if there were a way
+;; to multi-pass through the parser: once to get the page data out
+;; of the records, and then to parse the records.
+;; I know how to do that with regexps, but not within EBNF.
 (defn page-delim-hack
+  "XXX this is horrible."
   [s]
   (s/replace s #"\nPage.*?\n\d+/\d+/\d+\n" ""))
 
