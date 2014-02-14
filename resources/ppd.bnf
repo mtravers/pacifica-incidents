@@ -1,5 +1,5 @@
 recs = <header> rec+
-rec = time (!time stuff)+
+rec = time description id (!time !id stuff)+
 time = #"\d+:\d+" <nl>
 date = #"\d+/\d+/\d+" <nl>
 page = #"Page .*" <nl>
