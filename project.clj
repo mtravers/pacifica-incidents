@@ -7,4 +7,5 @@
                  [clj-time "0.4.4"]
                  [clj-http "0.7.9"]
                  [instaparse "1.2.14"]
-                 [utilza "0.1.49" :exclusions [org.clojure/clojure]]])
+                 [utilza "0.1.49" :exclusions [org.clojure/clojure]]
+                 [org.clojure/data.json "0.2.3"]])
