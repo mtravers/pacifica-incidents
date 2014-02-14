@@ -1,6 +1,7 @@
 (ns incidents.parse
   (:require [instaparse.core :as ip]
             [clojure.string :as s]
+            [clojure.edn :as edn]
             [utilza.repl :as urepl]))
 
 
@@ -8,6 +9,14 @@
 (defn page-delim-hack
   [s]
   (s/replace s #"\nPage.*?\n\d+/\d+/\d+\n" ""))
+
+
+;; TODO: time, which will need to be added to date.
+(defn transforms
+  [t]
+  (ip/transform
+   {:id (comp clojure.edn/read-string str)}
+        t))
 
 
 (comment
@@ -22,6 +31,7 @@
         (->  "resources/testdata/well-formed.txt"
              slurp
              page-delim-hack))
+       ;;transforms
        (urepl/massive-spew "/tmp/output.edn"))
 
   (->> (ip/parse
@@ -30,6 +40,7 @@
              slurp
              page-delim-hack)        
         :unhide :all) ;; for debuggging!
+       ;; transforms
        (urepl/massive-spew "/tmp/output.edn"))
 
   
