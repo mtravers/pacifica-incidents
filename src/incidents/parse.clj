@@ -21,9 +21,12 @@
 
 
 ;; TODO:  the dates/times are going to be interesting. clj-time fo sho.
+;; TODO: the timezones *sigh*
 (def transforms {:id  (comp clojure.edn/read-string str)
                  :hdate #(tfmt/parse
-                          (tfmt/formatter "MMMM d, yyyy") %)})
+                          (tfmt/formatter "MMMM d, yyyy") %)
+                 :time #(tfmt/parse
+                          (tfmt/formatters :hour-minute) %)})
 
 (defn transform-all
   [t]
