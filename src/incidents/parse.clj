@@ -21,7 +21,9 @@
 
 
 ;; TODO:  the dates/times are going to be interesting. clj-time fo sho.
-(def transforms {:id  (comp clojure.edn/read-string str)})
+(def transforms {:id  (comp clojure.edn/read-string str)
+                 :hdate #(tfmt/parse
+                          (tfmt/formatter "MMMM d, yyyy") %)})
 
 (defn transform-all
   [t]
@@ -78,8 +80,6 @@
 (comment
    (tfmt/show-formatters)
 
-  (tfmt/parse
-   (tfmt/formatter "MMMM d, yyyy")
-    "February 5, 2014")
+
   
   )
