@@ -20,8 +20,7 @@
   (s/replace s #"\nPage.*?\n\d+/\d+/\d+\n" ""))
 
 
-;; TODO:  the dates/times are going to be interesting. clj-time fo sho.
-;; TODO: the timezones *sigh*
+;; TODO: next, the timezones *sigh*
 (def transforms {:id  (comp clojure.edn/read-string str)
                  :hdate #(tfmt/parse
                           (tfmt/formatter "MMMM d, yyyy") %)
@@ -56,20 +55,20 @@
        (urepl/massive-spew "/tmp/output.edn"))
 
 
-  
+  ;; debug version
   (->> (ip/parse
         (ip/parser (slurp "resources/ppd.bnf"))
         (->  "resources/testdata/well-formed.txt"
              slurp
              page-delim-hack)        
         :unhide :all) ;; for debuggging!
-       ;;transform-all ;; don't do the transforms becasue the errors choke.
+       ;;transform-all ;; don't do the transforms becasue the errors choke it.
        (urepl/massive-spew "/tmp/output.edn"))
 
   
   
 
-  
+  ;; fail-o-rama
   (ip/parse
    (ip/parser (slurp "resources/ppd.bnf"))
    (slurp "resources/testdata/poorly-formed.txt"))
