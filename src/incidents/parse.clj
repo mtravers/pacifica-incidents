@@ -197,6 +197,15 @@
 (comment
 
 
-  
+  ;; this one is truly botched, needs serious help.
+  (->> (ip/parse
+        (ip/parser (slurp "resources/ppd.bnf"))
+        (->  "/mnt/sdcard/tmp/policelogs/4895-PPDdailymediabulletin(2012-05-30).txt"
+             slurp
+             page-delim-hack)
+        ;; for debuggging!
+        :total true
+        :unhide :all) 
+       (urepl/massive-spew "/tmp/output.edn"))  
   
   )

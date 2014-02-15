@@ -25,11 +25,64 @@ incidents reporting db notes
 **** the noise begins with Page, and oes until blank line!
 **** there's also PDF created
 ** TODO deal with the poorly-formed parses!
-*** TODO it'll be a separate instaparse gramar
-*** TODO just handle all the id's as a group
-*** TODO use a try/catch: if instaparse fails on well-formed parser, use the shitty parser
+*** DONE it'll be a separate instaparse gramar
+*** DONE just handle all the id's as a group
+*** DONE use a try/catch: if instaparse fails on well-formed parser, use the shitty parser
 * cleanups
-** TODO use env instead of earmuffed dynamic vars and other hardcoded nastiness
+** DONE use env instead of earmuffed dynamic vars and other hardcoded nastiness
+** TODO broken parses, fix
+*** 5/30/12
+	120530299
+subj went into the above and cab driver is
+
+ Parse error at line 5, column 1:
+Page 1
+^
+Expected one of:
+#"\d+:\d+"
+#"\n+"
+*** 8/2/12
+	Traffic Law Vehicle
+120802278
+Occurred at Skyline Bl/Hickey Bl, Pacifica. Approx 10 ago north on skyline towards daly city poss dui
+driver early 90s honda light blue in color subj was driving slowly and swerving on the road
+. . Disposition: Referred To Other Agency.
+
+PDF created with pdfFactory trial version www.pdffactory.com
+
+ Parse error at line 5, column 1:
+Page 1
+^
+Expected one of:
+#"\d+:\d+"
+#"\n+"
+
+*** 8/15/12
+	. . Disposition: Log Note Only.
+
+PDF created with pdfFactory trial version www.pdffactory.com
+
+ Parse error at line 5, column 1:
+Page 1
+^
+Expected one of:
+#"\d+:\d+"
+#"\n+"
+
+*** unk
+	
+PDF created with pdfFactory trial version www.pdffactory.com
+
+120609293
+
+ Parse error at line 5, column 1:
+Page 1
+^
+Expected one of:
+#"\d+:\d+"
+#"\n+"
+
+
 ** TODO save to database!
 ** TODO make the code do the downloading
 *** TODO use wget, nevermind all this clj-http, it's unnecessary
