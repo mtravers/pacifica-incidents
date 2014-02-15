@@ -22,6 +22,13 @@
   [s]
   (s/replace s #"\nPage.*?\n\d+/\d+/\d+\n" ""))
 
+(defn- assure-ending-nl
+  [s]
+  (str s "\n"))
+
+(defn- no-f-hack
+  [s]
+  (s/replace s "\f" "\n"))
 
 (defn- brutal-page-delim-hack
   "XXX this is horrible."
@@ -120,7 +127,9 @@
 
 (defn remerge-lines
   [m]
-  (update-in m [:lines] #(apply str (interpose "\n" %))))
+  (-> m
+      (update-in  [:lines] #(apply str (interpose "\n" %)))
+      (update-in  [:lines] assure-ending-nl)))
 
 (defn separate-ids
   [s]
@@ -135,7 +144,7 @@
   (let [p (ip/parse
            (ip/parser (slurp parser-file)) s)]
     (if (ip/failure? p)
-        (throw (Exception. (str parser-file  (-> p ip/get-failure pr-str) s)))
+      (throw (Exception. (str parser-file  (-> p ip/get-failure pr-str) s)))
       p)))
 
 (defn parse-sane-pdf-text
@@ -143,6 +152,7 @@
   [s]
   (->> s
        page-delim-hack
+       no-f-hack
        (parse-with-failure-log "resources/ppd.bnf")
        parse-tree
        fix-times))
@@ -151,6 +161,7 @@
   "Takes a string of an insanely-formatted PDF, and parses it out. Returns a tree with parsed data."
   [s]
   (->> s
+       no-f-hack
        (parse-with-failure-log "resources/ppd-bad.bnf")
        parse-tree
        zip-ids-recs
@@ -163,6 +174,7 @@
   [s]
   (let [{:keys [ids lines]} (->> s
                                  brutal-page-delim-hack
+                                 no-f-hack
                                  separate-ids
                                  remerge-lines)]
     (->> lines
@@ -244,6 +256,7 @@
   (let [{:keys [ids lines]} (->>  "resources/testdata/ridiculously-stupid.txt"
                                   slurp
                                   page-delim-hack
+                                  no-f-hack
                                   separate-ids
                                   remerge-lines)]
     (->> 

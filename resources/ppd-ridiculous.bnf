@@ -1,4 +1,4 @@
-recs = header rec+ f?
+recs = header rec+ 
 
 rec = time type  (!time description)+
 
@@ -9,7 +9,6 @@ time = <nl>* #"\d+:\d+" <nl>+
 
 id = #"\d+" <nl>
 
-<header> = f? <"PACIFICA POLICE DEPARTMENT" <nl> "MEDIA BULLETIN"> <nl> hdate
+<header> = <"PACIFICA POLICE DEPARTMENT" <nl> "MEDIA BULLETIN"> <nl> hdate
 hdate = <#"DAILY --- \S+, "> #"\S+ \d+, \d+" <nl>
 <nl> =  #"\n+"
-<f> = <"\f"?>
