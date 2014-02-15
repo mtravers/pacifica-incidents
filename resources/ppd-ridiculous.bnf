@@ -1,0 +1,15 @@
+recs = header rec+ f?
+
+rec = time type  (!time description)+
+
+
+type = #".+" <nl>
+description =  #".*" <nl>
+time = <nl>* #"\d+:\d+" <nl>+
+
+id = #"\d+" <nl>
+
+<header> = f? <"PACIFICA POLICE DEPARTMENT" <nl> "MEDIA BULLETIN"> <nl> hdate
+hdate = <#"DAILY --- \S+, "> #"\S+ \d+, \d+" <nl>
+<nl> =  #"\n+"
+<f> = <"\f"?>

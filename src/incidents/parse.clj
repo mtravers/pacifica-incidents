@@ -109,6 +109,18 @@
           recs))
 
 
+
+(defn remerge-lines
+  [m]
+  (update-in m [:lines] #(apply str (interpose "\n" %))))
+
+(defn separate-ids
+  [s]
+  (->> s
+       (#(clojure.string/split % #"\n"))
+       ((juxt filter remove) #(re-matches #"^\d+$" %))
+       (zipmap [:ids :lines])))
+
 (defn parse-sane-pdf-text
   "Takes a string of a sanely-formatted PDF, and parses it out. Returns a tree with parsed data."
   [s]
@@ -125,11 +137,31 @@
   (let [p (ip/parse
            (ip/parser (slurp "resources/ppd-bad.bnf")) s)]
     (if (ip/failure? p)
-      (println s (ip/get-failure p)) ;; TODO: log this better
+      (do
+        (println s (ip/get-failure p)) ;; TODO: log this better
+        (throw (Exception. (ip/get-failure p))))
       (->> p
            parse-tree
            zip-ids-recs
            fix-times))))
+
+
+
+(defn parse-ridiculous-pdf-text
+  "Takes a string of stupidly-formatted PDF, and parses it out. Returns a tree with parsed data."
+  [s]
+  (let [{:keys [ids lines]} (->> s
+                                 page-delim-hack
+                                 separate-ids
+                                 remerge-lines)]
+    (->> 
+     (ip/parse
+      (ip/parser (slurp "resources/ppd-ridiculous.bnf"))
+      lines)
+     parse-tree
+     (#(assoc % :ids ids))
+     zip-ids-recs
+     fix-times)))
 
 
 (defn parse-pdf-text
@@ -139,7 +171,9 @@
     (parse-sane-pdf-text s)
     (catch Exception e
       (try
-        (parse-poor-pdf-text s)))))
+        (parse-poor-pdf-text s)
+        (catch Exception e
+          (parse-ridiculous-pdf-text s))))))
 
 
 
@@ -161,6 +195,11 @@
        (apply concat)
        (urepl/massive-spew "/tmp/output.edn"))
 
+
+  )
+
+
+(comment
 
   ;; debug version
   (->> (ip/parse
@@ -191,21 +230,27 @@
   
   
   
-  )
+  ;; this one is truly botched, this is needed to debug it
 
+  (let [{:keys [ids lines]} (->>  "resources/testdata/ridiculously-stupid.txt"
+                                  slurp
+                                  page-delim-hack
+                                  separate-ids
+                                  remerge-lines)]
+    (->> 
+     (ip/parse
+      (ip/parser (slurp "resources/ppd-ridiculous.bnf"))
+      lines
+      ;; for debuggging!
+      :total true
+      :unhide :all )
+     (urepl/massive-spew "/tmp/output.edn")))  
+
+
+  )
 
 (comment
 
-
-  ;; this one is truly botched, needs serious help.
-  (->> (ip/parse
-        (ip/parser (slurp "resources/ppd.bnf"))
-        (->  "/mnt/sdcard/tmp/policelogs/4895-PPDdailymediabulletin(2012-05-30).txt"
-             slurp
-             page-delim-hack)
-        ;; for debuggging!
-        :total true
-        :unhide :all) 
-       (urepl/massive-spew "/tmp/output.edn"))  
+  
   
   )
