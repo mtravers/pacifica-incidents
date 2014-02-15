@@ -54,7 +54,8 @@
 
 
 (defn parse-tree
-  "Takes a tree in the form [:recs [....]] and munges it."
+  "Takes a tree in the shape [:recs [k v] [k v]] and returns a map of {:date xxx :recs [m1 m2 m3...]}
+   with all the recs maps formatted properly."
   [[_ & recs]]
   (reduce (fn [acc [k & vs]]
             (case k
