@@ -148,10 +148,13 @@
   ;; then eval the below form(s) to do the parsing.
   
 
-  (->>  "resources/testdata/well-formed.txt"
-        slurp
-        parse-pdf-text
-        (urepl/massive-spew "/tmp/output.edn"))
+  (->> (for [f ["resources/testdata/well-formed.txt"
+                "resources/testdata/poorly-formed.txt"]]
+             (-> f
+                 slurp
+                 parse-pdf-text))
+       (apply concat)
+       (urepl/massive-spew "/tmp/output.edn"))
 
 
   ;; debug version
@@ -179,10 +182,7 @@
   
 
 
-  (->> "resources/testdata/poorly-formed.txt"
-       slurp
-       parse-poor-pdf-text
-       (urepl/massive-spew "/tmp/output.edn"))
+
   
   
   
