@@ -4,6 +4,7 @@
   (:require [instaparse.core :as ip]
             [clojure.string :as s]
             [clojure.edn :as edn]
+            [taoensso.timbre :as log]
             [clojure.stacktrace :as st]
             [clj-time.format :as tfmt]
             [clj-time.core :as time]
@@ -144,7 +145,9 @@
   (let [p (ip/parse
            (ip/parser (slurp parser-file)) s)]
     (if (ip/failure? p)
-      (throw (Exception. (str parser-file  (-> p ip/get-failure pr-str) s)))
+      (let [estr  (str parser-file  (-> p ip/get-failure pr-str) s)]
+        ;;(log/debug estr)
+        (throw (Exception. estr)))
       p)))
 
 (defn parse-sane-pdf-text
@@ -194,7 +197,10 @@
       (try
         (parse-poor-pdf-text s)
         (catch Exception e
-          (parse-ridiculous-pdf-text s))))))
+          (try
+            (parse-ridiculous-pdf-text s)
+            (catch Exception e
+              (log/error e))))))))
 
 
 
