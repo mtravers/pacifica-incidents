@@ -81,6 +81,13 @@
               parse-pdf-text)
          (->> "resources/testdata/well-formed-parsed.edn"
               slurp
+              clojure.edn/read-string)))
+  (testing "Parsing a poorly-formed pdftotext'ed PDF into the proper finished format")
+  (is (= (->> "resources/testdata/poorly-formed.txt"
+              slurp
+              parse-pdf-text)
+         (->> "resources/testdata/poorly-formed-parsed.edn"
+              slurp
               clojure.edn/read-string))))
 
 (comment
