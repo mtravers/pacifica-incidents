@@ -197,15 +197,6 @@
 (comment
 
 
-
-  (->> (ip/parse
-        (ip/parser (slurp "resources/ppd.bnf"))
-        (->  "/mnt/sdcard/tmp/policelogs/PPDdailymediabulletin2013-09-12.txt"
-             slurp
-             page-delim-hack)
-        ;; for debuggging!
-        :total true
-        :unhide :all) 
-       (urepl/massive-spew "/tmp/output.edn"))
+  
   
   )
