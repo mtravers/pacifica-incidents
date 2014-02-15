@@ -14,7 +14,7 @@
 ;; to multi-pass through the parser: once to get the page data out
 ;; of the records, and then to parse the records.
 ;; I know how to do that with regexps, but not within EBNF.
-(defn page-delim-hack
+(defn- page-delim-hack
   "XXX this is horrible."
   [s]
   (s/replace s #"\nPage.*?\n\d+/\d+/\d+\n" ""))
@@ -23,7 +23,7 @@
 ;; "PDF created with pdfFactory trial version www.pdffactory.com \f",
 
 
-(defn yank-disposition
+(defn- yank-disposition
   "The disposition is un-possible for me to pull out using instaparse
    without either crashing the parser or causing an endless loop requiring killign the JVM.
    So, just do it via brute force and regexps after parsing is done"
@@ -34,7 +34,7 @@
               :disposition disposition})))
 
 
-(defn munge-rec
+(defn- munge-rec
   "Takes a rec which is [[k v]] pairs, with duplicate k's for things like :description.
    Merges it into a map with the :description concatenated."
   [rec]
@@ -56,7 +56,7 @@
                          (tfmt/formatters :hour-minute) %)})
 
 
-(defn parse-tree
+(defn- parse-tree
   "Takes a tree in the shape [:recs [k v] [k v]] and returns a map of {:date xxx :recs [m1 m2 m3...]}
    with all the recs maps formatted properly."
   [[_ & recs]]
@@ -74,6 +74,17 @@
 
 
 
+(defn parse-pdf-text
+  "Takes a string of the PDF, and parses it out. Returns a tree with parsed data."
+  [s]
+  (->> s
+       page-delim-hack
+       (ip/parse
+        (ip/parser (slurp "resources/ppd.bnf")))
+       parse-tree))
+
+
+
 (comment
 
   ;; this tests the results and dumps it to output.edn as a hack
@@ -82,13 +93,10 @@
   ;; then eval the below form(s) to do the parsing.
   
 
-  (->> (ip/parse
-        (ip/parser (slurp "resources/ppd.bnf"))
-        (->  "resources/testdata/well-formed.txt"
-             slurp
-             page-delim-hack))
-       parse-tree
-       (urepl/massive-spew "/tmp/output.edn"))
+  (->>  "resources/testdata/well-formed.txt"
+        slurp
+        parse-pdf-text
+        (urepl/massive-spew "/tmp/output.edn"))
 
 
   ;; debug version
