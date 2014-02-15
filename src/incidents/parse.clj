@@ -65,7 +65,7 @@
                                                     (umisc/munge-columns transforms)))
               :hdate (assoc acc :date (tfmt/parse
                                        (tfmt/formatter "MMMM d, yyyy") (first vs)))
-              :else (assoc acc k vs)))
+              :else (assoc acc k vs))) ;; really shouldn't happen. throw an error instead?
           {:recs []}
           recs))
 
@@ -75,7 +75,8 @@
 
   ;; this tests the results and dumps it to output.edn as a hack
   ;; to pretty-print it because otherwise it's an unreadable mess
-  ;; set up a buffer with /tmp/output.edn as an auto-revert-mode
+  ;; set up a buffer with /tmp/output.edn as an auto-revert-mode,
+  ;; then eval the below form(s) to do the parsing.
   
 
   (->> (ip/parse
