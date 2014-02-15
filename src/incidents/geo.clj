@@ -12,14 +12,16 @@
   (let [{:keys [status body]} (client/get *geocoding-url*
                                           {:query-params {:address addr, :sensor false}
                                            :as :json})]
-    body))
+    (-> body
+        :results
+        first)))
 
 (defn find-address
   [s]
   (when-let [match (-> #".*?(at|on) (.*)Pacifica.*"
-                       re-matches
+                       (re-matches s)
                        (nth 2))]
-    (str match " CA")))
+    (str match " Pacifica, CA")))
 
 
 
@@ -34,10 +36,10 @@
   [items]
   (map add-geo items))
 
-  )
+
 
 (comment
-  
+
 
   )
 
