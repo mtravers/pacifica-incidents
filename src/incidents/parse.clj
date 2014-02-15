@@ -72,7 +72,23 @@
                          %)})
 
 
+(defn fix-ids
+  "Takes a list of [k v] tuples, filters the id's only, formats them as nums,
+   and returns them as a list"
+  [id-tuples]
+  (for [[k v] id-tuples
+        :when (= :id k)]
+    (-> v
+        str
+        clojure.edn/read-string)))
 
+
+(defn zip-ids-recs
+  "Associate id's with their records. Leaves tree structure intact for date fix later."
+  [{:keys [ids recs] :as t}]
+  (-> t
+      (dissoc :ids)
+      (assoc  :recs (map #(assoc %1 :id  %2) recs ids))))
 
 (defn- parse-tree
   "Takes a tree in the shape [:recs [k v] [k v]] and returns a map of {:date xxx :recs [m1 m2 m3...]}
@@ -86,6 +102,7 @@
                                                     (umisc/munge-columns transforms)))
               :hdate (assoc acc :date (tfmt/parse
                                        (tfmt/formatter "MMMM d, yyyy") (first vs)))
+              :pagedelim (update-in acc [:ids] concat (fix-ids vs))
               :else (assoc acc k vs))) ;; really shouldn't happen. throw an error instead?
           {:recs []}
           recs))
@@ -132,19 +149,32 @@
   
   
 
-  ;; fail-o-rama
-  (ip/parse
-   (ip/parser (slurp "resources/ppd.bnf"))
-   (slurp "resources/testdata/poorly-formed.txt"))
+  (->> (ip/parse
+        (ip/parser (slurp "resources/ppd-bad.bnf"))
+        (->  "resources/testdata/poorly-formed.txt"
+             slurp)
+        ;; for debuggging!
+        :total true
+        :unhide :all) 
+       (urepl/massive-spew "/tmp/output.edn"))
   
 
+
+  
+  (->> (ip/parse
+        (ip/parser (slurp "resources/ppd-bad.bnf"))
+        (->  "resources/testdata/poorly-formed.txt"
+             slurp))
+       parse-tree
+       zip-ids-recs
+       fix-times
+       (urepl/massive-spew "/tmp/output.edn"))
   
   
   )
 
 
 (comment
-  (tfmt/show-formatters)
 
 
   )

@@ -1,0 +1,18 @@
+recs = header (rec+ pagedelim)+ 
+
+rec = time type  (!time !id description)+
+
+pagedelim = <pagenum> <printdate> id+ f? header?
+pagenum = #"Page \d+" <nl>
+printdate = #"\d+/\d+/\d+" <nl>
+
+type = #".+" <nl>
+description =  #".*" <nl>
+time = <nl>* #"\d+:\d+" <nl>+
+
+id = #"\d+" <nl>
+
+<header> = <"PACIFICA POLICE DEPARTMENT" <nl> "MEDIA BULLETIN"> <nl> hdate
+hdate = <#"DAILY --- \S+, "> #"\S+ \d+, \d+" <nl>
+<nl> =  #"\n+"
+<f> = <"\f"?>
