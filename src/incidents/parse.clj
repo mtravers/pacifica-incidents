@@ -22,6 +22,14 @@
   [s]
   (s/replace s #"\nPage.*?\n\d+/\d+/\d+\n" ""))
 
+
+(defn- brutal-page-delim-hack
+  "XXX this is horrible."
+  [s]
+  (-> s
+      (s/replace  #"\nPage.*?\n" "\n")
+      (s/replace  #"\n\d+/\d+/\d+\n" "\n")))
+
 ;; TODO: get rid of this too:
 ;; "PDF created with pdfFactory trial version www.pdffactory.com \f",
 
@@ -121,29 +129,32 @@
        ((juxt filter remove) #(re-matches #"^\d+$" %))
        (zipmap [:ids :lines])))
 
+
+(defn parse-with-failure-log
+  [parser-file s]
+  (let [p (ip/parse
+           (ip/parser (slurp parser-file)) s)]
+    (if (ip/failure? p)
+        (throw (Exception. (str parser-file  (-> p ip/get-failure pr-str) s)))
+      p)))
+
 (defn parse-sane-pdf-text
   "Takes a string of a sanely-formatted PDF, and parses it out. Returns a tree with parsed data."
   [s]
   (->> s
        page-delim-hack
-       (ip/parse
-        (ip/parser (slurp "resources/ppd.bnf")))
+       (parse-with-failure-log "resources/ppd.bnf")
        parse-tree
        fix-times))
 
 (defn parse-poor-pdf-text
   "Takes a string of an insanely-formatted PDF, and parses it out. Returns a tree with parsed data."
   [s]
-  (let [p (ip/parse
-           (ip/parser (slurp "resources/ppd-bad.bnf")) s)]
-    (if (ip/failure? p)
-      (do
-        (println s (ip/get-failure p)) ;; TODO: log this better
-        (throw (Exception. (ip/get-failure p))))
-      (->> p
-           parse-tree
-           zip-ids-recs
-           fix-times))))
+  (->> s
+       (parse-with-failure-log "resources/ppd-bad.bnf")
+       parse-tree
+       zip-ids-recs
+       fix-times))
 
 
 
@@ -151,17 +162,15 @@
   "Takes a string of stupidly-formatted PDF, and parses it out. Returns a tree with parsed data."
   [s]
   (let [{:keys [ids lines]} (->> s
-                                 page-delim-hack
+                                 brutal-page-delim-hack
                                  separate-ids
                                  remerge-lines)]
-    (->> 
-     (ip/parse
-      (ip/parser (slurp "resources/ppd-ridiculous.bnf"))
-      lines)
-     parse-tree
-     (#(assoc % :ids ids))
-     zip-ids-recs
-     fix-times)))
+    (->> lines
+         (parse-with-failure-log "resources/ppd-ridiculous.bnf")
+         parse-tree
+         (#(assoc % :ids ids))
+         zip-ids-recs
+         fix-times)))
 
 
 (defn parse-pdf-text
