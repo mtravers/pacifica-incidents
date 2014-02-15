@@ -43,7 +43,7 @@
   (doseq [item @db/db]
     (when (-> item :geo empty?)
       (swap! db/db add-geo)))
-	(db/save-data))
+  (db/save-data))
 
   
 
