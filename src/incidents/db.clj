@@ -1,4 +1,9 @@
 (ns incidents.db
+  "Usage: just swap! the db to save data to memory.
+  To persist to disk, just call (save-data)
+  To read from disk, just (read-data)
+  You can supply args to read/write from those."
+
   (:import java.io.File)
   (:require [clojure.edn :as edn]
             [utilza.repl :as urepl]
@@ -14,22 +19,27 @@
 
 
 (defn save-data
-  []
-  (let [dbfilename (:db-filename env/env)
-        tmpfile (str dbfilename ".tmp")]
-    (send-off save-agent
-              (fn [_]
-                (spit tmpfile (prn-str @db))
-                (.renameTo (File. tmpfile) (File. dbfilename))))))
+  "With no args, saves to :db-filename saved in env.
+   With one arg, saves to the path/filename specified."
+  ([]
+     (-> env/env :db-filename save-data))
+  ([dbfilename]
+     (let [tmpfile (str dbfilename ".tmp")]
+       (send-off save-agent
+                 (fn [_]
+                   (spit tmpfile (prn-str @db))
+                   (.renameTo (File. tmpfile) (File. dbfilename)))))))
 
 
 (defn read-data
-  []
-  (reset! db (->> env/env :db-filename slurp edn/read-string)))
+  "With no args, reads from :db-filename saved in env.
+   With one arg, reads from the path/filename specified."
+  ([]
+     (->> env/env :db-filename read-data))
+  ([dbfilename]
+     (reset! db (->> dbfilename slurp edn/read-string))))
 
-;; Usage: just swap! the db to save data to memory.
-;; To persist to disk, just call (save-data)
-;; To read from disk, just (read-data)
+
 
 
 
