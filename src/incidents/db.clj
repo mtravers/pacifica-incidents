@@ -1,6 +1,7 @@
 (ns incidents.db
   (:import java.io.File)
   (:require [clojure.edn :as edn]
+            [utilza.repl :as urepl]
             [environ.core :as env]))
 
 ;; Why not keep it simple, like this:
@@ -29,3 +30,15 @@
 ;; Usage: just swap! the db to save data to memory.
 ;; To persist to disk, just call (save-data)
 ;; To read from disk, just (read-data)
+
+
+
+(comment
+
+  ;;; Example search through the db. Note some-> to handle nil descriptions (happens)
+  (->> @db
+       (filter #(some-> % :description (.contains "Canyon")))
+       (sort-by :time)
+       (urepl/massive-spew "/tmp/output.edn"))
+
+  )
