@@ -35,7 +35,7 @@
 
 
 (defn munge-rec
-  "Takes a rec which is [[k v]] pairs with the :rec stripped off.
+  "Takes a rec which is [[k v]] pairs, with duplicate k's for things like :description.
    Merges it into a map with the :description concatenated."
   [rec]
   (reduce (fn [acc [k v]]
