@@ -53,6 +53,9 @@
 
 
 (defn yank-disposition
+  "The disposition is un-possible for me to pull out using instaparse
+   without either crashing the parser or causing an endless loop requiring killign the JVM.
+   So, just do it via brute force and regexps after parsing is done"
   [m]
   (let [{:keys [description]} m
         [_ new-description disposition] (re-matches #"(.*?) Disposition: (.*)" description)]
