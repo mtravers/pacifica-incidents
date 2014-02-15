@@ -49,8 +49,6 @@
 
 ;; TODO: next, the timezones *sigh*
 (def transforms {:id  (comp clojure.edn/read-string str)
-                 :hdate #(tfmt/parse
-                          (tfmt/formatter "MMMM d, yyyy") %)
                  :time #(tfmt/parse
                          (tfmt/formatters :hour-minute) %)})
 
@@ -59,13 +57,14 @@
   "Takes a tree in the form [:recs [....]] and munges it."
   [[_ & recs]]
   (reduce (fn [acc [k & vs]]
-            ;; TODO: hdate as a thing not a seq
-            (if (= :rec k)
-              (update-in acc [:recs] conj (->> vs
-                                               munge-rec
-                                               yank-disposition
-                                               (umisc/munge-columns transforms)))
-              (assoc acc k vs)))
+            (case k
+              :rec (update-in acc [:recs] conj (->> vs
+                                                    munge-rec
+                                                    yank-disposition
+                                                    (umisc/munge-columns transforms)))
+              :hdate (assoc acc :date (tfmt/parse
+                                       (tfmt/formatter "MMMM d, yyyy") (first vs)))
+              :else (assoc acc k vs)))
           {:recs []}
           recs))
 
@@ -96,7 +95,6 @@
         ;; for debuggging!
         :total true
         :unhide :all) 
-       ;;transform-all ;; don't do the transforms becasue the errors choke it.
        (urepl/massive-spew "/tmp/output.edn"))
 
   
