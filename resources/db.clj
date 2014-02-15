@@ -1,5 +1,6 @@
 (ns incidents.db
-  (:import java.io.File))
+  (:import java.io.File)
+  (:require [clojure.edn :as edn]))
 
 ;; Why not keep it simple, like this:
 ;;    http://www.brandonbloom.name/blog/2013/06/26/slurp-and-spit/
@@ -21,5 +22,10 @@
                 (.renameTo (File. tmpfile) (File. dbfilename))))))
 
 
+(defn read-data
+  []
+  (reset! db (->> dbfilename slurp edn/read-string)))
+
 ;; Usage: just swap! the db to save data to memory.
-;; To persist to disk, just call save-data
+;; To persist to disk, just call (save-data)
+;; To read from disk, just (read-data)
