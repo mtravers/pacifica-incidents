@@ -56,9 +56,11 @@
        (apply +)
        DateTime.))
 
+(defn- fix-times
+  [data]
+  (let [{:keys [date recs]} data]
+    (map (fn [m] (update-in m  [:time] #(fix-time date %))) recs)))
 
-
-;; TODO: next, the timezones *sigh*
 (def transforms {:id  (comp clojure.edn/read-string str)
                  :time #(tfmt/parse
                          (tfmt/formatters :hour-minute) %)})
@@ -89,7 +91,8 @@
        page-delim-hack
        (ip/parse
         (ip/parser (slurp "resources/ppd.bnf")))
-       parse-tree))
+       parse-tree
+       fix-times))
 
 
 
@@ -136,11 +139,6 @@
   (tfmt/show-formatters)
 
 
-  (->>  "resources/testdata/well-formed.txt"
-        slurp
-        parse-pdf-text
-        (urepl/massive-spew "/tmp/output.edn"))
-  
 
 
   )
