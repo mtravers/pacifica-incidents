@@ -23,23 +23,16 @@
 
 
 
-;; TODO: the format of the returned structure from parse, will be a proper keyword map,
-;; not the weird nested vectors it is now. At that time, the second and filter won't be needed.
-
 ;; TODO:  handle exceptional case of no valid address found in text.
 (defn add-geo
-  [item]
-  (map #(-> %
-            second
-            find-address
-            geocode-address)
-       (filter #(= :description (first %)) (rest item)))
+  [{:keys [description] :as item}]
+  (assoc item :geo (-> description
+                       find-address
+                       geocode-address)))
 
-
-
-
-
-
+(defn add-geos
+  [items]
+  (map add-geo items))
 
   )
 
