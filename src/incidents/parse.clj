@@ -125,7 +125,7 @@
   (let [p (ip/parse
            (ip/parser (slurp "resources/ppd-bad.bnf")) s)]
     (if (ip/failure? p)
-      (println s p)
+      (println s (ip/get-failure p))
       (->> p
            parse-tree
            zip-ids-recs
@@ -197,4 +197,15 @@
 (comment
 
 
+
+  (->> (ip/parse
+        (ip/parser (slurp "resources/ppd.bnf"))
+        (->  "/mnt/sdcard/tmp/policelogs/PPDdailymediabulletin2013-09-12.txt"
+             slurp
+             page-delim-hack)
+        ;; for debuggging!
+        :total true
+        :unhide :all) 
+       (urepl/massive-spew "/tmp/output.edn"))
+  
   )

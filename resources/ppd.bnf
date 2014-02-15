@@ -6,4 +6,5 @@ time = <nl>* #"\d+:\d+" <nl>+
 id = #"\d+" <nl>
 <header> = <"PACIFICA POLICE DEPARTMENT" <nl> "MEDIA BULLETIN"> <nl> hdate
 hdate = <#"DAILY --- \S+, "> #"\S+ \d+, \d+" <nl>
-<nl> =  #"\n+"
+<nl> =  #"\n+" f?
+<f> = <"\f"?>
