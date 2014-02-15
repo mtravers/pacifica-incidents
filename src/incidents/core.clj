@@ -28,12 +28,14 @@
 
 (comment
 
-  ;; quick geocode testing
-  (->>  "resources/testdata/well-formed.txt"
-        slurp
-        parse/parse-pdf-text
-        geo/add-geos
-        (urepl/massive-spew "/tmp/output.edn"))
+  ;; do this to geocode everything in the db
+  ;; that doesn't already have a geo
+  (doseq [item @db/db]
+    (when (-> item :geo empty?)
+      (swap! db/db geo/add-geo)))
+  (db/save-data)
+  
+
 
   )
 
@@ -58,7 +60,7 @@
   (db/save-data)
 
 
- 
+  
   
   )
 
