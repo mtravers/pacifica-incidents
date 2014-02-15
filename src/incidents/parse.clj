@@ -3,7 +3,7 @@
   (:require [instaparse.core :as ip]
             [clojure.string :as s]
             [clojure.edn :as edn]
-            [clj-time.format :as tfmt]o
+            [clj-time.format :as tfmt]
             [clj-time.core :as time]
             [clojure.walk :as walk]
             [utilza.misc :as umisc]
