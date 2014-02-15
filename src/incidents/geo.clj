@@ -31,21 +31,23 @@
 
 ;; TODO:  handle exceptional case of no valid address found in text.
 (defn add-geo
+  "Add geo to item map, if there is a valid geo response from server"
   [{:keys [description] :as item}]
-  (assoc item :geo (some-> description
-                           find-address
-                           geocode-address)))
+  (some->> description
+           find-address
+           geocode-address
+           (assoc item :geo)))
 
 (defn update-geos
   "Geocode everything in the db
   that doesn't already have a geo"
-	[]
+  []
   (doseq [item @db/db]
     (when (-> item :geo empty?)
       (swap! db/db add-geo)))
   (db/save-data))
 
-  
+
 
 
 
