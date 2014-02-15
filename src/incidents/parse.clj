@@ -1,5 +1,6 @@
 (ns incidents.parse
-  (:import org.joda.time.DateTime)
+  (:import org.joda.time.DateTime
+           java.util.Date)
   (:require [instaparse.core :as ip]
             [clojure.string :as s]
             [clojure.edn :as edn]
@@ -49,12 +50,13 @@
 
 (defn- fix-time
   "Takes a DateTime of the date, and a DateTime of the time
-    and sums them. Converts to local timezone for free."
+    and sums them. Date coerces to UTC but the test suite shows
+    they are correct."
   [d t]
   (->> [d t]
        (map #(.getMillis %))
        (apply +)
-       DateTime.))
+       Date.))
 
 (defn- fix-times
   [data]

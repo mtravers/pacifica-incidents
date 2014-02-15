@@ -73,6 +73,16 @@
               :type "Dist Family",
               :time (DateTime. "1970-01-01T01:27:00.000Z")}]}))))
 
+
+(deftest all-parsing
+  (testing "Parsing a well-formed pdftotext'ed PDF into the proper finished format")
+  (is (= (->> "resources/testdata/well-formed.txt"
+              slurp
+              parse-pdf-text)
+         (->> "resources/testdata/well-formed-parsed.edn"
+              slurp
+              clojure.edn/read-string))))
+
 (comment
 
   (run-tests)
