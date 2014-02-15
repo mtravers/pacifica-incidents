@@ -29,7 +29,7 @@
   ;; they seem to only go back to may 15 2012
   (reverse (ujava/date-range (DateTime. "2012-05-15") (DateTime.)))
 
-  (get-pdf (DateTime. "2012-05-15") "/tmp")
+  (get-pdf (DateTime. "2014-02-13") "/tmp")
 
 
   (doseq [d (reverse (ujava/date-range (DateTime. "2013-01-01") (DateTime.)))]
