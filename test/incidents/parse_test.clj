@@ -53,7 +53,7 @@
 
 (deftest time-fix-test
   (testing "time fixing")
-  (is (= (DateTime. "2014-02-04T20:03:00.000-08:00")
+  (is (= #inst "2014-02-04T20:03:00.000-08:00"
          (@#'incidents.parse/fix-time (DateTime. "2014-02-05T00:00:00.000Z")
                                       (DateTime. "1970-01-01T04:03:00.000Z"))))
   (testing "fixing in the structure")
@@ -62,7 +62,7 @@
             "Occurred on Monterey Rd, Pacifica. RP SOUNDS 1051 // REPORTING HIS BROTHER IS 1051 AND VIOLENT // BROTHER IS IN BEDROOM // RP CALLING FROM LIVING RM // NO WEAPONS // RP WILL OPEN DOOR FOR OFC'S",
             :id 140205007,
             :type "Dist Family",
-            :time (DateTime. "2014-02-04T17:27:00.000-08:00")}]
+            :time #inst "2014-02-04T17:27:00.000-08:00"}]
           (@#'incidents.parse/fix-times
            {:date (DateTime. "2014-02-05T00:00:00.000Z")
             :recs
