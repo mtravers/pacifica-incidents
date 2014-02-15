@@ -60,8 +60,10 @@
         (ip/parser (slurp "resources/ppd.bnf"))
         (->  "resources/testdata/well-formed.txt"
              slurp
-             page-delim-hack)        
-        :unhide :all) ;; for debuggging!
+             page-delim-hack)
+        ;; for debuggging!
+        :total true
+        :unhide :all) 
        ;;transform-all ;; don't do the transforms becasue the errors choke it.
        (urepl/massive-spew "/tmp/output.edn"))
 
