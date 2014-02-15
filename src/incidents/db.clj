@@ -7,7 +7,7 @@
 ;;    http://www.brandonbloom.name/blog/2013/06/26/slurp-and-spit/
 
 
-(defonce db (atom {}))
+(defonce db (atom []))
 (defonce save-agent (agent nil))
 
 

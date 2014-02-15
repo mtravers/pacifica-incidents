@@ -40,18 +40,23 @@
 
 (comment
   ;; attempt to parse everthang
-  (->> (for [f (->> "/mnt/sdcard/tmp/policelogs"
-                    java.io.File.
-                    .listFiles)
-             :when (-> f .toString (.endsWith ".txt"))]
-         (do
-           (log/info (.toString f))
-           (-> f
-                slurp
-                parse/parse-pdf-text)))
-       pr-str
-       (spit "/tmp/output.edn"))
-  
+
+  (reset! db/db [])
+  (doseq [f (->> "/mnt/sdcard/tmp/policelogs"
+                 java.io.File.
+                 .listFiles)
+          :when (-> f .toString (.endsWith ".txt"))]
+    (do
+      (log/info (.toString f))
+      (->> f
+           slurp
+           parse/parse-pdf-text
+           (swap! db/db concat))))
+
+  (count @db/db)
+
+  (db/save-data)
+
   )
 
 
