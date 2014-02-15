@@ -51,6 +51,13 @@
             :time (DateTime. "1969-12-31T17:27:00.000-08:00")}))))
 
 
+(deftest time-fix-test
+  (testing "time fixing")
+  (is (= (DateTime. "2014-02-04T20:03:00.000-08:00")
+         (@#'incidents.parse/fix-time (DateTime. "2014-02-05T00:00:00.000Z")
+                                      (DateTime. "1970-01-01T04:03:00.000Z")))))
+
+
 (comment
 
   (run-tests)

@@ -4,6 +4,7 @@
             [clojure.string :as s]
             [clojure.edn :as edn]
             [clj-time.format :as tfmt]
+            [clj-time.core :as time]
             [clojure.walk :as walk]
             [utilza.misc :as umisc]
             [utilza.repl :as urepl]))
@@ -46,7 +47,14 @@
           rec))
 
 
-
+(defn- fix-time
+  "Takes a DateTime of the date, and a DateTime of the time
+    and sums them. Converts to local timezone for free."
+  [d t]
+  (->> [d t]
+       (map #(.getMillis %))
+       (apply +)
+       DateTime.))
 
 
 
@@ -126,6 +134,13 @@
 
 (comment
   (tfmt/show-formatters)
+
+
+  (->>  "resources/testdata/well-formed.txt"
+        slurp
+        parse-pdf-text
+        (urepl/massive-spew "/tmp/output.edn"))
+  
 
 
   )
