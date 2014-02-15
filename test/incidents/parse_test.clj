@@ -19,7 +19,7 @@
 
 (deftest munge-rec-test
   (is (= {:stuff
-          "Occurred on Monterey Rd, Pacifica. RP SOUNDS 1051 // REPORTING HIS BROTHER IS 1051 AND VIOLENT// BROTHER IS IN BEDROOM // RP CALLING FROM LIVING RM // NO WEAPONS // RP WILL OPEN DOORFOR OFC'S Disposition: Log Note Only.",
+          "Occurred on Monterey Rd, Pacifica. RP SOUNDS 1051 // REPORTING HIS BROTHER IS 1051 AND VIOLENT // BROTHER IS IN BEDROOM // RP CALLING FROM LIVING RM // NO WEAPONS // RP WILL OPEN DOOR FOR OFC'S Disposition: Log Note Only.",
           :id 140205007,
           :type "Dist Family",
           :time (DateTime. "1969-12-31T17:27:00.000-08:00")}
