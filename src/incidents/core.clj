@@ -25,7 +25,9 @@
 
 
 (comment
-    (->>  "resources/testdata/well-formed.txt"
+
+  ;; quick geocode testing
+  (->>  "resources/testdata/well-formed.txt"
         slurp
         parse/parse-pdf-text
         geo/add-geos
