@@ -36,5 +36,30 @@
   )
 
 
+(comment
+  ;; attempt to parse everthang
+  
+  (->> "/mnt/sdcard/tmp/policelogs"
+       java.io.File.
+       .listFiles
+       (map #(.toString %))
+       (filter #(.endsWith % ".txt"))
+       (map (comp parse/parse-pdf-text slurp)))
+  
+
+  (for [f (->> "/mnt/sdcard/tmp/policelogs"
+               java.io.File.
+               .listFiles)
+        :when (-> f .toString (.endsWith ".txt"))]
+
+    (-> f
+        slurp
+        parse/parse-pdf-text))
+
+  
+  (spit "/tmp/output.edn" *1)
+  
+  )
+
 
 

@@ -4,6 +4,7 @@
   (:require [instaparse.core :as ip]
             [clojure.string :as s]
             [clojure.edn :as edn]
+            [clojure.stacktrace :as st]
             [clj-time.format :as tfmt]
             [clj-time.core :as time]
             [clojure.walk :as walk]
@@ -121,22 +122,26 @@
 (defn parse-poor-pdf-text
   "Takes a string of an insanely-formatted PDF, and parses it out. Returns a tree with parsed data."
   [s]
-  (->> s
-       (ip/parse
-        (ip/parser (slurp "resources/ppd-bad.bnf")))
-       parse-tree
-       zip-ids-recs
-       fix-times))
+  (let [p (ip/parse
+           (ip/parser (slurp "resources/ppd-bad.bnf")) s)]
+    (if (ip/failure? p)
+      (println s p)
+      (->> p
+           parse-tree
+           zip-ids-recs
+           fix-times))))
 
-  
+
 (defn parse-pdf-text
   "Takes a string of a text-extracted PDF, and parses it out. Returns a tree with parsed data."
   [s]
   (try
     (parse-sane-pdf-text s)
     (catch Exception e
-      (parse-poor-pdf-text s))))
-      
+      (try
+        (parse-poor-pdf-text s)))))
+
+
 
 
 
@@ -150,9 +155,9 @@
 
   (->> (for [f ["resources/testdata/well-formed.txt"
                 "resources/testdata/poorly-formed.txt"]]
-             (-> f
-                 slurp
-                 parse-pdf-text))
+         (-> f
+             slurp
+             parse-pdf-text))
        (apply concat)
        (urepl/massive-spew "/tmp/output.edn"))
 
