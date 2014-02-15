@@ -42,14 +42,19 @@
 
 (defn munge-rec
   "Takes a rec which is [[k v]] pairs with the :rec stripped off.
-   Merges it into a map with the :stuff concatenated."
+   Merges it into a map with the :description concatenated."
   [rec]
   (reduce (fn [acc [k v]]
-            (if (= k :stuff)
-              (merge-with #(apply str (interpose " "  %&)) acc {:stuff v})
+            (if (= k :description)
+              (merge-with #(apply str (interpose " "  %&)) acc {:description v})
               (assoc acc k v)))
           {}
           rec))
+
+
+(defn yank-disposition
+  [m]
+  )
 
 (comment
 

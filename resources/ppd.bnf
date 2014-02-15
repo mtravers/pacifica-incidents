@@ -1,7 +1,7 @@
 recs = header rec+
 rec = time type id (!time !id stuff)+
 type = #".+" <nl>
-stuff = #".*" <nl>
+description = #".*" <nl>
 time = <nl>* #"\d+:\d+" <nl>+
 id = #"\d+" <nl>
 <header> = <"PACIFICA POLICE DEPARTMENT" <nl> "MEDIA BULLETIN"> <nl> hdate

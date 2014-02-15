@@ -33,7 +33,7 @@
             second
             find-address
             geocode-address)
-       (filter #(= :stuff (first %)) (rest item)))
+       (filter #(= :description (first %)) (rest item)))
 
 
 
