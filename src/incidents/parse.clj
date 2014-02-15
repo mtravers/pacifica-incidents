@@ -19,6 +19,9 @@
   [s]
   (s/replace s #"\nPage.*?\n\d+/\d+/\d+\n" ""))
 
+;; TODO: get rid of this too:
+;; "PDF created with pdfFactory trial version www.pdffactory.com \f",
+
 
 (defn yank-disposition
   "The disposition is un-possible for me to pull out using instaparse
