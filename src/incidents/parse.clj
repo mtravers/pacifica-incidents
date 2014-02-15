@@ -56,11 +56,16 @@
 
 
 (defn parse-tree
+  "Takes a tree in the form [:recs [....]] and munges it."
   [[_ & recs]]
   (reduce (fn [acc [k & vs]]
-                 (if (= :rec k)
-                   (update-in acc [:recs] conj (-> vs munge-rec yank-disposition))
-                   (assoc acc k vs)))
+            ;; TODO: hdate as a thing not a seq
+            (if (= :rec k)
+              (update-in acc [:recs] conj (->> vs
+                                               munge-rec
+                                               yank-disposition
+                                               (umisc/munge-columns transforms)))
+              (assoc acc k vs)))
           {:recs []}
           recs))
 
