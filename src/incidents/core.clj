@@ -3,11 +3,12 @@
             [incidents.parse :as parse]
             [incidents.db :as db]
             [taoensso.timbre :as log]
+			[environ.core :as env]
             [utilza.repl :as urepl]
             [incidents.dl :as dl]))
 
 (log/set-config! [:appenders :spit :enabled?] true)
-(log/set-config! [:shared-appender-config :spit-filename] "/tmp/wtf.log")
+(log/set-config! [:shared-appender-config :spit-filename] (:log-filename env/env))
 
 (comment
   ;; cron job 1:
