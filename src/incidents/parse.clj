@@ -3,7 +3,7 @@
   (:require [instaparse.core :as ip]
             [clojure.string :as s]
             [clojure.edn :as edn]
-            [clj-time.format :as tfmt]
+            [clj-time.format :as tfmt]o
             [clj-time.core :as time]
             [clojure.walk :as walk]
             [utilza.misc :as umisc]
@@ -61,9 +61,15 @@
   (let [{:keys [date recs]} data]
     (map (fn [m] (update-in m  [:time] #(fix-time date %))) recs)))
 
+
 (def transforms {:id  (comp clojure.edn/read-string str)
                  :time #(tfmt/parse
-                         (tfmt/formatters :hour-minute) %)})
+                         (tfmt/with-zone
+                           (tfmt/formatters :hour-minute)
+                           (time/time-zone-for-id "America/Los_Angeles"))
+                         %)})
+
+
 
 
 (defn- parse-tree
@@ -137,8 +143,6 @@
 
 (comment
   (tfmt/show-formatters)
-
-
 
 
   )
