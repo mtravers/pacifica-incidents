@@ -38,16 +38,15 @@
 
 (comment
   ;; attempt to parse everthang
-  (doall  
-   (->> (for [f (->> "/mnt/sdcard/tmp/policelogs"
-                     java.io.File.
-                     .listFiles)
-              :when (-> f .toString (.endsWith ".txt"))]
-          (-> f
-              slurp
-              parse/parse-pdf-text))
-        pr-str
-        (spit "/tmp/output.edn")))
+  (->> (for [f (->> "/mnt/sdcard/tmp/policelogs"
+                    java.io.File.
+                    .listFiles)
+             :when (-> f .toString (.endsWith ".txt"))]
+         (-> f
+             slurp
+             parse/parse-pdf-text))
+       pr-str
+       (spit "/tmp/output.edn"))
   
   )
 

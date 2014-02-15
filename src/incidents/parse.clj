@@ -125,7 +125,7 @@
   (let [p (ip/parse
            (ip/parser (slurp "resources/ppd-bad.bnf")) s)]
     (if (ip/failure? p)
-      (println s (ip/get-failure p))
+      (println s (ip/get-failure p)) ;; TODO: log this better
       (->> p
            parse-tree
            zip-ids-recs

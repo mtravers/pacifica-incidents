@@ -30,7 +30,7 @@ incidents reporting db notes
 *** DONE use a try/catch: if instaparse fails on well-formed parser, use the shitty parser
 * cleanups
 ** DONE use env instead of earmuffed dynamic vars and other hardcoded nastiness
-** TODO broken parses, fix
+** TODO well.. out of 621 PDF files, 149 of them die with parse errors :-/  this will take forever.
 *** 5/30/12
 	120530299
 subj went into the above and cab driver is
