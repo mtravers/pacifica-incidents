@@ -20,24 +20,15 @@
   (s/replace s #"\nPage.*?\n\d+/\d+/\d+\n" ""))
 
 
-;; TODO: next, the timezones *sigh*
-(def transforms {:id  (comp clojure.edn/read-string str)
-                 :hdate #(tfmt/parse
-                          (tfmt/formatter "MMMM d, yyyy") %)
-                 :time #(tfmt/parse
-                         (tfmt/formatters :hour-minute) %)})
-
-(defn transform-all
-  [t]
-  (walk/postwalk  (fn [d]
-                    (if  (vector? d)
-                      (let [[k v] d]
-                        (if (k transforms)
-                          [k ((k transforms) v)]
-                          d))
-                      d))
-                  t))
-
+(defn yank-disposition
+  "The disposition is un-possible for me to pull out using instaparse
+   without either crashing the parser or causing an endless loop requiring killign the JVM.
+   So, just do it via brute force and regexps after parsing is done"
+  [m]
+  (let [{:keys [description]} m
+        [_ new-description disposition] (re-matches #"(.*?) Disposition: (.*)" description)]
+    (merge m {:description new-description
+              :disposition disposition})))
 
 
 (defn munge-rec
@@ -52,15 +43,21 @@
           rec))
 
 
-(defn yank-disposition
-  "The disposition is un-possible for me to pull out using instaparse
-   without either crashing the parser or causing an endless loop requiring killign the JVM.
-   So, just do it via brute force and regexps after parsing is done"
-  [m]
-  (let [{:keys [description]} m
-        [_ new-description disposition] (re-matches #"(.*?) Disposition: (.*)" description)]
-    (merge m {:description new-description
-              :disposition disposition})))
+
+
+
+
+;; TODO: next, the timezones *sigh*
+(def transforms {:id  (comp clojure.edn/read-string str)
+                 :hdate #(tfmt/parse
+                          (tfmt/formatter "MMMM d, yyyy") %)
+                 :time #(tfmt/parse
+                         (tfmt/formatters :hour-minute) %)})
+
+
+(defn parse-tree
+  [t])
+
 
 (comment
 
@@ -74,7 +71,12 @@
         (->  "resources/testdata/well-formed.txt"
              slurp
              page-delim-hack))
-       transform-all
+       rest
+       (reduce (fn [acc [k & vs]]
+                 (if (= :rec k)
+                   (update-in acc [:recs] conj (-> vs munge-rec yank-disposition))
+                   (assoc acc k vs)))
+                   {:recs []})
        (urepl/massive-spew "/tmp/output.edn"))
 
 
