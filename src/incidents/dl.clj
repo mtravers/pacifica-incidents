@@ -25,6 +25,10 @@
 
 
 
+;; TODO: this is broken, i'll need to grab the index and parse it with enlive to get a hrefs.
+;; because, the old files don't use the same URL format as the new ones.
+
+
 (comment
   ;; they seem to only go back to may 15 2012
   (reverse (ujava/date-range (DateTime. "2012-05-15") (DateTime.)))
