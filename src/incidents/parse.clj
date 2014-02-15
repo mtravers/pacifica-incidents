@@ -56,7 +56,14 @@
 
 
 (defn parse-tree
-  [t])
+  [[_ & recs]]
+  (reduce (fn [acc [k & vs]]
+                 (if (= :rec k)
+                   (update-in acc [:recs] conj (-> vs munge-rec yank-disposition))
+                   (assoc acc k vs)))
+          {:recs []}
+          recs))
+
 
 
 (comment
@@ -71,12 +78,7 @@
         (->  "resources/testdata/well-formed.txt"
              slurp
              page-delim-hack))
-       rest
-       (reduce (fn [acc [k & vs]]
-                 (if (= :rec k)
-                   (update-in acc [:recs] conj (-> vs munge-rec yank-disposition))
-                   (assoc acc k vs)))
-                   {:recs []})
+       parse-tree
        (urepl/massive-spew "/tmp/output.edn"))
 
 
