@@ -18,6 +18,7 @@
               [:B "b" "b"]]]))))
 
 (deftest munge-rec-test
+  (testing "munging the descriptions")
   (is (= {:description
           "Occurred on Monterey Rd, Pacifica. RP SOUNDS 1051 // REPORTING HIS BROTHER IS 1051 AND VIOLENT // BROTHER IS IN BEDROOM // RP CALLING FROM LIVING RM // NO WEAPONS // RP WILL OPEN DOOR FOR OFC'S Disposition: Log Note Only.",
           :id 140205007,
@@ -32,6 +33,23 @@
            [:description
             "// BROTHER IS IN BEDROOM // RP CALLING FROM LIVING RM // NO WEAPONS // RP WILL OPEN DOOR"]
            [:description "FOR OFC'S Disposition: Log Note Only."]]))))
+
+
+(deftest disposition-test
+  (testing "yanking the dispositions")
+  (is (=  {:disposition "Log Note Only.",
+           :description
+           "Occurred on Monterey Rd, Pacifica. RP SOUNDS 1051 // REPORTING HIS BROTHER IS 1051 AND VIOLENT // BROTHER IS IN BEDROOM // RP CALLING FROM LIVING RM // NO WEAPONS // RP WILL OPEN DOOR FOR OFC'S",
+           :id 140205007,
+           :type "Dist Family",
+           :time (DateTime. "1969-12-31T17:27:00.000-08:00")}
+          (yank-disposition
+           {:description
+            "Occurred on Monterey Rd, Pacifica. RP SOUNDS 1051 // REPORTING HIS BROTHER IS 1051 AND VIOLENT // BROTHER IS IN BEDROOM // RP CALLING FROM LIVING RM // NO WEAPONS // RP WILL OPEN DOOR FOR OFC'S Disposition: Log Note Only.",
+            :id 140205007,
+            :type "Dist Family",
+            :time (DateTime. "1969-12-31T17:27:00.000-08:00")}))))
+
 
 (comment
 

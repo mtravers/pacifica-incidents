@@ -54,7 +54,10 @@
 
 (defn yank-disposition
   [m]
-  )
+  (let [{:keys [description]} m
+        [_ new-description disposition] (re-matches #"(.*?) Disposition: (.*)" description)]
+    (merge m {:description new-description
+              :disposition disposition})))
 
 (comment
 
