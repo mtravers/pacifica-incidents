@@ -7,13 +7,13 @@ incidents reporting db notes
 *** also    http://www.pacificaindex.com/policelogs/4883-PPDdailymediabulletin(2012-05-15).pdf
 **** thru 12/31/12
 *** DONE generate range of dates somehow
-*** TODO dl them all
-*** TODO convert them with pdftotext
+*** DONE dl them all
+*** DONE convert them with pdftotext
 ** parsing
 *** parse based on the incident id regexp?
 **** 130206017
 **** 140206010
-*** TODO or parse based on time xx:xx
+*** DONE or parse based on time xx:xx
 **** again, first one has none
 *** all subsq lines have format
 **** time
@@ -24,3 +24,13 @@ incidents reporting db notes
 *** there is also noise,  PDF created, etc.
 **** the noise begins with Page, and oes until blank line!
 **** there's also PDF created
+** TODO deal with the poorly-formed parses!
+*** TODO it'll be a separate instaparse gramar
+*** TODO just handle all the id's as a group
+*** TODO use a try/catch: if instaparse fails on well-formed parser, use the shitty parser
+* cleanups
+** TODO use env instead of earmuffed dynamic vars and other hardcoded nastiness
+** TODO save to database!
+** TODO make the code do the downloading
+*** TODO use wget, nevermind all this clj-http, it's unnecessary
+** TODO cron jobs

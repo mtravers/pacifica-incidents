@@ -12,6 +12,7 @@
   (let [{:keys [status body]} (client/get *geocoding-url*
                                           {:query-params {:address addr, :sensor false}
                                            :as :json})]
+    ;; Most likely only really want the first result anyway.
     (-> body
         :results
         first)))
@@ -21,6 +22,8 @@
   (when-let [match (-> #".*?(at|on) (.*)Pacifica.*"
                        (re-matches s)
                        (nth 2))]
+    ;; the Pacifica needs to be there so that it doesn't pull
+    ;; up Monterey road in Monterey, for example.
     (str match " Pacifica, CA")))
 
 
