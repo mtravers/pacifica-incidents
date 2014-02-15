@@ -1,21 +1,32 @@
 (ns incidents.geo
-  (:require [clojure.data.json :as json])
-  (:require [clj-http.client :as client])
-  )
+  (:require [clj-http.client :as client]))
 
+;; TODO: move to env
 (def *geocoding-url* "http://maps.googleapis.com/maps/api/geocode/json")
 
-(defn geocode-address [addr]
-  (let [resp (client/get *geocoding-url* {:query-params {"address" addr, "sensor" "false"}})
-        status (:status resp)
-        results (json/read-str (:body resp))]
-    results))
-   
-(defn find-address [s]
-  (let [match (nth (re-matches #".*?(at|on) (.*)Pacifica.*" s) 2)]
-    (if match (str match " CA"))))
+;; TODO: try/catch transient http errors
+(defn geocode-address
+  [addr]
+  ;; assuming status is needed here for something.
+  ;; otherwise, could ditch the let and just (-> (client/get ...) :body) instead
+  (let [{:keys [status body]} (client/get *geocoding-url*
+                                          {:query-params {:address addr, :sensor false}
+                                           :as :json})]
+    body))
 
-(defn add-geo [item]
+(defn find-address
+  [s]
+  (when-let [match (-> #".*?(at|on) (.*)Pacifica.*"
+                       re-matches
+                       (nth 2))]
+    (str match " CA")))
+
+
+
+;; TODO: the format of the returned structure from parse, will be a proper keyword map,
+;; not the weird nested vectors it is now. At that time, the second and filter won't be needed.
+(defn add-geo
+  [item]
   (map #(-> %
             second
             find-address
@@ -38,4 +49,4 @@
 
 
 
-  
+
