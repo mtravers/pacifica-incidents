@@ -7,5 +7,12 @@
                  [clj-time "0.4.4"]
                  [clj-http "0.7.9"]
                  [instaparse "1.2.14"]
+                 [environ "0.4.0"]
                  [utilza "0.1.49" :exclusions [org.clojure/clojure]]
-                 [org.clojure/data.json "0.2.3"]])
+                 [org.clojure/data.json "0.2.3"]]
+  :plugins [[lein-environ "0.4.0"]]
+  ;; defaults, you can overidde in .lein-env, or java environment
+  :env {:dl-url-format "http://www.pacificaindex.com/policelogs/PPDdailymediabulletin%s.pdf"
+        :geocoding-url "http://maps.googleapis.com/maps/api/geocode/json"
+        :db-filename "/tmp/incidents.db"})
+

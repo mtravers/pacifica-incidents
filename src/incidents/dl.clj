@@ -1,10 +1,9 @@
 (ns incidents.dl
   (:import org.joda.time.DateTime)
   (:require [clj-http.client :as client]
+            [environ.core :as env]
             [utilza.java :as ujava]))
 
-;; TODO: move to env
-(def default-dl-url "http://www.pacificaindex.com/policelogs/PPDdailymediabulletin%s.pdf")
 
 (defn fmt-date
   [d]
@@ -18,7 +17,7 @@
   (let [dname (fmt-date dt)
         fname (format "%s/%s.pdf"  dir dname)]
     (->> dname
-         (format (or url default-dl-url))
+         (format (or url (:dl-url-format env/env)))
          (#(client/get % {:as :byte-array}))
          :body
          (ujava/spit-bytes fname))))

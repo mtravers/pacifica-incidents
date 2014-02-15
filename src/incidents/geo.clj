@@ -1,15 +1,15 @@
 (ns incidents.geo
-  (:require [clj-http.client :as client]))
+  (:require [clj-http.client :as client]
+            [environ.core :as env]))
 
-;; TODO: move to env
-(def *geocoding-url* "http://maps.googleapis.com/maps/api/geocode/json")
+
 
 ;; TODO: try/catch transient http errors
 (defn geocode-address
   [addr]
   ;; assuming status is needed here for something.
   ;; otherwise, could ditch the let and just (-> (client/get ...) :body) instead
-  (let [{:keys [status body]} (client/get *geocoding-url*
+  (let [{:keys [status body]} (client/get (:geocoding-url env/env)
                                           {:query-params {:address addr, :sensor false}
                                            :as :json})]
     ;; Most likely only really want the first result anyway.
