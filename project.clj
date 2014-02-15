@@ -8,6 +8,7 @@
                  [clj-http "0.7.9"]
                  [instaparse "1.2.14"]
                  [environ "0.4.0"]
+                 [com.taoensso/timbre "3.0.1"]
                  [utilza "0.1.49" :exclusions [org.clojure/clojure]]]
   :plugins [[lein-environ "0.4.0"]]
   ;; defaults, you can overidde in .lein-env, or java environment

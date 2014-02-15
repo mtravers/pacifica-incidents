@@ -2,10 +2,12 @@
   (:require [incidents.geo :as geo]
             [incidents.parse :as parse]
             [incidents.db :as db]
+            [taoensso.timbre :as log]
             [utilza.repl :as urepl]
             [incidents.dl :as dl]))
 
-
+(log/set-config! [:appenders :spit :enabled?] true)
+(log/set-config! [:shared-appender-config :spit-filename] "/tmp/wtf.log")
 
 (comment
   ;; cron job 1:
@@ -42,9 +44,11 @@
                     java.io.File.
                     .listFiles)
              :when (-> f .toString (.endsWith ".txt"))]
-         (-> f
-             slurp
-             parse/parse-pdf-text))
+         (do
+           (log/info (.toString f))
+           (-> f
+                slurp
+                parse/parse-pdf-text)))
        pr-str
        (spit "/tmp/output.edn"))
   
