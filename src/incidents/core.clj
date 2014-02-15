@@ -11,6 +11,9 @@
 (log/set-config! [:shared-appender-config :spit-filename] (:log-filename env/env))
 
 (comment
+
+	(db/read-data)
+
   ;; cron job 1:
   ;; for all dates
   ;; check the db
@@ -19,30 +22,19 @@
 
 
   ;; cron job 2
-  ;; for all dates
-  ;; check that there are geos
-  ;; if no geos, run the geos for that data
-
+  ;; (geo/update-geos)
 
   )
 
 
 (comment
 
-  ;; do this to geocode everything in the db
-  ;; that doesn't already have a geo
-  (doseq [item @db/db]
-    (when (-> item :geo empty?)
-      (swap! db/db geo/add-geo)))
-  (db/save-data)
-  
-
-
-  )
-
+)
 
 (comment
   ;; attempt to parse everthang
+
+;; TODO: Do this as part of the downloading operation
 
   (reset! db/db [])
   (doseq [f (->> "/mnt/sdcard/tmp/policelogs"

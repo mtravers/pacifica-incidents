@@ -1,5 +1,6 @@
 (ns incidents.geo
   (:require [clj-http.client :as client]
+            [incidents.db :as db]
             [environ.core :as env]))
 
 
@@ -34,6 +35,18 @@
   (assoc item :geo (some-> description
                            find-address
                            geocode-address)))
+
+(defn update-geos
+  "Geocode everything in the db
+  that doesn't already have a geo"
+	[]
+  (doseq [item @db/db]
+    (when (-> item :geo empty?)
+      (swap! db/db add-geo)))
+	(db/save-data))
+
+  
+
 
 
 (comment
