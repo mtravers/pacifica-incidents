@@ -48,43 +48,8 @@
 
 (comment
 
-  ;;; Example search through the db. Note some-> to handle nil descriptions (happens)
-  (->> @db
-       (filter #(some-> % :description (.contains "Canyon")))
-       (sort-by :time)
-       (urepl/massive-spew "/tmp/output.edn"))
-
-  
-  ;; all types
-  (->> @db
-       vals
-       (map :type)
-       set)
 
 
-  (->> @db
-       vals
-       (map :disposition)
-       set)
 
-
-  (->> @db
-       vals
-       (filter :disposition)
-       count)
-
-
-  ;; how many we got?
-  (->> @db
-       count)
-
-
-  ;; spot check
-  (get @db (-> @db
-               keys
-               rand-nth))
-
-
-  
   
   )
