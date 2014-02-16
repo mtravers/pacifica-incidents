@@ -127,7 +127,7 @@
 
 (comment
 
-  (redo-tests)
+  ;; (redo-tests) ;; evil, but necessary
   
 
   (run-tests)
