@@ -4,34 +4,50 @@
             [incidents.db :as db]
             [environ.core :as env]))
 
-(defn disposition-counts
-  []
+
+(defn key-set-counts
+  [k]
   (->> (for [d (->> @db/db
                     vals
-                    (map :disposition)
+                    (map k)
                     set)]
-         [d (count (filter (partial = d) (map :disposition (vals @db/db))))])
+         [d (count (filter (partial = d) (map k (vals @db/db))))])
        (sort-by second)
        reverse))
 
+(defn total-not-null-counts
+  [k]
+  (->> @db/db
+       vals
+       (filter k)
+       count))
 
 
+(defn simple-contains
+  [k str]
+  (->> @db/db
+       (filter #(some-> % k (.contains str)))
+       (sort-by :time)))
+
+;;;;;;
+
+
+(defn disposition-total
+  []
+  (total-not-null-counts :disposition))
+
+(defn disposition-counts
+  []
+  (key-set-counts :disposition))
 
 (defn all-types
   []
-  (->> @db/db
-       vals
-       (map :type)
-       set))
+  (total-not-null-counts :type))
 
 
-
-(defn disposition-total-count
+(defn type-counts
   []
-  (->> @db/db
-       vals
-       (filter :disposition)
-       count))
+  (key-set-counts :type))
 
 
 (defn total-records
@@ -47,9 +63,14 @@
                   keys
                   rand-nth)))
 
-(defn description-contains
-  [str]
-  (->> @db/db
-       (filter #(some-> % :description (.contains str)))
-       (sort-by :time)))
+(comment
+
+  (simple-contains :description "Canyon")
+
+  (type-counts)
+
+  (urepl/massive-spew "/tmp/output.edn" *1)
+  
+  )
+
 
