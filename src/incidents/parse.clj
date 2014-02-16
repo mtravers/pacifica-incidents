@@ -38,9 +38,11 @@
       (s/replace  #"\nPage.*?\n" "\n")
       (s/replace  #"\n\d+/\d+/\d+\n" "\n")))
 
-;; TODO: get rid of this too:
-;; "PDF created with pdfFactory trial version www.pdffactory.com \f",
-
+(defn fix-stupid-pdf
+  [s]
+  (->> s
+       (re-matches #"(.*?) PDF created with pdfFactory.*")
+       second))
 
 (defn- yank-disposition
   "The disposition is un-possible for me to pull out using instaparse
@@ -50,7 +52,7 @@
   (let [{:keys [description]} m
         [_ new-description disposition] (re-matches #"(.*?) Disposition: (.*)" description)]
     (merge m {:description new-description
-              :disposition disposition})))
+              :disposition (fix-stupid-pdf disposition)})))
 
 
 (defn- munge-rec

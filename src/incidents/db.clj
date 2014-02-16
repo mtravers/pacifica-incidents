@@ -53,4 +53,24 @@
        (sort-by :time)
        (urepl/massive-spew "/tmp/output.edn"))
 
+  ;; all types
+    (->> @db
+         (map :type)
+         set)
+
+
+    (->> @db
+         (map :disposition)
+         set
+         (urepl/massive-spew "/tmp/output.edn"))
+
+
+
+
+
+
+
+
+    
+    
   )
