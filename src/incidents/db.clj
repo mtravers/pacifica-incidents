@@ -37,7 +37,9 @@
   ([]
      (->> env/env :db-filename read-data!))
   ([dbfilename]
-     (reset! db (->> dbfilename slurp edn/read-string))))
+     (reset! db (->> dbfilename slurp edn/read-string))
+     ;; Don't return the whole db so as not to crash emacs.
+     nil))
 
 
 
