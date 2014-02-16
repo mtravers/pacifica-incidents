@@ -44,26 +44,20 @@
                (assoc item :geo))
       item))
 
-;; works but won't update db until everything done...
-(defn update-geos
+(defn update-geos!
   "Geocode everything in the db
   that doesn't already have a geo"
   []
-  (swap! db/db
-         (fn [db]
-           (map (fn [item]
-                  (if (-> item :geo empty?)
-                    (add-geo item)
-                    item))
-                db)))
-  (db/save-data))
-
-
+  (doseq [item @db/db]
+    (if (-> item :geo empty?)
+      (add-geo item)
+      item))
+  (db/save-data!))
 
 
 
 (comment
-
+  (update-geos!)
 
   )
 

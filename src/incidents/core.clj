@@ -12,7 +12,7 @@
 
 (comment
 
-	(db/read-data)
+	(db/read-data!)
 
   ;; cron job 1:
   ;; for all dates
@@ -50,7 +50,7 @@
 
   (count @db/db)
 
-  (db/save-data)
+  (db/save-data!)
 
 
   
