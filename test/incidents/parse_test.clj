@@ -2,6 +2,7 @@
   (:import org.joda.time.DateTime)
   (:require [clojure.test :refer :all]
             [instaparse.core :as ip]
+            [utilza.repl :as urepl]
             [incidents.parse :refer :all]))
 
 (deftest basic-parse
@@ -97,11 +98,40 @@
               slurp
               clojure.edn/read-string))))
 
+(deftest stupid-pdfs
+  (testing "*sigh*")
+  (is (= "Report Taken. "
+         (fix-stupid-pdf "Report Taken. PDF created with pdfFactory trial version www.pdffactory.com PACIFICA POLICE DEPARTMENT MEDIA BULLETIN DAILY --- Tuesday, August 14, 2012")))
+  (is (= "Report Taken. "
+         (fix-stupid-pdf "Report Taken. "))))
+
+
+
+(defn- redo-tests
+  "Cheating? Yeah. Do I care? No."
+  []
+  (urepl/massive-spew "resources/testdata/well-formed-parsed.edn"
+                      (->> "resources/testdata/well-formed.txt"
+                           slurp
+                           parse-pdf-text))
+  
+  (urepl/massive-spew "resources/testdata/poorly-formed-parsed.edn"
+                      (->> "resources/testdata/poorly-formed.txt"
+                           slurp
+                           parse-pdf-text))
+
+  (urepl/massive-spew "resources/testdata/ridiculously-stupid-parsed.edn"
+                      (->> "resources/testdata/ridiculously-stupid.txt"
+                           slurp
+                           parse-pdf-text)))
+
 (comment
 
-
-    (fix-stupid-pdf "Report Taken. PDF created with pdfFactory trial version www.pdffactory.com PACIFICA POLICE DEPARTMENT MEDIA BULLETIN DAILY --- Tuesday, August 14, 2012")
+  (redo-tests)
   
+
   (run-tests)
+
+
 
   )

@@ -75,8 +75,7 @@
   :type "SPCA Case",
   :time #inst "2014-02-09T15:19:00.000-00:00"}
  {:id 140209053,
-  :disposition
-  "Report Taken. PDF created with pdfFactory trial version www.pdffactory.com",
+  :disposition "Report Taken. ",
   :description
   "Occurred on Gateway Dr, Pacifica. Chp transfer rp got into an argument with her husband over him accusing her son that he turned off the power...all parties seperated",
   :type "Dist Domestic",
@@ -148,8 +147,7 @@
   :type "Acc No Injury",
   :time #inst "2014-02-09T22:24:00.000-00:00"}
  {:id 140209122,
-  :disposition
-  "Checks Ok. PDF created with pdfFactory trial version www.pdffactory.com",
+  :disposition "Checks Ok. ",
   :description
   "Occurred at Cabrillo Hwy/Sharp Park Rd, Pacifica. NB 1 S OF SHARP PARK/ SIL NISSAN PATHFINDER/ON SHOULDER PER COUNTY MEDICS. .",
   :type "Traffic Law Vehicle",
@@ -208,8 +206,7 @@
   :type "Suspicious Vehicle",
   :time #inst "2014-02-10T07:38:00.000-00:00"}
  {:id 140209205,
-  :disposition
-  "Log Note Only. PDF created with pdfFactory trial version www.pdffactory.com",
+  :disposition "Log Note Only. ",
   :description
   "Officer initiated activity at Perry Av/Avalon Dr, Pacifica.",
   :type "Subject Stop",

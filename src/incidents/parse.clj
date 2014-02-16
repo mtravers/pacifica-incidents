@@ -40,10 +40,10 @@
 
 (defn fix-stupid-pdf
   [s]
-  (-> s 
-   (clojure.string/split  #"PDF created with pdfFactory.*")
-   first))
-                                                                
+  (some-> s 
+          (clojure.string/split  #"PDF created with pdfFactory.*")
+          first))
+
 
 (defn- yank-disposition
   "The disposition is un-possible for me to pull out using instaparse
@@ -283,7 +283,7 @@
 (comment
   
   (first (clojure.string/split  "Report Taken. PDF created with pdfFactory trial version www.pdffactory.com PACIFICA POLICE DEPARTMENT MEDIA BULLETIN DAILY --- Tuesday, August 14, 2012"
-                         #"PDF created with pdfFactory.*"))
+                                #"PDF created with pdfFactory.*"))
   
 
 
