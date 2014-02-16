@@ -50,15 +50,17 @@
   []
   (doseq [item @db/db]
     (if (-> item :geo empty?)
-      (add-geo item)
-      item))
+      (add-geo item)))
   (db/save-data!))
 
 
 
 (comment
-  (update-geos!)
-
+  (db/read-data!)
+  ;; do it in a separate thread, which is killable.
+  (future (update-geos!))
+  (future-cancel *1)
+  
   )
 
 
