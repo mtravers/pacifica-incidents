@@ -49,7 +49,7 @@
   that doesn't already have a geo"
   []
   (doseq [item @db/db]
-    (if (-> item :geo empty?)
+    (when (-> item :geo empty?)
       (add-geo item)))
   (db/save-data!))
 
