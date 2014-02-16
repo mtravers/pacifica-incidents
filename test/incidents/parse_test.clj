@@ -103,7 +103,10 @@
   (is (= "Report Taken. "
          (fix-stupid-pdf "Report Taken. PDF created with pdfFactory trial version www.pdffactory.com PACIFICA POLICE DEPARTMENT MEDIA BULLETIN DAILY --- Tuesday, August 14, 2012")))
   (is (= "Report Taken. "
-         (fix-stupid-pdf "Report Taken. "))))
+         (fix-stupid-pdf "Report Taken. ")))
+  (testing "some are empty, deal with that"
+  (is (= nil
+         (fix-stupid-pdf nil))))
 
 
 
