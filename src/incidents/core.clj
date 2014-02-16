@@ -12,7 +12,7 @@
 
 (comment
 
-	(db/read-data!)
+  (db/read-data!)
 
   ;; cron job 1:
   ;; for all dates
@@ -29,14 +29,32 @@
 
 (comment
 
-)
+  )
+
+
+
+
+(defn- convert-from-old-db-to-new
+  "DESTRUCTIVE function, not needed anymore."
+  []
+  (reset! db/db {})
+  (doseq [{:keys [id] :as item} (->> "/tmp/db-as-seq.edn"
+                                     slurp
+                                     clojure.edn/read-string)]
+    (swap! db/db (fn [db]
+                   (assoc db id item))))
+  (db/save-data!))
+
+
+
+
 
 (comment
   ;; attempt to parse everthang
 
-;; TODO: Do this as part of the downloading operation
+  ;; TODO: Do this as part of the downloading operation
 
-  (reset! db/db [])
+  (reset! db/db {})
   (doseq [f (->> "/mnt/sdcard/tmp/policelogs"
                  java.io.File.
                  .listFiles)
@@ -46,7 +64,9 @@
       (->> f
            slurp
            parse/parse-pdf-text
-           (swap! db/db concat))))
+           (doseq [{:keys [id] :as item} items]
+             (swap! db/db (fn [db]
+                            (assoc db id item)))))))
 
   (count @db/db)
 
@@ -54,8 +74,8 @@
 
 
   
-  
   )
+
 
 
 

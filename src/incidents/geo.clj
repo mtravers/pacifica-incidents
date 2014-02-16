@@ -1,6 +1,7 @@
 (ns incidents.geo
   (:require [clj-http.client :as client]
             [incidents.db :as db]
+            [taoensso.timbre :as log]
             [environ.core :as env]))
 
 
@@ -30,36 +31,54 @@
                        (nth 2))]
     ;; the Pacifica needs to be there so that it doesn't pull
     ;; up Monterey road in Monterey, for example.
-    (println match)
+    (log/debug match)
     (str match " Pacifica, CA")))
 
 ;; TODO:  handle exceptional case of no valid address found in text.
-(defn add-geo
-  "Add geo to item map, if there is a valid geo response from server.
-  Otherwise returns item map unchanged."
-  [{:keys [description] :as item}]
-  (or (some->> description
-               find-address
-               geocode-address
-               (assoc item :geo))
-      item))
+(defn get-geo
+  [description]
+  (some-> description
+          find-address
+          geocode-address))
+
+(defn update-geo
+  "Returns a function to update the db with the geocode for the record
+   in the db with id supplied. Suitable for supplying to swap!"
+  [id]
+  (fn [db]
+    (assoc-in db [id :geo] (get-geo (get-in db [id :description])))))
 
 (defn update-geos!
   "Geocode everything in the db
   that doesn't already have a geo"
   []
-  (doseq [item @db/db]
-    (when (-> item :geo empty?)
-      (add-geo item)))
+  (doseq [id (keys @db/db)
+          :when (and (-> id nil? not) ;; there's one bad id in there
+                     (->> id (get @db/db) :geo empty?))]
+    (log/debug "adding geo for " id)
+    (swap! db/db  (update-geo id)))
   (db/save-data!))
 
 
 
 (comment
+  ;; for debugging
+  (log/set-config! [:appenders :spit :enabled?] true)
+  (log/set-config! [:shared-appender-config :spit-filename] (:log-filename env/env))
+  (log/set-level! :debug)
+
+  
   (db/read-data!)
   ;; do it in a separate thread, which is killable.
-  (future (update-geos!))
-  (future-cancel *1)
+  (def running-update (future (update-geos!)))
+  (future-cancel running-update)
+
+  ;; how many so far
+  (->> @db/db
+       vals
+       (filter :geo)
+       count)
+
   
   )
 
