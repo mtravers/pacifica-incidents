@@ -54,18 +54,24 @@
        (sort-by :time)
        (urepl/massive-spew "/tmp/output.edn"))
 
+  
   ;; all types
   (->> @db
+       vals
        (map :type)
        set)
 
 
   (->> @db
+       vals
        (map :disposition)
-       set
-       (urepl/massive-spew "/tmp/output.edn"))
+       set)
 
 
+  (->> @db
+       vals
+       (filter :disposition)
+       count)
 
 
   ;; how many we got?
