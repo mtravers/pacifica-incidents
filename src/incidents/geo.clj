@@ -13,6 +13,11 @@
   (let [{:keys [status body]} (client/get (:geocoding-url env/env)
                                           {:query-params {:address addr, :sensor false}
                                            :as :json})]
+    (when-not (= status 200)
+      (throw (Exception. (str "Status " status))))
+    (when (:error_message body)
+      (throw (Exception. (:error_message body))))
+    (Thread/sleep 100)                  ;rate limit
     ;; Most likely only really want the first result anyway.
     (-> body
         :results
@@ -25,9 +30,8 @@
                        (nth 2))]
     ;; the Pacifica needs to be there so that it doesn't pull
     ;; up Monterey road in Monterey, for example.
+    (println match)
     (str match " Pacifica, CA")))
-
-
 
 ;; TODO:  handle exceptional case of no valid address found in text.
 (defn add-geo
@@ -40,13 +44,18 @@
                (assoc item :geo))
       item))
 
+;; works but won't update db until everything done...
 (defn update-geos
   "Geocode everything in the db
   that doesn't already have a geo"
   []
-  (doseq [item @db/db]
-    (when (-> item :geo empty?)
-      (swap! db/db add-geo)))
+  (swap! db/db
+         (fn [db]
+           (map (fn [item]
+                  (if (-> item :geo empty?)
+                    (add-geo item)
+                    item))
+                db)))
   (db/save-data))
 
 
