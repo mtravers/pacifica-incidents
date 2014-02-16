@@ -22,11 +22,12 @@
        (filter k)
        count))
 
-
+;; XXX borken, must fix
 (defn simple-contains
-  [k str]
+  [k re]
   (->> @db/db
-       (filter #(some-> % k (.contains str)))
+       vals
+       (filter #(some->> % k (re-matches re)))
        (sort-by :time)))
 
 ;;;;;;
@@ -65,10 +66,11 @@
 
 (comment
 
-  (simple-contains :description "Canyon")
+  (simple-contains :description #"Canyon")
 
   (type-counts)
-
+  (disposition-counts)
+  
   (urepl/massive-spew "/tmp/output.edn" *1)
   
   )
