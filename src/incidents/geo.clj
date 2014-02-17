@@ -10,8 +10,8 @@
   [{:keys [status] :as body}]
   (log/error body)
   (when (= "OVER_QUERY_LIMIT" status)
-    ;; might as well stop.
-    (log/error "Cancelling geo job, google has said cut it out.")
+    ;; might as well stop. Log it in a different future because this one goes away!
+    (future (log/error "Cancelling geo job, google has said cut it out."))
     (future-cancel @running-update)))
 
 (defn geocode-address
@@ -94,6 +94,8 @@
        get-geo)
   
   )
+
+
 
 
 
