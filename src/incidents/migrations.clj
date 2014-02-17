@@ -33,6 +33,7 @@
 
 
 (defn- pull-out-addresses!
+  "These need to be elsewhere"
   []
   (doseq [id (keys @db/db)
           :when (and (-> id nil? not) ;; there's one bad id in there
@@ -40,8 +41,10 @@
     (swap! db/db (fn [db] (assoc-in db [id :address] (-> db (get id) :description geo/find-address)))))
   (db/save-data!))
 
+
+
 (comment
 
-  (future (pull-out-addresses!))
+
   
   )
