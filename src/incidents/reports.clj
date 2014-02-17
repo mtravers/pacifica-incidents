@@ -50,6 +50,9 @@
   []
   (key-set-counts :type))
 
+(defn geo-total
+  []
+  (total-not-null-counts :geo))
 
 (defn description-total
   []
@@ -93,6 +96,7 @@
    :total-types (types-total)
    :total-dispositions (disposition-total)
    :total-descriptions (description-total)
+   :total-geos (geo-total)
    :min-max-dates   (dates-min-max)})
 
 (comment

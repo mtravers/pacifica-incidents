@@ -2,6 +2,7 @@
   (:require [liberator.core :as liberator]
             [incidents.db :as db]
             [taoensso.timbre :as log]
+            [incidents.reports :as reports]
             [clojure.walk :as walk]
             [compojure.core :as compojure])
   (:import java.util.Date))
@@ -41,9 +42,19 @@
                (get-all params)))
 
 
+
+(liberator/defresource status
+  :method-allowed? (liberator/request-method-in :get)
+  :available-media-types ["application/json"
+                          ;; application/clojure ;; could support edn, but why really?
+                          ]
+  :handle-ok (fn [{{:keys [params]} :request}]
+               (reports/quick-status)))
+
 (compojure/defroutes routes
   (compojure/ANY "/incidents" [] incidents) ;; depreciated
-  (compojure/ANY "/api" [] incidents))
+  (compojure/ANY "/api" [] incidents)
+  (compojure/ANY "/api/status" [] status))
 
 
 (comment
