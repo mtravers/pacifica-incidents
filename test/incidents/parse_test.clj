@@ -105,8 +105,8 @@
   (is (= "Report Taken. "
          (fix-stupid-pdf "Report Taken. ")))
   (testing "some are empty, deal with that"
-  (is (= nil
-         (fix-stupid-pdf nil))))
+    (is (= nil
+           (fix-stupid-pdf nil)))))
 
 
 
