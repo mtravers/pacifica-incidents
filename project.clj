@@ -17,6 +17,10 @@
   ;; defaults, you can overidde in .lein-env, or java environment
   :env {:dl-url-format "http://www.pacificaindex.com/policelogs/PPDdailymediabulletin%s.pdf"
         :geocoding-url "http://maps.googleapis.com/maps/api/geocode/json"
-		:log-filename "/tmp/wtf.log"
-        :db-filename "/tmp/incidents.db"})
+        :db-filename "/tmp/incidents.db"
+        :timbre-config {:appenders {:spit {:enabled? true
+                                           :fmt-output-opts {:nofonts? true}}
+                                    :standard-out {:enabled? true
+                                                   :fmt-output-opts {:nofonts? true}}}
+                        :shared-appender-config {:spit-filename "/tmp/wtf.log"}}})
 

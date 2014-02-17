@@ -8,17 +8,14 @@
             [incidents.dl :as dl])
   (:gen-class))
 
-
-(log/set-config! [:appenders :spit :enabled?] true)
-(log/set-config! [:shared-appender-config :spit-filename] (:log-filename env/env))
-(log/set-config! [:appenders :spit  :fmt-output-opts :nofonts?] true)
-(log/set-config! [:appenders :standard-out  :fmt-output-opts :nofonts?] true)
+;; IMPORTANT: This bare exec is here Do this FIRST before running anything, at compile time
+(log/merge-config! (:timbre-config env/env))
 
 (defn -main
   []
   (future
     (try
-      (log/info "Compiling namespace, loading db first.")
+      (log/info "Loading db first." (:db-filename env/env))
       (db/read-data!)
       (log/info "DB loaded (presumably)")
       (catch Exception e
