@@ -10,22 +10,22 @@
   [{:keys [status] :as body}]
   (log/error body)
   (when (= "OVER_QUERY_LIMIT" status)
-    ;; might as well stop. 
-    (future-cancel running-update)))
+    ;; might as well stop.
+    (log/error "Cancelling geo job, google has said cut it out.")
+    (future-cancel @running-update)))
 
 (defn geocode-address
   [addr]
-  ;; assuming status is needed here for something.
-  ;; otherwise, could ditch the let and just (-> (client/get ...) :body) instead
+  ;; Doing the sleep here, so that the doseq can blast through dead records quickly
+  (Thread/sleep (:geo-rate-limit-sleep-ms env/env))
   (try
-    (let [{:keys [body]} (client/get (:geocoding-url env/env)
-                                     {:query-params {:address addr, :sensor false}
-                                      :as :json})]
-      (if (:error_message body)
+    (let [{{:keys [error_message results] :as body} :body}
+          (client/get (:geocoding-url env/env)
+                      {:query-params {:address addr, :sensor false}
+                       :as :json})]
+      (if error_message 
         (handle-geo-error body)
-        (-> body
-            :results ;; Most likely only really want the first result anyway.
-            first)))
+        (first results))) ;; Most likely only really want the first result anyway.
     (catch Exception e
       (log/error e addr))))
 
@@ -61,16 +61,14 @@
           :when (and (-> id nil? not) ;; there's one bad id in there
                      (->> id (get @db/db) :geo empty?))]
     (log/debug "adding geo for " id)
-    (swap! db/db  (update-geo id))
-    ;; might as well do the rate limiting inside the doseq loop
-    (Thread/sleep (:geo-rate-limit-sleep-ms env/env)))
+    (swap! db/db  (update-geo id)))
   (db/save-data!))
 
 
 (defn start-geocoding
   []
   (when (and (future? @running-update)
-             (future-done? @running-update))
+             (->  @running-update future-done? not))
     (future-cancel @running-update))
   (reset! running-update (future (update-geos!))))
 
@@ -80,6 +78,8 @@
 
   ;; to stop it
   (future-cancel @running-update)
+
+  (future-done? @running-update)
   
   ;; how many so far
   (->> @db/db
@@ -87,6 +87,11 @@
        (filter :geo)
        count)
 
+  ;; example one
+  (->> "120814042"
+       (get @db/db)
+       :description
+       get-geo)
   
   )
 
