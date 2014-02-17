@@ -11,9 +11,8 @@
 
 (log/set-config! [:appenders :spit :enabled?] true)
 (log/set-config! [:shared-appender-config :spit-filename] (:log-filename env/env))
-
-
-
+(log/set-config! [:appenders :spit  :fmt-output-opts :nofonts?] true)
+(log/set-config! [:appenders :standard-out  :fmt-output-opts :nofonts?] true)
 
 (defn -main
   []
@@ -39,7 +38,7 @@
   ;; (geo/update-geos)
 
   (-main)
-  
+
   )
 
 
