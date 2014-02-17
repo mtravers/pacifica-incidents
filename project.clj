@@ -21,6 +21,7 @@
         :timbre-config {:appenders {:spit {:enabled? true
                                            :fmt-output-opts {:nofonts? true}}
                                     :standard-out {:enabled? true
+                                                   ;; nrepl/cider/emacs hates the bash escapes.
                                                    :fmt-output-opts {:nofonts? true}}}
                         :shared-appender-config {:spit-filename "/tmp/wtf.log"}}})
 
