@@ -13,12 +13,11 @@
   (let [{:keys [status body]} (client/get (:geocoding-url env/env)
                                           {:query-params {:address addr, :sensor false}
                                            :as :json})]
-    (when (:error_message body)
-      (throw (Exception. (:error_message body))))
-    ;; Most likely only really want the first result anyway.
-    (-> body
-        :results
-        first)))
+    (if (:error_message body)
+      (log/error body addr)
+      (-> body
+          :results ;; Most likely only really want the first result anyway.
+          first))))
 
 (defn find-address
   [s]
