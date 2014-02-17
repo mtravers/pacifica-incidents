@@ -18,7 +18,7 @@
 
 (defn geocode-address
   [addr]
-  (when @enable-google?
+  (when (and addr @enable-google?)
     ;; Doing the sleep here, so that the doseq can blast through dead records quickly
     (Thread/sleep (:geo-rate-limit-sleep-ms env/env))
     (log/debug "Fetching from google: " addr)
