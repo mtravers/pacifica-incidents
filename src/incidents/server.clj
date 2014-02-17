@@ -1,7 +1,7 @@
 (ns incidents.server
   (:require [ring.adapter.jetty :as jetty]
             [firealarm.core :as firealarm]
-            ;;            [ring.middleware.jsonp :as jsonp]
+            [ring.middleware.jsonp :as jsonp]
             [compojure.handler :as handler]
             [incidents.api :as api]))
 
@@ -15,7 +15,7 @@
 
 (def app
   (-> #'api/routes
-      ;;jsonp/wrap-json-with-padding
+      jsonp/wrap-json-with-padding
       handler/site
       wrap-exceptions))
 
