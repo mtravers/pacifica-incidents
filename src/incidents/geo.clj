@@ -104,7 +104,9 @@
   (reset! running-update (future (try
                                    (update-geos!)
                                    (catch Exception e
-                                     (log/error e))))))
+                                     (log/error e))
+                                   (finally
+                                     (db/save-data!))))))
 
 (comment
   ;; do it in a separate thread, which is killable.
