@@ -56,7 +56,8 @@
           :when (and (-> id nil? not) ;; there's one bad id in there
                      (->> id (get @db/db) :geo empty?))]
     (log/debug "adding geo for " id)
-    (swap! db/db  (update-geo id)))
+    (swap! db/db  (update-geo id))
+    (Thread/sleep 1000))
   (db/save-data!))
 
 
