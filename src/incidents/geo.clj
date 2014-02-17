@@ -105,7 +105,10 @@
   (when (and (future? @running-update)
              (->  @running-update future-done? not))
     (future-cancel @running-update))
-  (reset! running-update (future (update-geos!))))
+  (reset! running-update (future (try
+                                   (update-geos!)
+                                   (catch Exception e
+                                     (log/error e))))))
 
 (comment
   ;; do it in a separate thread, which is killable.
