@@ -35,11 +35,11 @@
 
 (defn find-address
   [s]
+  ;; the Pacifica needs to be there so that it doesn't pull
+  ;; up Monterey road in Monterey, for example.
   (when-let [match (-> #".*?(at|on) (.*Pacifica).*"
                        (re-matches s)
                        (nth 2))]
-    ;; the Pacifica needs to be there so that it doesn't pull
-    ;; up Monterey road in Monterey, for example.
     (str match ", CA")))
 
 
