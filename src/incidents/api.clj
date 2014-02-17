@@ -31,7 +31,9 @@
 (liberator/defresource incidents
   :method-allowed? (liberator/request-method-in :get)
   
-  :available-media-types ["application/json"]
+  :available-media-types ["application/json"
+                          ;; application/clojure ;; could support edn, but why really?
+                          ]
   :see-other (fn [context]
                (:new-url context))
   :handle-ok (fn [{{:keys [params]} :request}]
@@ -40,7 +42,7 @@
 
 
 (compojure/defroutes routes
-  (compojure/ANY "/incidents" [] incidents)
+  (compojure/ANY "/incidents" [] incidents) ;; depreciated
   (compojure/ANY "/api" [] incidents))
 
 
@@ -49,5 +51,6 @@
 
 
 
+  
 
   )

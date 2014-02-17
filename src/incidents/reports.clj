@@ -78,8 +78,22 @@
             [:description :type :disposition])))
 
 
+(defn dates-min-max
+  []
+  (->> @db/db
+       vals
+       (map :time)
+       sort
+       (map #(.getTime %))
+       ((juxt first last))))
 
-
+(defn quick-status
+  []
+  {:total-incidents (total-records)
+   :total-types (types-total)
+   :total-dispositions (disposition-total)
+   :total-descriptions (description-total)
+   :min-max-dates   (dates-min-max)})
 
 (comment
 
@@ -97,6 +111,10 @@
   (description-total)
 
   (missing-important-stuff)
+
+  (quick-status)
+
+  (dates-min-max)
   
   (urepl/massive-spew "/tmp/output.edn" *1)
   
