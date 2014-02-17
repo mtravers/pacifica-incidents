@@ -60,12 +60,13 @@
 (defn find-existing-geo
   "Looks for dupes already in db"
   [addr]
-  (some->> @db/db
-           vals
-           (filter #(= (:address %) addr))
-           (filter #(-> % :geo empty? not))
-           first
-           :address))
+  (when addr
+    (some->> @db/db
+             vals
+             (filter #(= (:address %) addr))
+             (filter #(some-> % :geo empty? not))
+             first
+             :address)))
 
 (defn copy-or-fetch-geo
   [{:keys [address] :as item}]
@@ -128,10 +129,10 @@
        count)
 
   ;; example one
-  (->> "120814042"
-       (get @db/db)
-       :description
-       get-geo)
+  (->> 130927231
+       (get @db/db))
+
+
   
   )
 
