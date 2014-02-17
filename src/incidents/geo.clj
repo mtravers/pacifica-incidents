@@ -93,8 +93,9 @@
   Shuffles them as a dirty hack to get around persistently bad addresses"
   []
   (doseq [id (-> @db/db keys shuffle)
-          :when (and (-> id nil? not) ;; there's one bad id in there
-                     (->> id (get @db/db) :geo empty?))]
+          :when (and id
+                     (some-> id nil? not) ;; there's one bad id in there
+                     (some->> id (get @db/db) :geo nil? not))]
     (log/debug "adding geo for " id)
     (swap! db/db  (update-geo id)))
   (db/save-data!))
