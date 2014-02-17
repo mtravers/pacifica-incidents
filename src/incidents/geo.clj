@@ -43,19 +43,13 @@
     (str match ", CA")))
 
 
-(defn fetch-address
-  "Useful for doing counts and such"
-  [item]
-  (some-> item :description find-address))
-
-
 
 (defn ensure-address
   "Makes damn sure there's an address in there."
   [{:keys [address description] :as item}]
   (if address
     item
-    (assoc item :address (fetch-address item))))
+    (assoc item :address (find-address description))))
 
 (defn find-existing-geo
   "Looks for dupes already in db"
