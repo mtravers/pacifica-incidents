@@ -17,7 +17,11 @@
                  [environ "0.4.0"]
                  [com.taoensso/timbre "3.0.1"]
                  [utilza "0.1.49" :exclusions [org.clojure/clojure]]]
-  :plugins [[lein-environ "0.4.0"]]
+  :plugins [[lein-environ "0.4.0"]
+            [lein-ring "0.8.7"]]
+  :ring {:handler incidents.server/app
+         :init    incidents.server/start
+         }
   ;; Might as well do this as soon as the project loads, for convenience.
   :injections [(do (require 'incidents.core)
                    (incidents.core/-main))]
