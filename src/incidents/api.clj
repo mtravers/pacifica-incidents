@@ -40,7 +40,8 @@
 
 
 (compojure/defroutes routes
-  (compojure/ANY "/incidents" [] incidents))
+  (compojure/ANY "/incidents" [] incidents)
+  (compojure/ANY "/api" [] incidents))
 
 
 (comment
