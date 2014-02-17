@@ -4,21 +4,28 @@
             [taoensso.timbre :as log]
             [environ.core :as env]))
 
+(defonce running-update (atom nil))
 
+(defn handle-geo-error
+  [{:keys [status] :as body}]
+  (log/error body)
+  (when (= "OVER_QUERY_LIMIT" status)
+    ;; might as well stop. 
+    (future-cancel running-update)))
 
 (defn geocode-address
   [addr]
   ;; assuming status is needed here for something.
   ;; otherwise, could ditch the let and just (-> (client/get ...) :body) instead
   (try
-    (let [{:keys [status body]} (client/get (:geocoding-url env/env)
-                                            {:query-params {:address addr, :sensor false}
-                                             :as :json})]
-      (when (:error_message body)
-        (throw (Exception. body)))
-      (-> body
-          :results ;; Most likely only really want the first result anyway.
-          first))
+    (let [{:keys [body]} (client/get (:geocoding-url env/env)
+                                     {:query-params {:address addr, :sensor false}
+                                      :as :json})]
+      (if (:error_message body)
+        (handle-geo-error body)
+        (-> body
+            :results ;; Most likely only really want the first result anyway.
+            first)))
     (catch Exception e
       (log/error e addr))))
 
@@ -60,19 +67,20 @@
   (db/save-data!))
 
 
+(defn start-geocoding
+  []
+  (when (and (future? @running-update)
+             (future-done? @running-update))
+    (future-cancel @running-update))
+  (reset! running-update (future (update-geos!))))
 
 (comment
-  ;; for debugging
-  (log/set-config! [:appenders :spit :enabled?] true)
-  (log/set-config! [:shared-appender-config :spit-filename] (:log-filename env/env))
-  (log/set-level! :debug)
-
-  
-  (db/read-data!)
   ;; do it in a separate thread, which is killable.
-  (def running-update (future (update-geos!)))
-  (future-cancel running-update)
+  (start-geocoding)
 
+  ;; to stop it
+  (future-cancel @running-update)
+  
   ;; how many so far
   (->> @db/db
        vals
