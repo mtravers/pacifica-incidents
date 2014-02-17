@@ -2,25 +2,10 @@
   (:require [clojure.edn :as edn]
             [utilza.repl :as urepl]
             [incidents.db :as db]
+            [incidents.utils :as utils]
+            [incidents.geo :as geo]
             [environ.core :as env]))
 
-
-(defn key-set-counts
-  [k]
-  (->> (for [d (->> @db/db
-                    vals
-                    (map k)
-                    set)]
-         [d (count (filter (partial = d) (map k (vals @db/db))))])
-       (sort-by second)
-       reverse))
-
-(defn total-not-null-counts
-  [k]
-  (->> @db/db
-       vals
-       (filter k)
-       count))
 
 ;; XXX borken, must fix
 (defn simple-contains
@@ -35,28 +20,28 @@
 
 (defn disposition-total
   []
-  (total-not-null-counts :disposition))
+  (utils/total-not-null-counts :disposition))
 
 (defn disposition-counts
   []
-  (key-set-counts :disposition))
+  (utils/key-set-counts :disposition))
 
 (defn types-total
   []
-  (total-not-null-counts :type))
+  (utils/total-not-null-counts :type))
 
 
 (defn type-counts
   []
-  (key-set-counts :type))
+  (utils/key-set-counts :type))
 
 (defn geo-total
   []
-  (total-not-null-counts :geo))
+  (utils/total-not-null-counts :geo))
 
 (defn description-total
   []
-  (total-not-null-counts :description))
+  (utils/total-not-null-counts :description))
 
 (defn total-records
   []
@@ -76,7 +61,7 @@
   []
   (let [total (total-records)]
     (reduce (fn [a k]
-              (assoc a k  (- total (key-set-counts k))))
+              (assoc a k  (- total (utils/key-set-counts k))))
             {}
             [:description :type :disposition])))
 
@@ -90,6 +75,16 @@
        (map #(.getTime %))
        ((juxt first last))))
 
+
+
+(defn  address-counts
+  []
+  (utils/key-set-counts geo/fetch-address))
+
+(defn total-addresses
+  []
+  (utils/total-not-null-counts geo/fetch-address))
+
 (defn quick-status
   []
   {:total-incidents (total-records)
@@ -97,6 +92,7 @@
    :total-dispositions (disposition-total)
    :total-descriptions (description-total)
    :total-geos (geo-total)
+   :total-addresses (total-addresses)
    :min-max-dates   (dates-min-max)})
 
 (comment
@@ -119,6 +115,15 @@
   (quick-status)
 
   (dates-min-max)
+
+  (total-addresses)
+  (address-counts)
+
+  ;; unique ones.
+  (->> (address-counts)
+       (map first)
+       set
+       count)
   
   (urepl/massive-spew "/tmp/output.edn" *1)
   

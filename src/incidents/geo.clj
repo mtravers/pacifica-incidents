@@ -18,6 +18,7 @@
   [addr]
   ;; Doing the sleep here, so that the doseq can blast through dead records quickly
   (Thread/sleep (:geo-rate-limit-sleep-ms env/env))
+  (log/debug "Fetching from google: " addr)
   (try
     (let [{{:keys [error_message results] :as body} :body}
           (client/get (:geocoding-url env/env)
@@ -36,8 +37,13 @@
                        (nth 2))]
     ;; the Pacifica needs to be there so that it doesn't pull
     ;; up Monterey road in Monterey, for example.
-    (log/debug match)
     (str match " Pacifica, CA")))
+
+
+(defn fetch-address
+  "Useful for doing counts and such"
+  [item]
+  (some-> item :description find-address))
 
 ;; TODO:  handle exceptional case of no valid address found in text.
 (defn get-geo
