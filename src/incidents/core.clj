@@ -5,17 +5,22 @@
             [taoensso.timbre :as log]
 			[environ.core :as env]
             [utilza.repl :as urepl]
-            [incidents.dl :as dl]))
+            [incidents.dl :as dl])
+  (:gen-class))
+
 
 (log/set-config! [:appenders :spit :enabled?] true)
 (log/set-config! [:shared-appender-config :spit-filename] (:log-filename env/env))
 
 
-;; Might as well do this as soon as the project loads, for convenience.
 
-(log/info "Compiling namespace, loading db first.")
-(db/read-data!)
-(log/info "DB loaded (presumably)")
+
+(defn -main
+  []
+  (future
+    (log/info "Compiling namespace, loading db first.")
+    (db/read-data!)
+    (log/info "DB loaded (presumably)")))
 
 
 (comment

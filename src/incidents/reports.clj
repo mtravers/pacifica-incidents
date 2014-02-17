@@ -41,7 +41,7 @@
   []
   (key-set-counts :disposition))
 
-(defn all-types
+(defn types-total
   []
   (total-not-null-counts :type))
 
@@ -50,6 +50,10 @@
   []
   (key-set-counts :type))
 
+
+(defn description-total
+  []
+  (total-not-null-counts :description))
 
 (defn total-records
   []
@@ -64,12 +68,35 @@
                   keys
                   rand-nth)))
 
+
+(defn missing-important-stuff
+  []
+  (let [total (total-records)]
+    (reduce (fn [a k]
+              (assoc a k  (- total (key-set-counts k))))
+            {}
+            [:description :type :disposition])))
+
+
+
+
+
 (comment
 
   (simple-contains :description #"Canyon")
 
+  (total-records)
+  (spot-check)
+  
+  (types-total)
   (type-counts)
+
+  (disposition-total)
   (disposition-counts)
+  
+  (description-total)
+
+  (missing-important-stuff)
   
   (urepl/massive-spew "/tmp/output.edn" *1)
   
