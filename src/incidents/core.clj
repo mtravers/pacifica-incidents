@@ -8,7 +8,7 @@
             [incidents.dl :as dl])
   (:gen-class))
 
-;; IMPORTANT: This bare exec is here Do this FIRST before running anything, at compile time
+;; IMPORTANT: This bare exec is here to dothis FIRST before running anything, at compile time
 (log/merge-config! (:timbre-config env/env))
 
 (defn -main
