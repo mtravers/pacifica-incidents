@@ -6,6 +6,13 @@
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [clj-time "0.4.4"]
                  [clj-http "0.7.9"]
+                 ;; [com.cemerick/friend "0.2.0"] ;; gah, not yet.
+                 [liberator "0.10.0"]
+                 [firealarm "0.1.2"]
+                 [ring.middleware.jsonp "0.1.3"]
+                 [compojure "1.1.5"]
+                 [ring/ring-jetty-adapter "1.1.0"]
+                 [ring/ring-devel "1.2.0"]
                  [instaparse "1.2.14"]
                  [environ "0.4.0"]
                  [com.taoensso/timbre "3.0.1"]

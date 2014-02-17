@@ -2,6 +2,7 @@
   (:require [incidents.geo :as geo]
             [incidents.parse :as parse]
             [incidents.db :as db]
+            [incidents.server :as srv]
             [taoensso.timbre :as log]
 			[environ.core :as env]
             [utilza.repl :as urepl]
@@ -18,6 +19,9 @@
       (log/info "Loading db first." (:db-filename env/env))
       (db/read-data!)
       (log/info "DB loaded (presumably)")
+      (log/info "starting web server")
+      (srv/start)
+      (log/info "web server started (presumbably)")
       (catch Exception e
         (log/error e)))))
 
