@@ -1,5 +1,6 @@
 (ns incidents.migrations
   (:require [incidents.db :as db]
+            [incidents.geo :as geo]
             [incidents.parse :as parse]))
 
 ;; THese things are migrations, but not really, because
@@ -31,7 +32,16 @@
 
 
 
+(defn- pull-out-addresses!
+  []
+  (doseq [id (keys @db/db)
+          :when (and (-> id nil? not) ;; there's one bad id in there
+                     (->> id (get @db/db) :description))]
+    (swap! db/db (fn [db] (assoc-in db [id :address] (-> db (get id) :description geo/find-address)))))
+  (db/save-data!))
 
 (comment
+
+  (future (pull-out-addresses!))
   
   )

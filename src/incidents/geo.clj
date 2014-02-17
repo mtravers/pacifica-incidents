@@ -32,12 +32,12 @@
 
 (defn find-address
   [s]
-  (when-let [match (-> #".*?(at|on) (.*)Pacifica.*"
+  (when-let [match (-> #".*?(at|on) (.*Pacifica).*"
                        (re-matches s)
                        (nth 2))]
     ;; the Pacifica needs to be there so that it doesn't pull
     ;; up Monterey road in Monterey, for example.
-    (str match " Pacifica, CA")))
+    (str match ", CA")))
 
 
 (defn fetch-address

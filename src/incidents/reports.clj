@@ -79,11 +79,11 @@
 
 (defn  address-counts
   []
-  (utils/key-set-counts geo/fetch-address))
+  (utils/key-set-counts :address))
 
 (defn total-addresses
   []
-  (utils/total-not-null-counts geo/fetch-address))
+  (utils/total-not-null-counts :address))
 
 (defn quick-status
   []
@@ -124,6 +124,10 @@
        (map first)
        set
        count)
+  
+  (future
+    (->> (address-counts)
+         (urepl/massive-spew "/tmp/output.edn")))
   
   (urepl/massive-spew "/tmp/output.edn" *1)
   
