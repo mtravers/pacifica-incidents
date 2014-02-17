@@ -16,9 +16,12 @@
   []
   (future
     (try
-      (log/info "Loading db first." (:db-filename env/env))
-      (db/read-data!)
-      (log/info "DB loaded (presumably)")
+      (if (< 0 (count @db/db))
+        (log/warn "Cowardly refusing to load db, it looks like it's already loaded")
+        (do
+          (log/info "Loading db first." (:db-filename env/env))
+          (db/read-data!)
+          (log/info "DB loaded (presumably)")))
       (log/info "starting web server")
       (srv/start)
       (log/info "web server started (presumbably)")

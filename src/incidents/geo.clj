@@ -5,7 +5,6 @@
             [environ.core :as env]))
 
 
-
 ;; TODO: try/catch transient http errors
 (defn geocode-address
   [addr]
@@ -14,11 +13,8 @@
   (let [{:keys [status body]} (client/get (:geocoding-url env/env)
                                           {:query-params {:address addr, :sensor false}
                                            :as :json})]
-    (when-not (= status 200)
-      (throw (Exception. (str "Status " status))))
     (when (:error_message body)
       (throw (Exception. (:error_message body))))
-    (Thread/sleep 100)                  ;rate limit
     ;; Most likely only really want the first result anyway.
     (-> body
         :results
@@ -57,7 +53,8 @@
                      (->> id (get @db/db) :geo empty?))]
     (log/debug "adding geo for " id)
     (swap! db/db  (update-geo id))
-    (Thread/sleep 1000))
+    ;; might as well do the rate limiting inside the doseq loop
+    (Thread/sleep (:geo-rate-limit-sleep-ms env/env)))
   (db/save-data!))
 
 

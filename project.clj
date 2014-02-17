@@ -25,6 +25,7 @@
   :env {:dl-url-format "http://www.pacificaindex.com/policelogs/PPDdailymediabulletin%s.pdf"
         :geocoding-url "http://maps.googleapis.com/maps/api/geocode/json"
         :db-filename "/tmp/incidents.db"
+        :geo-rate-limit-sleep-ms 1000 ;; for google
         :timbre-config {:appenders {:spit {:enabled? true
                                            :fmt-output-opts {:nofonts? true}}
                                     :standard-out {:enabled? true
