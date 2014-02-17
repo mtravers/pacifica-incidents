@@ -38,7 +38,7 @@
   (doseq [id (keys @db/db)
           :when (and (-> id nil? not) ;; there's one bad id in there
                      (->> id (get @db/db) :description))]
-    (swap! db/db (fn [db] (assoc-in db [id :address] (-> db (get id) :description geo/find-address)))))
+    (swap! db/db (fn [db] (assoc-in db [id :address] (some-> db (get id) :description geo/find-address)))))
   (db/save-data!))
 
 
