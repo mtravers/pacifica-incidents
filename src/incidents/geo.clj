@@ -55,9 +55,10 @@
 
 (defn update-geos!
   "Geocode everything in the db
-  that doesn't already have a geo"
+  that doesn't already have a geo.
+  Shuffles them as a dirty hack to get around persistently bad addresses"
   []
-  (doseq [id (keys @db/db)
+  (doseq [id (-> @db/db keys shuffle)
           :when (and (-> id nil? not) ;; there's one bad id in there
                      (->> id (get @db/db) :geo empty?))]
     (log/debug "adding geo for " id)
