@@ -18,9 +18,12 @@
 (defn -main
   []
   (future
-    (log/info "Compiling namespace, loading db first.")
-    (db/read-data!)
-    (log/info "DB loaded (presumably)")))
+    (try
+      (log/info "Compiling namespace, loading db first.")
+      (db/read-data!)
+      (log/info "DB loaded (presumably)")
+      (catch Exception e
+        (log/error e)))))
 
 
 (comment
@@ -35,6 +38,8 @@
   ;; cron job 2
   ;; (geo/update-geos)
 
+  (-main)
+  
   )
 
 
