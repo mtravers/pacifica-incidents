@@ -5,19 +5,22 @@
             [environ.core :as env]))
 
 
-;; TODO: try/catch transient http errors
+
 (defn geocode-address
   [addr]
   ;; assuming status is needed here for something.
   ;; otherwise, could ditch the let and just (-> (client/get ...) :body) instead
-  (let [{:keys [status body]} (client/get (:geocoding-url env/env)
-                                          {:query-params {:address addr, :sensor false}
-                                           :as :json})]
-    (if (:error_message body)
-      (log/error body addr)
+  (try
+    (let [{:keys [status body]} (client/get (:geocoding-url env/env)
+                                            {:query-params {:address addr, :sensor false}
+                                             :as :json})]
+      (when (:error_message body)
+        (throw (Exception. body)))
       (-> body
           :results ;; Most likely only really want the first result anyway.
-          first))))
+          first))
+    (catch Exception e
+      (log/error e addr))))
 
 (defn find-address
   [s]
