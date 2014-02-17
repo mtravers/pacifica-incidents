@@ -10,9 +10,15 @@
 (log/set-config! [:appenders :spit :enabled?] true)
 (log/set-config! [:shared-appender-config :spit-filename] (:log-filename env/env))
 
-(comment
 
-  (db/read-data!)
+;; Might as well do this as soon as the project loads, for convenience.
+
+(log/info "Compiling namespace, loading db first.")
+(db/read-data!)
+(log/info "DB loaded (presumably)")
+
+
+(comment
 
   ;; cron job 1:
   ;; for all dates
