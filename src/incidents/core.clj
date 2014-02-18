@@ -4,7 +4,7 @@
             [incidents.db :as db]
             [incidents.server :as srv]
             [taoensso.timbre :as log]
-			[environ.core :as env]
+            [environ.core :as env]
             [utilza.repl :as urepl]
             [incidents.dl :as dl])
   (:gen-class))
@@ -12,16 +12,13 @@
 ;; IMPORTANT: This bare exec is here to dothis FIRST before running anything, at compile time
 (log/merge-config! (:timbre-config env/env))
 
+
+
 (defn -main
   []
   (future
     (try
-      (if (< 0 (count @db/db))
-        (log/warn "Cowardly refusing to load db, it looks like it's already loaded")
-        (do
-          (log/info "Loading db first." (:db-filename env/env))
-          (db/read-data!)
-          (log/info "DB loaded (presumably)")))
+      (db/db-init)
       (log/info "starting web server")
       (srv/start)
       (log/info "web server started (presumbably)")

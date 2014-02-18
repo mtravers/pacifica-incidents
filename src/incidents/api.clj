@@ -4,7 +4,8 @@
             [taoensso.timbre :as log]
             [incidents.reports :as reports]
             [clojure.walk :as walk]
-            [compojure.core :as compojure])
+            [compojure.core :as compojure]
+            [compojure.route :as route])
   (:import java.util.Date))
 
 
@@ -52,6 +53,7 @@
                (reports/quick-status)))
 
 (compojure/defroutes routes
+  (route/files "/static" {:root "resources"})
   (compojure/ANY "/incidents" [] incidents) ;; depreciated
   (compojure/ANY "/api" [] incidents)
   (compojure/ANY "/api/status" [] status))

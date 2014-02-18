@@ -24,7 +24,8 @@
          }
   ;; Might as well do this as soon as the project loads, for convenience.
   :injections [(do (require 'incidents.core)
-                   (incidents.core/-main))]
+                   (incidents.core/-main)
+                   )]
   ;; defaults, you can overidde in .lein-env, or java environment
   :env {:dl-url-format "http://www.pacificaindex.com/policelogs/PPDdailymediabulletin%s.pdf"
         :geocoding-url "http://maps.googleapis.com/maps/api/geocode/json"

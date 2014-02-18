@@ -7,6 +7,7 @@
   (:import java.io.File)
   (:require [clojure.edn :as edn]
             [utilza.repl :as urepl]
+            [taoensso.timbre :as log]
             [environ.core :as env]))
 
 ;; Why not keep it simple, like this:
@@ -43,7 +44,13 @@
      nil))
 
 
-
+(defn db-init []
+  (if (< 0 (count @db))
+    (log/warn "Cowardly refusing to load db, it looks like it's already loaded")
+    (do
+      (log/info "Loading db first." (:db-filename env/env))
+      (read-data!)
+      (log/info "DB loaded (presumably)"))))
 
 
 (comment

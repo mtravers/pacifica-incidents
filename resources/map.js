@@ -16,15 +16,45 @@ function map_init(lat, lng) {
     // });
 
     // load data
-    $.ajax("/map_data", {
-	data: {lat: lat, lng: lng},
+    $.ajax("/api?count=50", {
+//	data: {lat: lat, lng: lng},
 	success:
 	function(response) {
-	    var markets = JSON.parse(response);
-//	    displayMarkets(map, markets);
+	    displayIncidents(map, response);
 	},
 	error: 
 	function(XHR, textStatus, errorThrown) {alert("error: " + textStatus + "; " + errorThrown);}
     });
 
+}
+
+function displayIncidents(map, incidents) {
+    var z = 1000;
+    var w = new google.maps.InfoWindow();
+    for (idx in incidents) {
+	var incident = incidents[idx];
+	if ('geo' in incident) {
+	    var loc = incident.geo.geometry.location;
+	    var marker = new google.maps.Marker({
+		position: new google.maps.LatLng(loc.lat,loc.lng),
+		map: map,
+		zIndex: z--,
+		title: incident.name});
+	    prepMarker(marker, incident, map, w);
+	}
+    }
+}
+
+// not working at all yet, placeholder +++
+function prepMarker(marker, incident, map, w) {
+    google.maps.event.addListener(marker, 'click', function() {
+//	w.setContent(incident.name + '<br/>' + incident.phone);
+	$.ajax("/marker-info", {
+	    data: {m: incident.index},
+	success:
+	function(response) {
+	    w.setContent(response);	    
+	}});
+	w.open(map, marker);
+    });
 }
