@@ -29,7 +29,10 @@
                          :as :json})]
         (if error_message 
           (handle-geo-error body)
-          (first results))) ;; Most likely only really want the first result anyway.
+          (some-> results
+                  first  ; Most likely only really want the first result anyway.
+                  :geometry
+                  :location)))
       (catch Exception e
         (log/error e addr)))))
 
@@ -123,6 +126,8 @@
   ;; example one
   (->> 130927231
        (get @db/db))
+
+
 
 
   

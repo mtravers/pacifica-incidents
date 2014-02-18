@@ -54,9 +54,21 @@
                                                               %))))))
   (db/save-data!))
 
+
+(defn- fix-overly-verbose-geos
+  "Too much crap. Remove."
+  []
+  (doseq [id (keys @db/db)
+          :when (and (-> id nil? not) ;; there's one bad id in there
+                     (->> id (get @db/db) :geo :geometry :location map?))]
+    (swap! db/db (db/update-record id #(assoc % :geo (-> % :geo :geometry :location)))))
+  (db/save-data!))
+
+
 (comment
 
-  (strip-stupid-string-geos)
+  (fix-overly-verbose-geos)
+
 
   
   )

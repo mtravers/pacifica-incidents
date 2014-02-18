@@ -1,0 +1,36 @@
+{:address "Fairway Dr, Pacifica, CA",
+  :geo
+  {:address_components
+   [{:long_name "Fairway Drive",
+     :short_name "Fairway Dr",
+     :types ["route"]}
+    {:long_name "Pacifica",
+     :short_name "Pacifica",
+     :types ["locality" "political"]}
+    {:long_name "San Mateo County",
+     :short_name "San Mateo County",
+     :types ["administrative_area_level_2" "political"]}
+    {:long_name "California",
+     :short_name "CA",
+     :types ["administrative_area_level_1" "political"]}
+    {:long_name "United States",
+     :short_name "US",
+     :types ["country" "political"]}
+    {:long_name "94044", :short_name "94044", :types ["postal_code"]}],
+   :formatted_address "Fairway Drive, Pacifica, CA 94044, USA",
+   :geometry
+   {:bounds
+    {:northeast {:lat 37.6216759, :lng -122.4857813},
+     :southwest {:lat 37.621305, :lng -122.491456}},
+    :location {:lat 37.621592, :lng -122.4885218},
+    :location_type "GEOMETRIC_CENTER",
+    :viewport
+    {:northeast {:lat 37.62283943029151, :lng -122.4857813},
+     :southwest {:lat 37.62014146970851, :lng -122.491456}}},
+   :types ["route"]},
+  :id "130619033",
+  :disposition "Log Note Only.",
+  :description
+  "Occurred on Fairway Dr, Pacifica. TRUCK PARKED FOR 2 WEEKS. .",
+  :type "Traffic Law Abandoned",
+  :time #inst "2013-06-19T12:06:00.000-00:00"}

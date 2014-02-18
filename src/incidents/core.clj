@@ -67,6 +67,8 @@
 
   (count @db/db)
 
+  (db/read-data!)
+  
   (db/save-data! "/tmp/backup.db")
 
   (db/read-data! "/tmp/backup.db")

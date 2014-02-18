@@ -34,7 +34,7 @@ function displayIncidents(map, incidents) {
     for (idx in incidents) {
 		var incident = incidents[idx];
 		if ('geo' in incident && null !== incident.geo) {
-			var loc = incident.geo.geometry.location;
+			var loc = incident.geo;
 			var marker = new google.maps.Marker({
 				position: new google.maps.LatLng(loc.lat,loc.lng),
 				map: map,
