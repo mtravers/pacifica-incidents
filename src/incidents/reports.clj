@@ -125,6 +125,8 @@
   (total-addresses)
   (address-counts)
 
+  (botchy-geos)
+  
   ;; unique ones.
   (->> (address-counts)
        (map first)
