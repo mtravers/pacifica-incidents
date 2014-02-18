@@ -12,7 +12,7 @@
 (defn key-set-counts
   [k]
   (->> (for [d (all-keys @db/db k)]
-         [d (count (reduce #(conj %1 %2) [] (r/filter (partial = d) (r/map k (vals @db/db)))))])
+         [d (count (reduce #(conj %1 %2)  [] (r/filter (partial = d) (r/map k (vals @db/db)))))])
        (sort-by second)
        reverse))
 
