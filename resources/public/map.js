@@ -45,20 +45,17 @@ function displayIncidents(map, incidents) {
     }
 }
 
-// not working at all yet, placeholder +++
-function prepMarker(marker, incident, map, w) {
-    google.maps.event.addListener(marker, 'click', function() {
-		//	w.setContent(incident.name + '<br/>' + incident.phone);
-		$.ajax("/marker-info", {
-			data: {m: incident.index},
-			success:
-			function(response) {
-				w.setContent(response);	    
-			}});
-		w.open(map, marker);
-    });
+function incidentTimeString(incident) {
+    return new Date(incident.time).toLocaleString();
 }
 
+
+function prepMarker(marker, incident, map, w) {
+    google.maps.event.addListener(marker, 'click', function() {
+	w.setContent(incident.type + ' ' + incidentTimeString(incident) + '<br/>' + incident.description);
+	w.open(map, marker);
+    });
+}
 
 $(document).ready(function() { map_init(37.6687476,-122.4836863)});
 				   
