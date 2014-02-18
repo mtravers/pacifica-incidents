@@ -18,15 +18,30 @@
 
 
 (defn- with-count
-  [count xs]
+  [{:keys [count]} xs]
   (cond->> xs count (take (Integer/parseInt count))))
 
-(defn get-all [{:keys [count]}]
+
+(defn- with-dates
+  [{:keys [min max]} xs]
+  (if (and min max)
+    (let [min (Long/parseLong min)
+          max (Long/parseLong max)]
+      (filter (fn [{:keys [time]}]
+                (let [millis (.getTime time)]
+                  (and (> millis min)
+                       (< millis max)))) xs))
+    xs))
+
+
+
+(defn get-all [params]
   (->> @db/db
        vals
        (sort-by :time)
        reverse
-       (with-count count)
+       (with-dates params)
+       (with-count params)
        serialize-for-json))
 
 
