@@ -73,7 +73,8 @@
        (map :time)
        sort
        (map #(.getTime %))
-       ((juxt first last))))
+       ((juxt first last))
+       (zipmap [:min :max])))
 
 
 
