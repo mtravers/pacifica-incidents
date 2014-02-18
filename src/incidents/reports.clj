@@ -87,7 +87,9 @@
 
 (defn botchy-geos
   []
-  (utils/key-set-counts (comp type :geo)))
+  (for [[k v] (utils/key-set-counts (comp type :geo))]
+    [(str k) v]))
+   
 
 
 (defn quick-status
