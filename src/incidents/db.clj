@@ -43,6 +43,12 @@
      ;; Don't return the whole db so as not to crash emacs.
      nil))
 
+(defn update-record
+  "Returns a function to update the db by applying f to the record at id.
+   Suitable for use with swap!"
+  [id f]
+  (fn [db]
+    (update-in db [id] f)))
 
 (defn db-init []
   (if (< 0 (count @db))
