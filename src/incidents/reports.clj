@@ -85,6 +85,11 @@
   []
   (utils/total-not-null-counts :address))
 
+(defn botchy-geos
+  []
+  (utils/key-set-counts (comp type :geo)))
+
+
 (defn quick-status
   []
   {:total-incidents (total-records)
@@ -92,6 +97,7 @@
    :total-dispositions (disposition-total)
    :total-descriptions (description-total)
    :total-geos (geo-total)
+   :botchy-geos (botchy-geos)
    :total-addresses (total-addresses)
    :min-max-dates   (dates-min-max)})
 
@@ -119,6 +125,8 @@
   (total-addresses)
   (address-counts)
 
+  (botchy-geos)
+  
   ;; unique ones.
   (->> (address-counts)
        (map first)
@@ -130,6 +138,15 @@
          (urepl/massive-spew "/tmp/output.edn")))
   
   (urepl/massive-spew "/tmp/output.edn" *1)
+
+
+  ;; DOH! but in geo functions is pushing the address into geo.
+  ;; geocoding, like zen, is pain and suffering.
+  (->> @db/db
+       vals
+       (map :geo)
+       (filter #(= java.lang.String (type %)))
+       (take 10))
   
   )
 

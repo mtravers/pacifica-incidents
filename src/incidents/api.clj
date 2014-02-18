@@ -53,7 +53,6 @@
                (reports/quick-status)))
 
 (compojure/defroutes routes
-  (route/files "/static" {:root "resources"})
   (compojure/ANY "/incidents" [] incidents) ;; depreciated
   (compojure/ANY "/api" [] incidents)
   (compojure/ANY "/api/status" [] status))

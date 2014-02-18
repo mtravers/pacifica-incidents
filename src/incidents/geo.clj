@@ -60,7 +60,7 @@
              (filter #(= (:address %) addr))
              (filter #(some-> % :geo empty? not))
              first
-             :address)))
+             :geo)))
 
 (defn copy-or-fetch-geo
   [{:keys [address] :as item}]
@@ -74,12 +74,7 @@
        copy-or-fetch-geo))
 
 
-(defn update-geo
-  "Returns a function to update the db with the geocode for the record
-   in the db with id supplied. Suitable for supplying to swap!"
-  [id]
-  (fn [db]
-    (update-in db [id] add-geo-and-address)))
+
 
 (defn update-geos!
   "Geocode everything in the db
@@ -91,7 +86,7 @@
                      (some-> id nil? not) ;; there's one bad id in there
                      (some->> id (get @db/db) :geo nil? not))]
     (log/debug "adding geo for " id)
-    (swap! db/db  (update-geo id)))
+    (swap! db/db  (db/update-record id add-geo-and-address)))
   (db/save-data!))
 
 

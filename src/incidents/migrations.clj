@@ -38,13 +38,25 @@
   (doseq [id (keys @db/db)
           :when (and (-> id nil? not) ;; there's one bad id in there
                      (->> id (get @db/db) :description))]
-    (swap! db/db (fn [db] (assoc-in db [id :address] (-> db (get id) :description geo/find-address)))))
+    (swap! db/db (fn [db] (assoc-in db [id :address] (some-> db (get id) :description geo/find-address)))))
   (db/save-data!))
 
 
+(defn- strip-stupid-string-geos
+  "I fucked up and was dumping :address into :geo instead of :geo, doh. This backs that error out"
+  []
+  (doseq [id (keys @db/db)
+          :when (and (-> id nil? not) ;; there's one bad id in there
+                     (->> id (get @db/db) :geo))]
+    (swap! db/db (db/update-record id (fn [rec] (update-in rec [:geo]
+                                                           #(if (= java.lang.String (type %))
+                                                              nil
+                                                              %))))))
+  (db/save-data!))
 
 (comment
 
+  (strip-stupid-string-geos)
 
   
   )
