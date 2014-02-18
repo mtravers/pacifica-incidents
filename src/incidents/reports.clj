@@ -147,6 +147,8 @@
        (map :geo)
        (filter #(= java.lang.String (type %)))
        (take 10))
+
+  (utils/all-keys @db/db :type)
   
   )
 
