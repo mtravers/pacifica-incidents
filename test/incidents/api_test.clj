@@ -42,6 +42,12 @@
        :body
        json/decode)
   
-  
+
+(->> (srv/app {:uri "/api/dates"
+               :request-method :get})
+     :body
+     json/decode)
+              
+
   
   )
