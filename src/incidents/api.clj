@@ -34,14 +34,13 @@
     xs))
 
 
-
 (defn get-all [params]
   (->> @db/db
        vals
-       (sort-by :time)
-       reverse
        (with-dates params)
        (with-count params)
+       (sort-by :time)
+       reverse
        serialize-for-json))
 
 
