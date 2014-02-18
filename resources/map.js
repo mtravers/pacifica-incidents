@@ -16,7 +16,7 @@ function map_init(lat, lng) {
     // });
 
     // load data
-    $.ajax("/api?count=50", {
+    $.ajax("/api?count=150", {
 //	data: {lat: lat, lng: lng},
 	success:
 	function(response) {
@@ -45,16 +45,13 @@ function displayIncidents(map, incidents) {
     }
 }
 
-// not working at all yet, placeholder +++
+function incidentTimeString(incident) {
+    return new Date(incident.time).toLocaleString();
+}
+
 function prepMarker(marker, incident, map, w) {
     google.maps.event.addListener(marker, 'click', function() {
-//	w.setContent(incident.name + '<br/>' + incident.phone);
-	$.ajax("/marker-info", {
-	    data: {m: incident.index},
-	success:
-	function(response) {
-	    w.setContent(response);	    
-	}});
+	w.setContent(incident.type + ' ' + incidentTimeString(incident) + '<br/>' + incident.description);
 	w.open(map, marker);
     });
 }
