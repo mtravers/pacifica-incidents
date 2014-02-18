@@ -2,6 +2,7 @@
   (:import org.joda.time.DateTime)
   (:require [clojure.test :refer :all]
             [clj-http.client :as client]
+            [incidents.server :as srv]
             [utilza.repl :as urepl])
   (:use incidents.api))
 
@@ -18,4 +19,13 @@
 
   (get-all {:count "1"})
 
+
+  #_(srv/app {:uri "/api/status"
+              :request-method :get})
+
+  
+  #_(srv/app {:uri "/api"
+              :request-method :get
+              :query-params {:count 1}})
+  
   )

@@ -66,9 +66,20 @@
   :handle-ok (fn [{{:keys [params]} :request}]
                (reports/quick-status)))
 
+
+(liberator/defresource min-max-dates
+  :method-allowed? (liberator/request-method-in :get)
+  :available-media-types ["application/json"
+                          ;; application/clojure ;; could support edn, but why really?
+                          ]
+  :handle-ok (fn [{{:keys [params]} :request}]
+               (reports/dates-min-max)))
+
+
 (compojure/defroutes routes
   (compojure/ANY "/incidents" [] incidents) ;; depreciated
   (compojure/ANY "/api" [] incidents)
+  (compojure/ANY "/api/dates" [] min-max-dates)
   (compojure/ANY "/api/status" [] status))
 
 
