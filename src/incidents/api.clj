@@ -53,7 +53,6 @@
                (reports/quick-status)))
 
 (compojure/defroutes routes
-  (route/files "/" {:root "resources/public"}) ;; TODO: move to a handler ns, for pages?
   (compojure/ANY "/incidents" [] incidents) ;; depreciated
   (compojure/ANY "/api" [] incidents)
   (compojure/ANY "/api/status" [] status))

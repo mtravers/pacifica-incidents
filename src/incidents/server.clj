@@ -2,6 +2,7 @@
   (:require [ring.adapter.jetty :as jetty]
             [firealarm.core :as firealarm]
             [ring.middleware.jsonp :as jsonp]
+            [ring.middleware.resource :as res]
             [compojure.handler :as handler]
             [incidents.api :as api]
             [incidents.db :as db]))
@@ -15,6 +16,7 @@
 
 (def app
   (-> #'api/routes
+      (res/wrap-resource  "public")
       jsonp/wrap-json-with-padding
       handler/site
       wrap-exceptions))
