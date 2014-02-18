@@ -3,15 +3,15 @@
             [firealarm.core :as firealarm]
             [ring.middleware.jsonp :as jsonp]
             [compojure.handler :as handler]
-            [incidents.api :as api]))
+            [incidents.api :as api]
+            [incidents.db :as db]))
 
 
-(defonce srv (atom nil))
+(defonce srv (agent nil))
 
 (def wrap-exceptions
   (firealarm/exception-wrapper
    (firealarm/file-reporter "/tmp/web.log")))
-
 
 (def app
   (-> #'api/routes
@@ -21,9 +21,10 @@
 
 (defn start
   []
-  (future
-    (swap! srv (fn [s]
-                 (when (and s (.running s))
-                   (.stop s))
-                 ;; TODO: port in env/env
-                 (jetty/run-jetty #'app {:port 8000})))))
+  (db/db-init)
+  (send srv
+        (fn [s]
+          (when (and s (.isRunning s))
+            (.stop s))
+          ;; TODO: port in env/env
+          (jetty/run-jetty #'app {:port 8000, :join? false}))))
