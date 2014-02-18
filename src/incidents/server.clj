@@ -28,3 +28,11 @@
             (.stop s))
           ;; TODO: port in env/env
           (jetty/run-jetty #'app {:port 8000, :join? false}))))
+
+
+(comment
+
+  (start)
+
+
+  )
