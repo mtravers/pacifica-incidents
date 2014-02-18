@@ -1,6 +1,6 @@
 function map_init(lat, lng) {
     var myOptions = {
-		zoom: 10,
+		zoom: 12,
 		center: new google.maps.LatLng(lat,lng),
 		mapTypeId: google.maps.MapTypeId.ROADMAP
     };
@@ -57,5 +57,5 @@ function prepMarker(marker, incident, map, w) {
     });
 }
 
-$(document).ready(function() { map_init(37.6687476,-122.4836863)});
+$(document).ready(function() { map_init(37.621592, -122.4885218)});
 				   

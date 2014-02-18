@@ -4,18 +4,10 @@
             [incidents.db :as db]
             [incidents.utils :as utils]
             [incidents.geo :as geo]
+            [clojure.core.reducers :as r]
             [environ.core :as env]))
 
 
-;; XXX borken, must fix
-(defn simple-contains
-  [k re]
-  (->> @db/db
-       vals
-       (filter #(some->> % k (re-matches re)))
-       (sort-by :time)))
-
-;;;;;;
 
 
 (defn disposition-total
@@ -90,7 +82,7 @@
   []
   (for [[k v] (utils/key-set-counts (comp type :geo))]
     [(str k) v]))
-   
+
 
 
 (defn quick-status
@@ -152,6 +144,8 @@
        (take 10))
 
   (utils/all-keys @db/db :type)
+
+  (utils/simple-contains :description "Canyon")
   
   )
 
