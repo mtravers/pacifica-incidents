@@ -5,6 +5,7 @@
             [incidents.server :as srv]
             [taoensso.timbre :as log]
             [environ.core :as env]
+            [clojure.tools.trace :as trace]
             [utilza.repl :as urepl]
             [incidents.dl :as dl])
   (:gen-class))
@@ -13,6 +14,11 @@
 (log/merge-config! (:timbre-config env/env))
 
 
+;; IMPORTANT: enables the very very awesome use of clojure.tools.trace/trace-vars , etc
+;; and logs the output of those traces to whatever is configured for timbre at the moment!
+(alter-var-root #'clojure.tools.trace/tracer (fn [_]
+                                               (fn [name value]
+                                                 (log/debug name value))))
 
 (defn -main
   []
