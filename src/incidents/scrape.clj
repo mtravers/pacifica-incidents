@@ -11,6 +11,8 @@
 (defonce dl-agent (agent nil))
 
 (defn scrape-urls
+  "Takes a string with a parsable HTML page in it,
+   and returns a seq of maps of urls and dates."
   [s]
   (for [a  (-> s
                enlive/html-snippet
