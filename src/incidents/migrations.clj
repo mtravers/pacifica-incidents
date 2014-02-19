@@ -2,6 +2,7 @@
   (:require [incidents.db :as db]
             [taoensso.timbre :as log]
             [incidents.geo :as geo]
+            [incidents.scrape :as scrape]
             [incidents.parse :as parse]))
 
 ;; THese things are migrations, but not really, because
@@ -95,17 +96,7 @@
                  java.io.File.
                  .listFiles)
           :when (->> f .toString  (re-find #".*PPDdailymediabulletin.+.pdf"))]
-    (let [fname (.toString f)]
-      (log/info fname)
-      (try
-        (-> fname
-            parse/pdf-to-text
-            parse/parse-pdf-text
-            (as-> items (doseq [{:keys [id] :as item} items]
-                          (swap! db/db (fn [db]
-                                         (assoc db id (geo/add-geo-and-address item)))))))
-        (catch Exception e
-          (log/error e)))))
+    (scrape/fetch-and-add-to-db! f))
   (db/save-data!))
 
 

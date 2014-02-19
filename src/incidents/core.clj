@@ -35,15 +35,13 @@
 (comment
 
   ;; cron job 1:
-  ;; for all dates
-  ;; check the db
-  ;; get the pdf if it isn't there
-  ;; parse the pdf and save to db
+  (scrape/start-pdf-downloading)
 
 
   ;; cron job 2
-  ;; (geo/update-geos)
+  (geo/start-geocoding)
 
+  
   (-main)
 
   )
