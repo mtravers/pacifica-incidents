@@ -1,5 +1,6 @@
 (ns incidents.migrations
   (:require [incidents.db :as db]
+            [taoensso.timbre :as log]
             [incidents.geo :as geo]
             [incidents.parse :as parse]))
 
@@ -65,10 +66,26 @@
   (db/save-data!))
 
 
+
+
+(defn- fix-non-numeric-keys
+  "A bunch of these ended up as strings, not numbers. why?"
+  []
+  (doseq [id (keys @db/db)
+          :when (and (-> id nil? not) ;; there's one bad id in there
+                     (string? id))]
+    (log/debug "fixing " id)
+    (swap! db/db (fn [db]
+                   (let [num-id (Long/parseLong id)]
+                     (-> db
+                         (dissoc id)
+                         (assoc num-id (assoc (get db id) :id num-id)))))))
+  (db/save-data!))
+
 (comment
 
-  (fix-overly-verbose-geos)
 
+  (fix-non-numeric-keys)
 
   
   )

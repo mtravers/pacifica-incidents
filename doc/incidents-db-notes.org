@@ -35,6 +35,8 @@ incidents reporting db notes
 **** pdfbox? http://stackoverflow.com/questions/18098400/how-to-get-raw-text-from-pdf-file-using-java
 	 java -jar pdfbox-app-1.8.4.jar ExtractText PPDdailymediabulletin2014-02-17.pdf 
 ***** it is fucked to do programatically, but shelling out as above seems to work fine.
+**** snowtide requires a license becasue clojure does stuff that makes it think it's multihtreaded.
+** TODO cron jobs
 * geo
 ** DONE fix the location, it's borken
 * cleanups
@@ -93,4 +95,4 @@ Expected one of:
 
 
 ** DONE save to database!
-** TODO cron jobs
+** DONE the id's are non-numeric on some records. fix that plz

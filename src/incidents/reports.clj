@@ -150,6 +150,13 @@
 
   (-> @db/db
       (get "120613195"))
+
+  ;; check for non-numeric keys
+  (->> @db/db
+       keys
+       (map type)
+       frequencies)
+
   
   )
 

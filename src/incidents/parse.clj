@@ -84,7 +84,7 @@
     (map (fn [m] (update-in m  [:time] #(fix-time date %))) recs)))
 
 
-(def transforms {:id  (comp clojure.edn/read-string str)
+(def transforms {:id  (comp clojure.edn/read-string str) ;; TODO: parseLong?
                  :time #(tfmt/parse
                          (tfmt/with-zone
                            (tfmt/formatters :hour-minute)
