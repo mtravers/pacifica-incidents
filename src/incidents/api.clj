@@ -77,7 +77,6 @@
 
 
 (compojure/defroutes routes
-  (compojure/ANY "/incidents" [] incidents) ;; depreciated
   (compojure/ANY "/api" [] incidents)
   (compojure/ANY "/api/dates" [] min-max-timestamps)
   (compojure/ANY "/api/status" [] status))
