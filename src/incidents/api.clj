@@ -45,12 +45,26 @@
     xs))
 
 
+(defn- with-types
+  [{:keys [typess]} xs]
+  ;; TODO: filter #{} set of types supplied
+  )
+
+(defn- with-search-string
+  "filter results based on search string"
+  [{:keys [search]} xs]
+  ;; TODO: filter #(utils/simple-contains :description search)
+  ;; TODO: will need to mod simple-contains to take the vals supplied
+  )
+
 (defn get-all
   [params]
   (->> @db/db
        vals
        (with-geo params)
        (with-dates params)
+       ;;(with-search-string params)
+       ;;(with-types params)
        (sort-by :time)
        reverse
        (with-count params) ;; must be last before serializing
@@ -65,6 +79,8 @@
   (->> (let [sorted (->> @db/db
                          vals
                          (with-dates params)
+                         ;;(with-search-string params)
+                         ;;(with-types params)
                          (sort-by :time)
                          reverse)]
          (for [geo  (utils/all-keys @db/db :geo)]
@@ -116,6 +132,8 @@
                (get-geos params)))
 
 
+;; TODO: api endpoint for types, to be used for checkbox searches
+;; TODO: api endpoints for (reports/disposition-counts), (reports/type-counts), maybe (reports/address-counts)?
 (compojure/defroutes routes
   (compojure/ANY "/api" [] incidents)
   (compojure/ANY "/api/geos" [] geos)
