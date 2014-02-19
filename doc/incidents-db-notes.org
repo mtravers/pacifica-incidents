@@ -29,7 +29,11 @@ incidents reporting db notes
 *** DONE just handle all the id's as a group
 *** DONE use a try/catch: if instaparse fails on well-formed parser, use the shitty parser
 ** TODO make the code do the downloading
-*** TODO use wget, nevermind all this clj-http, it's unnecessary
+*** TODO will need enlive
+*** TODO will need to parse out the existing dates in db and disj them.
+*** TODO better parsing?
+**** pdfbox? http://stackoverflow.com/questions/18098400/how-to-get-raw-text-from-pdf-file-using-java
+	 java -jar pdfbox-app-1.8.4.jar ExtractText PPDdailymediabulletin2014-02-17.pdf 
 * geo
 ** DONE fix the location, it's borken
 * cleanups
