@@ -96,3 +96,10 @@ Expected one of:
 
 ** DONE save to database!
 ** DONE the id's are non-numeric on some records. fix that plz
+* api endpoints
+** TODO counts of types/dispositions/addresses
+** TODO keys for types/dispositions/addresses
+** TODO constrain by types/disposition/addresses
+** TODO constrain by lat-min, lat-max, long-min, long-max
+** TODO individual incident by id
+   (for details? not sure why?)
