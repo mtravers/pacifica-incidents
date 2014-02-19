@@ -30,12 +30,13 @@ incidents reporting db notes
 *** DONE use a try/catch: if instaparse fails on well-formed parser, use the shitty parser
 ** TODO make the code do the downloading
 *** TODO will need enlive
-*** TODO will need to parse out the existing dates in db and disj them.
-*** TODO better parsing?
-**** pdfbox? http://stackoverflow.com/questions/18098400/how-to-get-raw-text-from-pdf-file-using-java
+*** TODO will need to parse out the existing dates in db and disj them against what enlive is offering
+*** better parsing?
+**** DONE pdfbox? http://stackoverflow.com/questions/18098400/how-to-get-raw-text-from-pdf-file-using-java
 	 java -jar pdfbox-app-1.8.4.jar ExtractText PPDdailymediabulletin2014-02-17.pdf 
-***** it is fucked to do programatically, but shelling out as above seems to work fine.
 **** snowtide requires a license becasue clojure does stuff that makes it think it's multihtreaded.
+**** TODO now have to update the EBNF grammar to make it deal with the new, better format.
+**** TODO and test everything.
 ** TODO cron jobs
 * geo
 ** DONE fix the location, it's borken
