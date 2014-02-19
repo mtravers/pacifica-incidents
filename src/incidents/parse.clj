@@ -1,6 +1,7 @@
 (ns incidents.parse
   (:import org.joda.time.DateTime
            java.util.Date
+           java.net.URL
            org.apache.pdfbox.pdmodel.PDDocument
            org.apache.pdfbox.util.PDFTextStripper)
   (:require [instaparse.core :as ip]
@@ -299,8 +300,11 @@
   (pdf-to-text "/mnt/sdcard/tmp/policelogs/PPDdailymediabulletin2013-03-23.pdf")
   (pdf-to-text (clojure.java.io/input-stream "/mnt/sdcard/tmp/policelogs/PPDdailymediabulletin2013-03-23.pdf"))
 
-
-  (pdf-to-text  "http://localhost/PPDdailymediabulletin2013-03-23.pdf")
+  
+  ;; WIN!
+  (-> "http://localhost/PPDdailymediabulletin2013-03-23.pdf"
+      java.net.URL.
+      pdf-to-text )
 
   
   ;;(publics 'clojure.java.io)
