@@ -167,7 +167,10 @@
        (take 10))
 
   (utils/all-keys @db/db :type)
-
+  (utils/all-keys @db/db :disposition)
+  (utils/all-keys @db/db :geo)
+  (utils/all-keys @db/db :address)
+  
   (utils/simple-contains :description "Canyon")
 
 
