@@ -12,16 +12,14 @@
 
 (defn scrape-urls
   [s]
-  (let [re #".*PPDdailymediabulletin.*?(\d+-\d+-\d+).*?pdf"]
-    (for [a  (-> s
-                 enlive/html-snippet
-                 (enlive/select [:a]))
-          :let [href (-> a :attrs :href)]
-          :when (re-find re href) ]
-      (let [[url date] (re-matches re href)]
-        ;; TODO: make sure these urls are either absolute or add a host to them!!
-        {:url url
-         :date date}))))
+  (for [a  (-> s
+               enlive/html-snippet
+               (enlive/select [:a]))]
+    (when-let [[url date] (some->> a :attrs :href
+                                   (re-matches #".*PPDdailymediabulletin.*?(\d+-\d+-\d+).*?pdf" ))]
+      ;; TODO: make sure these urls are either absolute or add a host to them!!
+      {:url url
+       :date date})))
 
 
 (defn filter-not-in-db
@@ -74,6 +72,10 @@
                            get-all-pdfs! ))))
 
 (comment
+
+  (-> "/mnt/sdcard/tmp/logs/policelogs.html"
+      slurp
+      scrape-urls)
   
   (get-all-pdfs! "/mnt/sdcard/tmp/logs/policelogs.html")
   
