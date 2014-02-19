@@ -49,14 +49,27 @@
                  :query-string "count=2"})
        :body
        json/decode)
-  
+
+  (->> (srv/app {:uri "/api/geos"
+                 :request-method :get
+                 :query-string "count=2"})
+       :body
+       json/decode)  
 
   (->> (srv/app {:uri "/api"
                  :request-method :get
                  :query-string "count=5&min=1338366000000&max=1392013560000"})
        :body
        json/decode)
+
   
+  (->> (srv/app {:uri "/api"
+                 :request-method :get
+                 :query-string "lat=37.6408391&lng=-122.4903562"})
+       :body
+       json/decode)
+  
+
 
   (->> (srv/app {:uri "/api/dates"
                  :request-method :get})
