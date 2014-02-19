@@ -90,8 +90,8 @@
 
 (defn new-parsing-system
   "Use the new pdf parsing library"
-  []
-  (doseq [f (->> "/mnt/sdcard/tmp/logs/policelogs"
+  [file-dir]
+  (doseq [f (->> file-dir
                  java.io.File.
                  .listFiles)
           :when (->> f .toString  (re-find #"PPDdailymediabulletin.+.pdf"))]
@@ -112,7 +112,7 @@
 
 (comment
 
-  (def running-test (future new-parsing-system))
+  (def running-test (future new-parsing-system "/mnt/sdcard/tmp/logs/policelogs"))
   
   (future-cancel running-test)
 
