@@ -22,6 +22,11 @@
 
   (get-all {:count "1"})
 
+;; DOH!
+  (for [i  (get-all {:count "10"})]
+    (-> i
+        :time
+        DateTime.))
 
   (->> (srv/app {:uri "/api/status"
                  :request-method :get})

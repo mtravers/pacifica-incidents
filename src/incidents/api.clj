@@ -38,9 +38,9 @@
   (->> @db/db
        vals
        (with-dates params)
-       (with-count params)
        (sort-by :time)
        reverse
+       (with-count params) ;; must be last before serializing
        serialize-for-json))
 
 
