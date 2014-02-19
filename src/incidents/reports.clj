@@ -105,12 +105,25 @@
   []
   (utils/total-not-null-counts :address))
 
+(defn  geo-counts
+  []
+  (utils/key-set-counts @db/db :geo))
+
 (defn botchy-geos
   []
   (for [[k v] (utils/key-set-counts @db/db (comp type :geo))]
     [(str k) v]))
 
 
+(defn most-recent-by-geo
+  []
+  (for [geo  (utils/all-keys @db/db :geo)]
+    (->> @db/db
+         vals
+         (filter #(= (:geo %) geo))
+         (sort-by :time)
+         reverse
+         first)))
 
 (defn quick-status
   []
@@ -147,8 +160,13 @@
   (days-total)
   
   (total-addresses)
+  (address-counts)
+
+  (geo-counts)
+
   (future
-    (->> (address-counts)
+    (->> (most-recent-by-geo)
+         time
          (urepl/massive-spew "/tmp/output.edn")))
 
   
@@ -181,13 +199,9 @@
        frequencies)
 
   
+  
 
-  (->> @db/db
-       keys
-       (map type)
-       frequencies)
-
-
+  
 
   
   )
