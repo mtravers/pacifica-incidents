@@ -10,9 +10,11 @@
           (r/map k (-> db vals))))
 
 (defn key-set-counts
-  [k]
-  (->> (for [d (all-keys @db/db k)]
-         [d (reduce (fn [c _] (inc c))  0 (r/filter (partial = d) (r/map k (vals @db/db))))])
+  [db k]
+  (->> db
+       vals
+       (map k)
+       frequencies
        (sort-by second)
        reverse))
 

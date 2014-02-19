@@ -17,7 +17,7 @@
 
 (defn disposition-counts
   []
-  (utils/key-set-counts :disposition))
+  (utils/key-set-counts @db/db :disposition))
 
 (defn types-total
   []
@@ -26,7 +26,7 @@
 
 (defn type-counts
   []
-  (utils/key-set-counts :type))
+  (utils/key-set-counts @db/db :type))
 
 (defn geo-total
   []
@@ -55,7 +55,7 @@
   []
   (let [total (total-records)]
     (reduce (fn [a k]
-              (assoc a k  (- total (utils/key-set-counts k))))
+              (assoc a k  (- total (utils/key-set-counts @db/db k))))
             {}
             [:description :type :disposition])))
 
@@ -99,7 +99,7 @@
 
 (defn  address-counts
   []
-  (utils/key-set-counts :address))
+  (utils/key-set-counts @db/db :address))
 
 (defn total-addresses
   []
@@ -107,7 +107,7 @@
 
 (defn botchy-geos
   []
-  (for [[k v] (utils/key-set-counts (comp type :geo))]
+  (for [[k v] (utils/key-set-counts @db/db (comp type :geo))]
     [(str k) v]))
 
 
@@ -179,7 +179,10 @@
 
   
 
-
+  (->> @db/db
+       keys
+       (map type)
+       frequencies)
 
 
 
