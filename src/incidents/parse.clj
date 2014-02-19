@@ -1,6 +1,8 @@
 (ns incidents.parse
   (:import org.joda.time.DateTime
-           java.util.Date)
+           java.util.Date
+           org.apache.pdfbox.pdmodel.PDDocument
+           org.apache.pdfbox.util.PDFTextStripper)
   (:require [instaparse.core :as ip]
             [clojure.string :as s]
             [clojure.edn :as edn]
@@ -12,6 +14,15 @@
             [utilza.misc :as umisc]
             [utilza.repl :as urepl]))
 
+
+(defn pdf-to-text
+  "Turns a pdf into sweet, sweet text"
+  [in]
+  (-> (doto (PDFTextStripper. "UTF-8")
+        (.setForceParsing true)
+        (.setSortByPosition false)
+        (.setShouldSeparateByBeads true))
+      (.getText  (PDDocument/load  in true))))
 
 
 ;; XXX this wouldn't be necessary if there were a way
@@ -282,9 +293,16 @@
 
 (comment
   
-  (first (clojure.string/split  "Report Taken. PDF created with pdfFactory trial version www.pdffactory.com PACIFICA POLICE DEPARTMENT MEDIA BULLETIN DAILY --- Tuesday, August 14, 2012"
-                                #"PDF created with pdfFactory.*"))
+  
   
 
+  (pdf-to-text "/mnt/sdcard/tmp/policelogs/PPDdailymediabulletin2013-03-23.pdf")
+  (pdf-to-text (clojure.java.io/input-stream "/mnt/sdcard/tmp/policelogs/PPDdailymediabulletin2013-03-23.pdf"))
 
+
+  (pdf-to-text  "http://localhost/PPDdailymediabulletin2013-03-23.pdf")
+
+  
+  ;;(publics 'clojure.java.io)
+  
   )

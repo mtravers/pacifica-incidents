@@ -131,10 +131,11 @@
 (comment
 
   ;; (redo-tests) ;; evil, but necessary
-  
+
 
   (run-tests)
 
-
+  (first (clojure.string/split  "Report Taken. PDF created with pdfFactory trial version www.pdffactory.com PACIFICA POLICE DEPARTMENT MEDIA BULLETIN DAILY --- Tuesday, August 14, 2012"
+                                #"PDF created with pdfFactory.*"))
 
   )
