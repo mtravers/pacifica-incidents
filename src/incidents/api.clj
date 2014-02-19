@@ -101,7 +101,7 @@
   :see-other (fn [context]
                (:new-url context))
   :handle-ok (fn [{{:keys [params]} :request}]
-               (log/debug params)
+               ;;(log/debug params) don't even need this.
                (get-all params)))
 
 
