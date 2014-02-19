@@ -241,10 +241,15 @@
  {:time #inst "2013-03-24T03:13:00.000-00:00",
   :type "Citizen Assist",
   :id 130323212,
-  :disposition
-  "Log Note Only. 19:50  Susp Circ 911                                         130323220 Occurred on Linda Mar Bl, Pacifica. hang up from pay  phone. . Disposition: Checks Ok.",
+  :disposition "Log Note Only.",
   :description
   "Officer initiated activity at Carmel Av/Palmetto Av,  Pacifica.FD. ."}
+ {:time #inst "2013-03-24T03:50:00.000-00:00",
+  :type "Susp Circ 911",
+  :id 130323220,
+  :disposition "Checks Ok.",
+  :description
+  "Occurred on Linda Mar Bl, Pacifica. hang up from pay  phone. ."}
  {:time #inst "2013-03-24T04:19:00.000-00:00",
   :type "Dist Others",
   :id 130323223,
