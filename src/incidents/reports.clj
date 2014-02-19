@@ -92,7 +92,7 @@
    :total-dispositions (disposition-total)
    :total-descriptions (description-total)
    :total-geos (geo-total)
-   :botchy-geos (botchy-geos)
+   ;; :botchy-geos (botchy-geos) ;; not really an issue anymore
    :total-addresses (total-addresses)
    :min-max-dates   (dates-min-max)})
 
