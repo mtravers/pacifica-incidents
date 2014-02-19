@@ -1,0 +1,12 @@
+recs = header rec+
+
+rec =  topline (!topline description)+ header*
+
+topline = #"(\d+:\d+)\s+(.*?)\s+(\d+)\n" 
+
+description = #".+" <nl>
+
+
+<header> = <"PACIFICA POLICE DEPARTMENT" <nl> "MEDIA BULLETIN"> <nl> hdate
+hdate = <#"DAILY\s+---\s+">* <#"\S+, "> #"\S+ \d+, \d+" <nl>
+<nl> =  #"\n+"

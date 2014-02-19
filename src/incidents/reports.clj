@@ -98,9 +98,7 @@
 
 (comment
 
-  (simple-contains :description #"Canyon")
-
-  (total-records)
+   (total-records)
   (spot-check)
   
   (types-total)

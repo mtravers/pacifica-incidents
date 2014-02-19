@@ -76,6 +76,7 @@
 
 
 (defn add-geo-and-address
+  "Takes an item map. Returns the item map with geocode data and address inserted."
   [item]
   {:pre [(map? item)]}
   (some->> item

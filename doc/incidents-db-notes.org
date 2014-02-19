@@ -34,9 +34,9 @@ incidents reporting db notes
 *** better parsing?
 **** DONE pdfbox? http://stackoverflow.com/questions/18098400/how-to-get-raw-text-from-pdf-file-using-java
 	 java -jar pdfbox-app-1.8.4.jar ExtractText PPDdailymediabulletin2014-02-17.pdf 
-**** snowtide requires a license becasue clojure does stuff that makes it think it's multihtreaded.
-**** TODO now have to update the EBNF grammar to make it deal with the new, better format.
-**** TODO and test everything.
+**** snowtide requires a license becasue clojure does stuff that makes it think it's multihtreaded.*
+*** DONE now have to update the EBNF grammar to make it deal with the new, better format.
+**** DONE and test everything.
 ** TODO cron jobs
 * geo
 ** DONE fix the location, it's borken
@@ -97,6 +97,7 @@ Expected one of:
 
 ** DONE save to database!
 ** DONE the id's are non-numeric on some records. fix that plz
+** TODO the pdf you did not close error is very annoying
 * api endpoints
 ** TODO counts of types/dispositions/addresses
 ** TODO keys for types/dispositions/addresses

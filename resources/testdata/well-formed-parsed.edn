@@ -1,299 +1,319 @@
-({:disposition "Log Note Only.",
+({:time #inst "2013-03-23T08:45:00.000-00:00",
+  :type "Suspicious Vehicle",
+  :id 130323013,
+  :disposition "Log Note Only.",
   :description
-  "Occurred on Monterey Rd, Pacifica. RP SOUNDS 1051 // REPORTING HIS BROTHER IS 1051 AND VIOLENT // BROTHER IS IN BEDROOM // RP CALLING FROM LIVING RM // NO WEAPONS // RP WILL OPEN DOOR FOR OFC'S",
-  :id 140205007,
-  :type "Dist Family",
-  :time #inst "2014-02-05T09:27:00.000-00:00"}
- {:disposition "Report Taken.",
-  :description "Officer initiated activity at Eastridge Cr, Pacifica.",
-  :id 140205011,
-  :type "Vehicle Stored",
-  :time #inst "2014-02-05T10:29:00.000-00:00"}
- {:disposition "Unfounded.",
-  :description
-  "Occurred on Edgemar Av, Pacifica. Yellow toyota pu // 72 hours.",
-  :id 140205025,
-  :type "Traffic Law Abandoned",
-  :time #inst "2014-02-05T12:03:00.000-00:00"}
- {:disposition "Log Note Only.",
-  :description
-  "Occurred on Moana Wy, Pacifica. Blue honda // 3 weeks plymouth",
-  :id 140205026,
-  :type "Traffic Law Abandoned",
-  :time #inst "2014-02-05T12:04:00.000-00:00"}
- {:disposition "Log Note Only.",
-  :description
-  "Occurred on Kings Canyon Wy, Pacifica. SIL FORD FOCUS // 2 WEEKS",
-  :id 140205029,
-  :type "Traffic Law Abandoned",
-  :time #inst "2014-02-05T12:07:00.000-00:00"}
- {:disposition "Gone On Arrival.",
-  :description
-  "Occurred on Gateway Dr, Pacifica. GOLD CHRYSLER // NO PLATES // 2 WEEKS.",
-  :id 140205030,
-  :type "Traffic Law Abandoned",
-  :time #inst "2014-02-05T12:08:00.000-00:00"}
- {:disposition "Citation.",
-  :description
-  "Occurred on Palmetto Av. , Pacifica. RED JEEP // 3 DAYS.",
-  :id 140205031,
-  :type "Traffic Law Abandoned",
-  :time #inst "2014-02-05T12:09:00.000-00:00"}
- {:disposition "Log Note Only.",
-  :description
-  "Officer initiated activity at Milagra Dr, Pacifica.Out w 1.",
-  :id 140205032,
+  "Officer initiated activity at Linda Mar Center, Pacifica.  ."}
+ {:time #inst "2013-03-23T08:56:00.000-00:00",
   :type "Subject Stop",
-  :time #inst "2014-02-05T12:11:00.000-00:00"}
- {:disposition "Checks Ok.",
+  :id 130323017,
+  :disposition "Log Note Only.",
   :description
-  "Officer initiated activity at Sunset Ridge Elementary School, Inverness Dr, Pacifica. .",
-  :id 140205061,
-  :type "School Check",
-  :time #inst "2014-02-05T16:30:00.000-00:00"}
- {:disposition "Abated/Advised.",
-  :description
-  "Officer initiated activity at Sharp Park Rd/Gypsy Hill Rd, Pacifica. .",
-  :id 140205069,
-  :type "Traffic Law Vehicle",
-  :time #inst "2014-02-05T16:45:00.000-00:00"}
- {:disposition "Checks Ok.",
-  :description
-  "Officer initiated activity at Ortega School, Terra Nova Bl, Pacifica. .",
-  :id 140205083,
-  :type "School Check",
-  :time #inst "2014-02-05T17:13:00.000-00:00"}
- {:disposition "Parking Cite.",
-  :description
-  "Officer initiated activity at El Dorado Dr, Pacifica. .",
-  :id 140205086,
-  :type "Traffic Law Vehicle",
-  :time #inst "2014-02-05T17:23:00.000-00:00"}
- {:disposition "Checks Ok.",
-  :description
-  "Officer initiated activity at Ocean Shore Elementary School, Oceana Bl, Pacifica. .",
-  :id 140205088,
-  :type "School Check",
-  :time #inst "2014-02-05T17:33:00.000-00:00"}
- {:disposition "Checks Ok.",
-  :description
-  "Officer initiated activity at Terra Nova High School, Terra Nova Bl, Pacifica. .",
-  :id 140205091,
-  :type "School Check",
-  :time #inst "2014-02-05T17:39:00.000-00:00"}
- {:disposition "Checks Ok.",
-  :description
-  "Officer initiated activity at Vallemar School, Reina Del Mar Av, Pacifica. .",
-  :id 140205092,
-  :type "School Check",
-  :time #inst "2014-02-05T17:49:00.000-00:00"}
- {:disposition "Cancelled.",
-  :description
-  "Officer initiated activity at Oceana High School, Paloma Av, Pacifica. .",
-  :id 140205096,
-  :type "School Check",
-  :time #inst "2014-02-05T18:00:00.000-00:00"}
- {:disposition "Checks Ok.",
-  :description
-  "Officer initiated activity at Alma Heights Jr/Sr High School, Linda Mar Bl, Pacifica. .",
-  :id 140205097,
-  :type "School Check",
-  :time #inst "2014-02-05T18:03:00.000-00:00"}
- {:disposition "Checks Ok.",
-  :description
-  "Officer initiated activity at Cabrillo School, Crespi Dr, Pacifica. .",
-  :id 140205099,
-  :type "School Check",
-  :time #inst "2014-02-05T18:09:00.000-00:00"}
- {:disposition "Disregard From Alarm Company.",
-  :description "Occurred on Yellowstone Wy, Pacifica.",
-  :id 140205104,
-  :type "Alarm",
-  :time #inst "2014-02-05T18:21:00.000-00:00"}
- {:disposition "Checks Ok.",
-  :description
-  "Officer initiated activity at Ingrid B Lacy Middle School, Palmetto Av, Pacifica. .",
-  :id 140205105,
-  :type "School Check",
-  :time #inst "2014-02-05T18:25:00.000-00:00"}
- {:disposition "Log Note Only.",
-  :description
-  "Officer initiated activity at Cabrillo Hwy/Sharp Park Rd, Pacifica.",
-  :id 140205127,
-  :type "Traffic Law Vehicle",
-  :time #inst "2014-02-05T19:56:00.000-00:00"}
- {:disposition "Log Note Only. ",
-  :description
-  "Occurred on Brighton Rd, Pacifica. having problem w neighbor",
-  :id 140205133,
-  :type "Dist Neighbors",
-  :time #inst "2014-02-05T20:11:00.000-00:00"}
- {:disposition "Report Taken.",
-  :description
-  "Occurred on Amapola Av, Pacifica. RP'S VEH UNLOCKED CAR RANSACKED 664/488",
-  :id 140205135,
-  :type "Petty Theft",
-  :time #inst "2014-02-05T20:19:00.000-00:00"}
- {:disposition "Cancelled.",
-  :description "Occurred on Crespi Dr. , Pacifica.",
-  :id 140205136,
-  :type "Susp Circ 911",
-  :time #inst "2014-02-05T20:21:00.000-00:00"}
- {:disposition "Log Note Only.",
-  :description
-  "Occurred on Cervantes Wy, Pacifica. RP ADVISING SUB IS ON THE PROPERTY NOT SUPPOSSED TO BE THERE HOUSE WAS RED TAGGED HE IS HANGING OUT IN BACKYARD.",
-  :id 140205151,
-  :type "Dist Others",
-  :time #inst "2014-02-05T21:32:00.000-00:00"}
- {:disposition "Log Note Only.",
-  :description
-  "Occurred on Santa Rosa Av, Pacifica. Barking dog/on going problem all day long",
-  :id 140205166,
+  "Officer initiated activity at Cabrillo Hwy, Pacifica. . "}
+ {:time #inst "2013-03-23T09:17:00.000-00:00",
   :type "SPCA Case",
-  :time #inst "2014-02-05T22:30:00.000-00:00"}
- {:disposition "Log Note Only.",
-  :description
-  "Occurred on Yosemite Dr, Pacifica. Male subj lives here/ garage been open 24 hrs",
-  :id 140205187,
-  :type "Welfare Check",
-  :time #inst "2014-02-05T23:54:00.000-00:00"}
- {:disposition "Parking Cite.",
-  :description
-  "Occurred on Juanita Av, Pacifica. Veh parked wrong way/ blk linc towncar",
-  :id 140205193,
-  :type "Traffic Law Vehicle",
-  :time #inst "2014-02-06T00:19:00.000-00:00"}
- {:disposition "Gone On Arrival.",
-  :description
-  "Occurred on Fairway Dr, Pacifica. Door to door solicitor / 2 ago/bma young male nfd - last seen on foot twds seaside",
-  :id 140205196,
-  :type "Suspicious Circumstances",
-  :time #inst "2014-02-06T00:35:00.000-00:00"}
- {:disposition "Log Note Only.",
-  :description
-  "Occurred on Capistrano Dr, Pacifica. Sidewalk blocked by green pick up truck trailer w flat tires and no reg and garbage all over sidewalk",
-  :id 140205199,
-  :type "Traffic Law Vehicle",
-  :time #inst "2014-02-06T00:41:00.000-00:00"}
- {:disposition "Log Note Only.",
-  :description
-  "Occurred on Lerida Wy, Pacifica. Sm black honda 2dr 2 subjs inside passing a pipe / music heard frm car",
-  :id 140205204,
-  :type "Narcotics",
-  :time #inst "2014-02-06T01:07:00.000-00:00"}
- {:disposition "Log Note Only.",
-  :description
-  "Occurred on Nelson Av, Pacifica. Yellow house on nelson w back door open all night/dogs not around either",
-  :id 140205211,
-  :type "Suspicious Circumstances",
-  :time #inst "2014-02-06T01:22:00.000-00:00"}
- {:disposition "Log Note Only.",
-  :description
-  "Occurred on Fassler Av, Pacifica. Lg piece of equipment on rt side doesn't look safely parked rp wants it checked",
-  :id 140205214,
-  :type "Traffic Law Vehicle",
-  :time #inst "2014-02-06T01:28:00.000-00:00"}
- {:disposition "Report Taken.",
-  :description "Officer initiated activity at Oddstad Bl, Pacifica. .",
-  :id 140205218,
-  :type "Dist Domestic",
-  :time #inst "2014-02-06T01:43:00.000-00:00"}
- {:disposition "Log Note Only.",
-  :description
-  "Occurred on Avalon Dr, Pacifica. House in forclosure/ people going in and out/car parked in front right now and someone inside the home now/ car - acura or nissan dk blue",
-  :id 140205219,
-  :type "Suspicious Circumstances",
-  :time #inst "2014-02-06T01:44:00.000-00:00"}
- {:disposition "Gone On Arrival.",
-  :description
-  "Occurred on Alta Vista Dr, Pacifica. Kids selling magazines headed s/b/ bmj blu shirt whi pants.",
-  :id 140205231,
-  :type "Muni Code Violation",
-  :time #inst "2014-02-06T02:18:00.000-00:00"}
- {:disposition "Log Note Only.",
-  :description
-  "Occurred at Montecito Av/Palmetto Av, Pacifica. Back pack on bus stop bench/ reported by passer by. .",
-  :id 140205232,
-  :type "Property Incident",
-  :time #inst "2014-02-06T02:27:00.000-00:00"}
- {:disposition "Report Taken.",
-  :description
-  "Occurred on Beach Bl, Pacifica. 2nd hand report -- occ 10-15 ago -- 2 people attempted to break into or attempt to steal the rp's wife vehicle while she was inside the vehicle -- she started the vehicle and took off but is home now -- requesting area check only at this time desc: 2 subjects (unknown male or female) med build wearing denim pants -- nfd",
-  :id 140205238,
-  :type "Suspicious Circumstances",
-  :time #inst "2014-02-06T03:02:00.000-00:00"}
- {:disposition "Log Note Only. ",
-  :description
-  "Occurred on Crespi Dr, Pacifica. bma or middle eastern 25 yrs whi and blk jkt 5'7 blk cap was verbal with rp mustached and glasses.",
-  :id 140205245,
-  :type "Muni Code Violation",
-  :time #inst "2014-02-06T03:24:00.000-00:00"}
- {:disposition "Log Note Only.",
-  :description
-  "Officer initiated activity at Clarendon Rd/Francisco Bl, Pacifica.",
-  :id 140205247,
-  :type "Subject Stop",
-  :time #inst "2014-02-06T03:38:00.000-00:00"}
- {:disposition "Checks Ok.",
-  :description "Occurred at Pacific Manor Ctr. , Pacifica.",
-  :id 140205255,
-  :type "Alarm",
-  :time #inst "2014-02-06T04:21:00.000-00:00"}
- {:disposition "False Alarm.",
-  :description "Occurred on View Point Ct. , Pacifica.",
-  :id 140205266,
-  :type "Alarm",
-  :time #inst "2014-02-06T05:07:00.000-00:00"}
- {:disposition "Log Note Only.",
-  :description
-  "Occurred on Cervantes Wy, Pacifica. House is red tagged / no one should be on the premise unless its between the hrs 19-2000hrs - 2 subjs",
-  :id 140205267,
-  :type "Muni Code Violation",
-  :time #inst "2014-02-06T05:07:00.000-00:00"}
- {:disposition "Log Note Only.",
-  :description
-  "Occurred at Roberts Rd/Fassler Av, Pacifica. POSS DUI - SIL DODG RAM UNK PLATE DRIVING AT HIGH RATE OF SPEED AND WAS SWERVING LS MAKING A RIGHT ON ROBERTS",
-  :id 140205276,
-  :type "Traffic Law Vehicle",
-  :time #inst "2014-02-06T05:52:00.000-00:00"}
- {:disposition "Gone On Arrival.",
-  :description
-  "Occurred on Esplanade Av, Pacifica. Loud truck was idiling in front but has since taken off twds manor -- saw subj get into the passenger side with a laptop -- nfd -- concerned because house was 459's a few weeks ago -area check only",
-  :id 140205283,
+  :id 130323027,
+  :disposition "Log Note Only.",
+  :description "Occurred on Avalon Dr. , Pacifica. Barking dog. . "}
+ {:time #inst "2013-03-23T09:39:00.000-00:00",
   :type "Suspicious Vehicle",
-  :time #inst "2014-02-06T06:37:00.000-00:00"}
- {:disposition "Gone On Arrival.",
+  :id 130323034,
+  :disposition "Log Note Only.",
   :description
-  "Occurred at Cabrillo Hwy/Linda Mar Bl, Pacifica. Red chevy tahoe doing doughnuts on linda mar/on the beach side",
-  :id 140205286,
+  "Officer initiated activity at Ivy Av/Reichling Av,  Pacifica. ."}
+ {:time #inst "2013-03-23T09:58:00.000-00:00",
+  :type "Subject Stop",
+  :id 130323038,
+  :disposition "Log Note Only.",
+  :description "Officer initiated activity at Hickey Bl, Pacifica. . "}
+ {:time #inst "2013-03-23T10:27:00.000-00:00",
+  :type "DUI",
+  :id 130323042,
+  :disposition "Arrest Made.",
+  :description "Officer initiated activity at Hickey Bl, Pacifica. . "}
+ {:time #inst "2013-03-23T12:00:00.000-00:00",
+  :type "SPCA Case",
+  :id 130323046,
+  :disposition "Checks Ok.",
+  :description "Occurred on Juanita Av, Pacifica. Barking dog "}
+ {:time #inst "2013-03-23T12:09:00.000-00:00",
+  :type "Traffic Law Abandoned",
+  :id 130323050,
+  :disposition "Citation.",
+  :description
+  "Occurred on Linda Mar Bl, Pacifica. Tan toy corolla  parked for 6-7 days. ."}
+ {:time #inst "2013-03-23T12:10:00.000-00:00",
+  :type "Traffic Law Abandoned",
+  :id 130323051,
+  :disposition "Citation.",
+  :description
+  "Occurred on Crespi Dr, Pacifica. Rv and trailer  parked  for a year. ."}
+ {:time #inst "2013-03-23T12:10:00.000-00:00",
+  :type "Traffic Law Abandoned",
+  :id 130323052,
+  :disposition "Citation.",
+  :description
+  "Occurred on Crespi Dr, Pacifica. Rv parked for 1 year. . "}
+ {:time #inst "2013-03-23T12:13:00.000-00:00",
+  :type "Traffic Law Abandoned",
+  :id 130323054,
+  :disposition "Citation.",
+  :description
+  "Occurred at Across From on Hickey Bl. , Pacifica. Boat  and assoc white sed"}
+ {:time #inst "2013-03-23T12:14:00.000-00:00",
+  :type "Traffic Law Abandoned",
+  :id 130323055,
+  :disposition "Gone On Arrival.",
+  :description
+  "Occurred at Parkview Cr/Hickey Bl, Pacifica. Sil olds  parked for a month"}
+ {:time #inst "2013-03-23T14:47:00.000-00:00",
+  :type "Alarm",
+  :id 130323065,
+  :disposition " Checks Ok.",
+  :description
+  "Occurred on Reina Del Mar Av. , Pacifica. Audible // to  whole building // pending notification //"}
+ {:time #inst "2013-03-23T15:12:00.000-00:00",
+  :type "Malicious Mischief",
+  :id 130323067,
+  :disposition "Report Taken.",
+  :description
+  "Occurred on Rosita Rd, Pacifica. Graffiti on rp's house "}
+ {:time #inst "2013-03-23T15:58:00.000-00:00",
   :type "Traffic Law Vehicle",
-  :time #inst "2014-02-06T06:50:00.000-00:00"}
- {:disposition "Referred To Other Agency.",
+  :id 130323075,
+  :disposition "Checks Ok.",
   :description
-  "Occurred on Linda Mar Bl/Cabrillo Hwy. , Pacifica. Traffic light out on linda mar ifo center.",
-  :id 140205288,
-  :type "Special Service",
-  :time #inst "2014-02-06T07:03:00.000-00:00"}
- {:disposition "Log Note Only.",
-  :description "Occurred on Skyline Bl. , Pacifica. Loud music",
-  :id 140205290,
+  "Occurred on Linda Mar Bl, Pacifica. Nails in street //  from sheila dr to linda mar // rp believes it is a driving  hazard"}
+ {:time #inst "2013-03-23T16:09:00.000-00:00",
+  :type "Suspicious Circumstances",
+  :id 130323078,
+  :disposition "Report Taken.",
+  :description
+  "Officer initiated activity at Peralta Rd, Pacifica. . "}
+ {:time #inst "2013-03-23T17:28:00.000-00:00",
+  :type "Suspicious Circumstances",
+  :id 130323091,
+  :disposition "Log Note  Only.",
+  :description
+  "Occurred on Alta Vista Dr, Pacifica. Rp reports a sharp  metal obj placed ifo tire // frnt right tire // believes  someone placed it there to damage his tire // would  like ofc to respond and see it"}
+ {:time #inst "2013-03-23T17:44:00.000-00:00",
+  :type "Hazardous Condition",
+  :id 130323093,
+  :disposition " Log Note Only.",
+  :description
+  "Occurred at Cabrillo Hwy/Sharp Park Rd, Pacifica. N/b  hwy 1 #2 lane box blocking lane of traffic"}
+ {:time #inst "2013-03-23T17:53:00.000-00:00",
+  :type "Malicious Mischief",
+  :id 130323097,
+  :disposition "Report Taken.",
+  :description
+  "Occurred on Manzanita Dr, Pacifica. Tires slashed and  veh egg'd // 5th time this year // neighbors have had  similar issues"}
+ {:time #inst "2013-03-23T18:15:00.000-00:00",
+  :type "Alarm",
+  :id 130323099,
+  :disposition "Checks  Ok.",
+  :description
+  "Occurred on Waterford St. , Pacifica. Audible // shed  door // pending notification //"}
+ {:time #inst "2013-03-23T18:45:00.000-00:00",
+  :type "Suspicious Circumstances",
+  :id 130323105,
+  :disposition "Log Note  Only.",
+  :description
+  "Occurred on Adobe Dr, Pacifica. Occurred between  2230 last night and 0945 hrs this morning.  blue streak  of spray paint on rp's vehicle"}
+ {:time #inst "2013-03-23T18:54:00.000-00:00",
+  :type "Malicious Mischief",
+  :id 130323107,
+  :disposition "Report Taken.",
+  :description "Officer initiated activity at Adobe Dr, Pacifica. . "}
+ {:time #inst "2013-03-23T18:58:00.000-00:00",
+  :type "Dist Family",
+  :id 130323111,
+  :disposition "Log Note  Only.",
+  :description
+  "Occurred on Monterey Rd, Pacifica. son was trying to  get into her house -- he has left"}
+ {:time #inst "2013-03-23T19:10:00.000-00:00",
+  :type "Malicious Mischief",
+  :id 130323114,
+  :disposition "Report Taken.",
+  :description "Officer initiated activity at Adobe Dr, Pacifica. . "}
+ {:time #inst "2013-03-23T19:33:00.000-00:00",
+  :type "SPCA Case",
+  :id 130323119,
+  :disposition "Log Note Only.",
+  :description
+  "Occurred on Linda Mar Bl. , Pacifica. Dogs barking at  the dog park // rp told to call 911 by ofc if issue  continued"}
+ {:time #inst "2013-03-23T19:41:00.000-00:00",
+  :type "Traffic Law Vehicle",
+  :id 130323122,
+  :disposition "Cancelled.",
+  :description
+  "Occurred on Fassler Av, Pacifica. White saturn  blocking rp's  driveway"}
+ {:time #inst "2013-03-23T19:53:00.000-00:00",
+  :type "Vehicle Recovered",
+  :id 130323124,
+  :disposition "Report Taken.",
+  :description
+  "Occurred on Andorra Ct, Pacifica. rp found his stolen  veh //reported to Pacifica pd on thursday rp in a white  toyota tundra"}
+ {:time #inst "2013-03-23T20:07:00.000-00:00",
+  :type "Traffic Law Vehicle",
+  :id 130323126,
+  :disposition "Gone On Arrival.",
+  :description
+  "Occurred on Capistrano Dr, Pacifica. is riding a  motorized scooter // up linda mar and madera // for  past 20 minutes"}
+ {:time #inst "2013-03-23T20:49:00.000-00:00",
+  :type "Civil Case",
+  :id 130323131,
+  :disposition "Log Note Only.",
+  :description
+  "Occurred on Fairmont Ctr, Pacifica. SUBJ LEFT ON  HICKEY BY GAS STATION // TOOK HAIR  PRODUCT // SUBJ'S GF STILL ON SCENE "}
+ {:time #inst "2013-03-23T21:15:00.000-00:00",
+  :type "Vehicle Stolen",
+  :id 130323135,
+  :disposition " Log Note Only.",
+  :description
+  "Occurred at Crespi Dr/Roberts Rd, Pacifica. Occ last  night/parked on roberts /broken glass on the ground/  meet rp at crespi / but  on roberts rd side"}
+ {:time #inst "2013-03-23T21:18:00.000-00:00",
+  :type "Muni Code Violation",
+  :id 130323136,
+  :disposition "Log Note Only.",
+  :description
+  "Occurred on Sharp Park Rd. , Pacifica. On fairway  right where golf course is // children selling beverages  and food and are not allowed to be there // asked to  leave and refusing"}
+ {:time #inst "2013-03-23T21:34:00.000-00:00",
+  :type "Acc No Injury",
+  :id 130323142,
+  :disposition "Report Taken.",
+  :description
+  "Occurred on Palmetto Av. , Pacifica. Unk who did it / v  veh acura tl deep green damage rear passenger side/  occ last night rp will meet ofcr second entrance "}
+ {:time #inst "2013-03-23T21:48:00.000-00:00",
   :type "Dist Noise",
-  :time #inst "2014-02-06T07:06:00.000-00:00"}
- {:disposition "Gone On Arrival.",
+  :id 130323144,
+  :disposition "Gone On Arrival.",
   :description
-  "Occurred on Pacific Av, Pacifica. Male sitting in a white saturn sedan for about an hour -- unknown why he's there/what he's doing",
-  :id 140205292,
-  :type "Suspicious Vehicle",
-  :time #inst "2014-02-06T07:07:00.000-00:00"}
- {:disposition "Report Taken.",
+  "Occurred on Roberts Rd, Pacifica. Kids w car loud  music dk color sedan"}
+ {:time #inst "2013-03-23T22:08:00.000-00:00",
+  :type "Traffic Law Vehicle",
+  :id 130323148,
+  :disposition " Citation.",
   :description
-  "Occurred at Pacific Manor Ctr. , Pacifica. Ongoing prob with customer who attempts to speak with the rpx while shes working inside the store/he makes her feel uncomfortable/he's currently outside in his trk parked infro of the store desc: filip male 507-508 30's wearing baggy clothing and beanie",
-  :id 140205297,
-  :type "Suspicious Circumstances",
-  :time #inst "2014-02-06T07:23:00.000-00:00"}
- {:disposition "Log Note Only. ",
+  "Occurred on Glasgow Dr, Pacifica. Veh prked wrong  direction / silver toyota camry facing wrong direction  no one around been there all day"}
+ {:time #inst "2013-03-23T22:13:00.000-00:00",
+  :type "Traffic Law Vehicle",
+  :id 130323149,
+  :disposition "Log Note Only.",
   :description
-  "Officer initiated activity at Dog Park, Linda Mar Bl, Pacifica.",
-  :id 140205298,
-  :type "Subject Stop",
-  :time #inst "2014-02-06T07:25:00.000-00:00"})
+  "Occurred on Terra Nova Bl. , Pacifica. 3 -4 veh's  parked in the red zones // blocking way to get to  parking lot"}
+ {:time #inst "2013-03-23T22:15:00.000-00:00",
+  :type "Dist Others",
+  :id 130323151,
+  :disposition "Gone On Arrival.",
+  :description
+  "Occurred on Crespi Dr. , Pacifica. RP H/U AFTER  BEING PUT ON HOLD ---- X WANTED TO RPT  THAT AN ADULT FEMALE WAS 415 VERBAL W/  HER AND HER CHILD WHO WAS LEARNING TO  SKATE. ."}
+ {:time #inst "2013-03-23T22:28:00.000-00:00",
+  :type "Dist Juveniles",
+  :id 130323156,
+  :disposition "Gone On Arrival.",
+  :description
+  "Occurred at Linda Mar Center. , Pacifica.  Skateboarders"}
+ {:time #inst "2013-03-24T01:32:00.000-00:00",
+  :type "Assault",
+  :id 130323187,
+  :disposition "Report Taken.",
+  :description
+  "Occurred on Linda Mar Bl. , Pacifica. employee  punched rp in the face and body - rp is injured but  refused medics  s left on foot unk dot from the busn "}
+ {:time #inst "2013-03-24T01:37:00.000-00:00",
+  :type "Dist Noise",
+  :id 130323191,
+  :disposition "Log Note Only.",
+  :description
+  "Occurred at Malavear Ct/Sheila Ln, Pacifica. Loud  music"}
+ {:time #inst "2013-03-24T02:03:00.000-00:00",
+  :type "Welfare Check",
+  :id 130323196,
+  :disposition "Gone On Arrival.",
+  :description
+  "Occurred at Pacific Manor Ctr. , Pacifica. In parking lot  - blk isuzu with engine running - 2 js left unattended  inside"}
+ {:time #inst "2013-03-24T02:47:00.000-00:00",
+  :type "Muni Code Violation",
+  :id 130323209,
+  :disposition "Field  Interview from Incident.",
+  :description
+  "Occurred at Miller Av/Milagra Dr, Pacifica. Male  subject living out of car - hasnt moved in 5 days - is  there right now - gold suburban -"}
+ {:time #inst "2013-03-24T03:13:00.000-00:00",
+  :type "Citizen Assist",
+  :id 130323212,
+  :disposition
+  "Log Note Only. 19:50  Susp Circ 911                                         130323220 Occurred on Linda Mar Bl, Pacifica. hang up from pay  phone. . Disposition: Checks Ok.",
+  :description
+  "Officer initiated activity at Carmel Av/Palmetto Av,  Pacifica.FD. ."}
+ {:time #inst "2013-03-24T04:19:00.000-00:00",
+  :type "Dist Others",
+  :id 130323223,
+  :disposition "Gone  On Arrival.",
+  :description
+  "Occurred at Cape Breton Ct/Oddstad Bl, Pacifica. X  walking up and down the block screaming -appears  paranoid  - no one else is around"}
+ {:time #inst "2013-03-24T04:26:00.000-00:00",
+  :type "SPCA Case",
+  :id 130323225,
+  :disposition "Gone On Arrival.",
+  :description
+  "Occurred on Gateway Dr, Pacifica. Dog outside the  deck - barking for hours - rps concerned theres no  one caring for it"}
+ {:time #inst "2013-03-24T04:37:00.000-00:00",
+  :type "Dist Party",
+  :id 130323228,
+  :disposition "Abated/Advised.",
+  :description
+  "Occurred on Corona Dr, Pacifica. Loud party on  corona"}
+ {:time #inst "2013-03-24T04:55:00.000-00:00",
+  :type "Malicious Mischief",
+  :id 130323231,
+  :disposition "Log Note Only.",
+  :description
+  "Occurred on Crespi Dr. , Pacifica. Large group of js  was seen in the parking lot and alarm went off - unk  its they are the cause "}
+ {:time #inst "2013-03-24T04:56:00.000-00:00",
+  :type "Traffic Law Vehicle",
+  :id 130323233,
+  :disposition "Log Note  Only.",
+  :description
+  "Occurred on Inverness Dr, Pacifica. 4DR TOYT LT  BLU BLOCKING DRIVEWAY"}
+ {:time #inst "2013-03-24T05:49:00.000-00:00",
+  :type "Dist Noise",
+  :id 130323242,
+  :disposition "Log  Note Only.",
+  :description
+  "Occurred on Linda Mar Bl. , Pacifica. Group of young  adults in parking lot  making a lot of noise  customers  complaining  assoc w/ a grn van"}
+ {:time #inst "2013-03-24T06:27:00.000-00:00",
+  :type "Dist Others",
+  :id 130323252,
+  :disposition "Log  Note Only.",
+  :description
+  "Occurred on Inverness Dr, Pacifica. Hm 20s red jacket  blk pants urinating ifo rps house"}
+ {:time #inst "2013-03-24T06:27:00.000-00:00",
+  :type "Vehicle Stolen",
+  :id 130323253,
+  :disposition "Report Taken.",
+  :description
+  "Occurred on Manor Dr, Pacifica. 1992 honda accord  4d grn  "}
+ {:time #inst "2013-03-24T07:17:00.000-00:00",
+  :type "Dist Noise",
+  :id 130323261,
+  :disposition "Log Note Only.",
+  :description
+  "Occurred at Eureka Square Ctr. , Pacifica. Live music  too loud."}
+ {:time #inst "2013-03-24T07:18:00.000-00:00",
+  :type "Dist Noise",
+  :id 130323262,
+  :disposition "Log  Note Only.",
+  :description
+  "Occurred on Inverness Dr. , Pacifica. Loud noisy  neighbors, already out there tonight."}
+ {:time #inst "2013-03-24T07:21:00.000-00:00",
+  :type "Traffic Law Vehicle",
+  :id 130323263,
+  :disposition "Gone On Arrival.",
+  :description
+  "Occurred on Cabrillo Hwy. , Pacifica. Via  county/probably coming through the slide our way  now.champagne color pickup driving erratic. "}
+ {:time #inst "2013-03-24T07:53:00.000-00:00",
+  :type "Dist Party",
+  :id 130323273,
+  :disposition "Log Note Only.",
+  :description
+  "Occurred on Oddstad Bl, Pacifica. Party, making noise  outside."})

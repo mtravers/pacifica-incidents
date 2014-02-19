@@ -35,9 +35,6 @@
   [s]
   (s/replace s #"\nPage.*?\n\d+/\d+/\d+\n" ""))
 
-(defn- assure-ending-nl
-  [s]
-  (str s "\n"))
 
 (defn- no-f-hack
   [s]
@@ -48,7 +45,8 @@
   [s]
   (-> s
       (s/replace  #"\nPage.*?\n" "\n")
-      (s/replace  #"\n\d+/\d+/\d+\n" "\n")))
+      (s/replace  #"\n\d+/\d+/\d+\n" "\n")
+      (s/replace #"\nPDF created with pdfFactory.*\n" "\n")))
 
 (defn fix-stupid-pdf
   [s]
@@ -66,6 +64,28 @@
         [_ new-description disposition] (re-matches #"(.*?) Disposition: (.*)" description)]
     (merge m {:description new-description
               :disposition (fix-stupid-pdf disposition)})))
+
+
+
+(defn- parse-topline
+  [s]
+  {:post [(->> % vals (every? (comp not nil?)))]}
+  (->> s
+       (re-matches #"(\d+:\d+)\s+(.*?)\s+(\d+)\n")
+       rest
+       (zipmap [:time :type :id])))
+
+
+(defn- yank-topline
+  "instaparse is puking blood when faced with this topline.
+   Just go around it with regexps, at least those work"
+  [m]
+  (let [{:keys [topline]} m]
+    (if topline
+      (-> m
+          (merge  (parse-topline topline))
+          (dissoc :topline))
+      m)))
 
 
 (defn- munge-rec
@@ -93,7 +113,11 @@
 (defn- fix-times
   [data]
   (let [{:keys [date recs]} data]
-    (map (fn [m] (update-in m  [:time] #(fix-time date %))) recs)))
+    (map (fn [m]
+           (-> m
+               (update-in  [:time] #(fix-time date %))
+               (dissoc :hdate)))
+         recs)))
 
 
 (def transforms {:id  (comp clojure.edn/read-string str) ;; TODO: parseLong?
@@ -104,23 +128,6 @@
                          %)})
 
 
-(defn fix-ids
-  "Takes a list of [k v] tuples, filters the id's only, formats them as nums,
-   and returns them as a list"
-  [id-tuples]
-  (for [[k v] id-tuples
-        :when (= :id k)]
-    (-> v
-        str
-        clojure.edn/read-string)))
-
-
-(defn zip-ids-recs
-  "Associate id's with their records. Leaves tree structure intact for date fix later."
-  [{:keys [ids recs] :as t}]
-  (-> t
-      (dissoc :ids)
-      (assoc  :recs (map #(assoc %1 :id  %2) recs ids))))
 
 (defn- parse-tree
   "Takes a tree in the shape [:recs [k v] [k v]] and returns a map of {:date xxx :recs [m1 m2 m3...]}
@@ -131,28 +138,15 @@
               :rec (update-in acc [:recs] conj (->> vs
                                                     munge-rec
                                                     yank-disposition
+                                                    yank-topline
                                                     (umisc/munge-columns transforms)))
               :hdate (assoc acc :date (tfmt/parse
                                        (tfmt/formatter "MMMM d, yyyy") (first vs)))
-              :pagedelim (update-in acc [:ids] concat (fix-ids vs))
               :else (assoc acc k vs))) ;; really shouldn't happen. throw an error instead?
           {:recs []}
           recs))
 
 
-
-(defn remerge-lines
-  [m]
-  (-> m
-      (update-in  [:lines] #(apply str (interpose "\n" %)))
-      (update-in  [:lines] assure-ending-nl)))
-
-(defn separate-ids
-  [s]
-  (->> s
-       (#(clojure.string/split % #"\n"))
-       ((juxt filter remove) #(re-matches #"^\d+$" %))
-       (zipmap [:ids :lines])))
 
 
 (defn parse-with-failure-log
@@ -165,57 +159,26 @@
         (throw (Exception. estr)))
       p)))
 
-(defn parse-sane-pdf-text
-  "Takes a string of a sanely-formatted PDF, and parses it out. Returns a tree with parsed data."
+
+
+(defn parse-pdfbox-text
   [s]
   (->> s
-       page-delim-hack
+       brutal-page-delim-hack
        no-f-hack
-       (parse-with-failure-log "resources/ppd.bnf")
+       (parse-with-failure-log "resources/pdfbox.bnf")
        parse-tree
        fix-times))
 
-(defn parse-poor-pdf-text
-  "Takes a string of an insanely-formatted PDF, and parses it out. Returns a tree with parsed data."
-  [s]
-  (->> s
-       no-f-hack
-       (parse-with-failure-log "resources/ppd-bad.bnf")
-       parse-tree
-       zip-ids-recs
-       fix-times))
-
-
-
-(defn parse-ridiculous-pdf-text
-  "Takes a string of stupidly-formatted PDF, and parses it out. Returns a tree with parsed data."
-  [s]
-  (let [{:keys [ids lines]} (->> s
-                                 brutal-page-delim-hack
-                                 no-f-hack
-                                 separate-ids
-                                 remerge-lines)]
-    (->> lines
-         (parse-with-failure-log "resources/ppd-ridiculous.bnf")
-         parse-tree
-         (#(assoc % :ids ids))
-         zip-ids-recs
-         fix-times)))
 
 
 (defn parse-pdf-text
   "Takes a string of a text-extracted PDF, and parses it out. Returns a tree with parsed data."
   [s]
   (try
-    (parse-sane-pdf-text s)
+    (parse-pdfbox-text s)
     (catch Exception e
-      (try
-        (parse-poor-pdf-text s)
-        (catch Exception e
-          (try
-            (parse-ridiculous-pdf-text s)
-            (catch Exception e
-              (log/error e))))))))
+      (log/error e))))
 
 
 
@@ -229,13 +192,11 @@
   ;; then eval the below form(s) to do the parsing.
   
 
-  (->> (for [f ["resources/testdata/well-formed.txt"
-                "resources/testdata/poorly-formed.txt"]]
-         (-> f
-             slurp
-             parse-pdf-text))
-       (apply concat)
-       (urepl/massive-spew "/tmp/output.edn"))
+  (->>  "resources/testdata/well-formed.pdf"
+        pdf-to-text
+        parse-pdf-text
+        (urepl/massive-spew "/tmp/output.edn"))
+
 
 
   )
@@ -245,10 +206,11 @@
 
   ;; debug version
   (->> (ip/parse
-        (ip/parser (slurp "resources/ppd.bnf"))
-        (->  "resources/testdata/well-formed.txt"
-             slurp
-             page-delim-hack)
+        (ip/parser (slurp "resources/pdfbox.bnf"))
+        (->> "resources/testdata/well-formed.pdf"
+             pdf-to-text
+             brutal-page-delim-hack
+             no-f-hack)
         ;; for debuggging!
         :total true
         :unhide :all) 
@@ -256,38 +218,7 @@
 
   
   
-
-  (->> (ip/parse
-        (ip/parser (slurp "resources/ppd-bad.bnf"))
-        (->  "resources/testdata/poorly-formed.txt"
-             slurp)
-        ;; for debuggging!
-        :total true
-        :unhide :all) 
-       (urepl/massive-spew "/tmp/output.edn"))
   
-
-
-
-  
-  
-  
-  ;; this one is truly botched, this is needed to debug it
-
-  (let [{:keys [ids lines]} (->>  "resources/testdata/ridiculously-stupid.txt"
-                                  slurp
-                                  page-delim-hack
-                                  no-f-hack
-                                  separate-ids
-                                  remerge-lines)]
-    (->> 
-     (ip/parse
-      (ip/parser (slurp "resources/ppd-ridiculous.bnf"))
-      lines
-      ;; for debuggging!
-      :total true
-      :unhide :all )
-     (urepl/massive-spew "/tmp/output.edn")))  
 
 
   )
@@ -295,18 +226,8 @@
 (comment
   
   
-  
 
-  (pdf-to-text "/mnt/sdcard/tmp/policelogs/PPDdailymediabulletin2013-03-23.pdf")
-  (pdf-to-text (clojure.java.io/input-stream "/mnt/sdcard/tmp/policelogs/PPDdailymediabulletin2013-03-23.pdf"))
+       
 
-  
-  ;; WIN!
-  (-> "http://localhost/PPDdailymediabulletin2013-03-23.pdf"
-      java.net.URL.
-      pdf-to-text )
-
-  
-  ;;(publics 'clojure.java.io)
   
   )

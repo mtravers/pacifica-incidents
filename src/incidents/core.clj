@@ -56,21 +56,29 @@
   ;; attempt to parse everthang
 
   ;; TODO: Do this as part of the downloading operation
+  (def running-test
+    (future
+      (doseq [f (->> "/mnt/sdcard/tmp/logs/policelogs"
+                     java.io.File.
+                     .listFiles)
+              :when (->> f .toString  (re-find #"PPDdailymediabulletin.+.pdf"))]
+        (let [fname (.toString f)]
+          (log/info fname)
+          (try
+            (-> fname
+                parse/pdf-to-text
+                parse/parse-pdf-text
+                (as-> items (doseq [{:keys [id] :as item} items]
+                              (swap! db/db (fn [db]
+                                             (assoc db id (geo/add-geo-and-address item)))))))
+            (catch Exception e
+              (log/error e)))))))
 
-  (reset! db/db {})
-  (doseq [f (->> "/mnt/sdcard/tmp/policelogs"
-                 java.io.File.
-                 .listFiles)
-          :when (-> f .toString (.endsWith ".txt"))]
-    (do
-      (log/info (.toString f))
-      (->> f
-           slurp
-           parse/parse-pdf-text
-           (doseq [{:keys [id] :as item} items]
-             (swap! db/db (fn [db]
-                            (assoc db id item)))))))
 
+  (future-cancel running-test)
+
+  (future-done? running-test)
+  
   (count @db/db)
 
   (db/read-data!)
@@ -78,6 +86,9 @@
   (db/save-data! "/tmp/backup.db")
 
   (db/read-data! "/tmp/backup.db")
+
+
+  
   
   )
 

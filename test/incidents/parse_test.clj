@@ -3,6 +3,7 @@
   (:require [clojure.test :refer :all]
             [instaparse.core :as ip]
             [utilza.repl :as urepl]
+            [taoensso.timbre :as log]
             [incidents.parse :refer :all]))
 
 (deftest basic-parse
@@ -76,25 +77,11 @@
 
 
 (deftest all-parsing
-  (testing "Parsing a well-formed pdftotext'ed PDF into the proper finished format")
-  (is (= (->> "resources/testdata/well-formed.txt"
-              slurp
+  (testing "Parsing a well-formed  PDF into the proper finished format")
+  (is (= (->> "resources/testdata/well-formed.pdf"
+              pdf-to-text
               parse-pdf-text)
          (->> "resources/testdata/well-formed-parsed.edn"
-              slurp
-              clojure.edn/read-string)))
-  (testing "Parsing a poorly-formed pdftotext'ed PDF into the proper finished format")
-  (is (= (->> "resources/testdata/poorly-formed.txt"
-              slurp
-              parse-pdf-text)
-         (->> "resources/testdata/poorly-formed-parsed.edn"
-              slurp
-              clojure.edn/read-string)))
-  (testing "Parsing a ridiculouslyly-formed pdftotext'ed PDF into the proper finished format")
-  (is (= (->> "resources/testdata/ridiculously-stupid.txt"
-              slurp
-              parse-pdf-text)
-         (->> "resources/testdata/ridiculously-stupid-parsed.edn"
               slurp
               clojure.edn/read-string))))
 
@@ -114,18 +101,8 @@
   "Cheating? Yeah. Do I care? No."
   []
   (urepl/massive-spew "resources/testdata/well-formed-parsed.edn"
-                      (->> "resources/testdata/well-formed.txt"
-                           slurp
-                           parse-pdf-text))
-  
-  (urepl/massive-spew "resources/testdata/poorly-formed-parsed.edn"
-                      (->> "resources/testdata/poorly-formed.txt"
-                           slurp
-                           parse-pdf-text))
-
-  (urepl/massive-spew "resources/testdata/ridiculously-stupid-parsed.edn"
-                      (->> "resources/testdata/ridiculously-stupid.txt"
-                           slurp
+                      (->> "resources/testdata/well-formed.pdf"
+                           pdf-to-text
                            parse-pdf-text)))
 
 (comment
@@ -138,4 +115,35 @@
   (first (clojure.string/split  "Report Taken. PDF created with pdfFactory trial version www.pdffactory.com PACIFICA POLICE DEPARTMENT MEDIA BULLETIN DAILY --- Tuesday, August 14, 2012"
                                 #"PDF created with pdfFactory.*"))
 
+
+
+
+  (pdf-to-text "/mnt/sdcard/tmp/policelogs/PPDdailymediabulletin2013-03-23.pdf")
+  (pdf-to-text (clojure.java.io/input-stream "/mnt/sdcard/tmp/policelogs/PPDdailymediabulletin2013-03-23.pdf"))
+
+  
+  ;; WIN!
+  (-> "http://localhost/PPDdailymediabulletin2013-03-23.pdf"
+      java.net.URL.
+      pdf-to-text)
+
+
+
+  ;; one-offs that will work now! make into tests!
+  "/mnt/sdcard/tmp/logs/policelogs/PPDdailymediabulletin2013-12-03.pdf"
+  "/mnt/sdcard/tmp/logs/policelogs/PPDdailymediabulletin2014-01-12.pdf"
+
+  ;; broken and will never work
+  "/mnt/sdcard/tmp/logs/policelogs/5151-PPDdailymediabulletin(2012-09-17).pdf"
+  "/mnt/sdcard/tmp/logs/policelogs/4995-PPDdailymediabulletin(2012-07-15).pdf"
+  "/mnt/sdcard/tmp/logs/policelogs/4994-PPDdailymediabulletin(2012-07-14).pdf"
+  
+  
+  ;; TODO: make test
+  (@#'incidents.parse/parse-topline "00:06  Susp Circ 911                                         130327007")
+
+  ;; check?
+
+  
+  
   )
