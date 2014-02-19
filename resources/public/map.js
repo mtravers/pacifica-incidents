@@ -53,9 +53,9 @@ function formatIncidentList(incidents){
 	var acc = "";
     for (idx in incidents) {
 		var incident = incidents[idx];
-		acc = acc  +incident.type + ' ' 
-			+ incidentTimeString(incident) + '<br/>' 
-			+ incident.description + "<br />";
+		acc = acc  + "<span class='type'>" + incident.type + '</span> ' 
+			+ "<span class='datestamp'>" + incidentTimeString(incident) + '</span><br/>' 
+			+ "<span class='description'>" + incident.description + "</span><br />";
 	}
 	return acc;
 }
