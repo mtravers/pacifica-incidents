@@ -34,16 +34,28 @@
                        (< millis max)))) xs))
     xs))
 
+(defn- with-geo
+  [{:keys [lat lng]} xs]
+  (if (and lat lng)
+    (let [chosen-lat (Double/parseDouble lat)
+          chosen-lng (Double/parseDouble lng)]
+      (filter (fn [{{:keys [lat lng]} :geo}]
+                (and (= lat chosen-lat)
+                     (= lng chosen-lng))) xs))
+    xs))
+
 
 (defn get-all
   [params]
   (->> @db/db
        vals
+       (with-geo params)
        (with-dates params)
        (sort-by :time)
        reverse
        (with-count params) ;; must be last before serializing
        serialize-for-json))
+
 
 ;; This is ugly, but if it needs to support sorting/searching
 ;; by dates, with a count, by lat-long eventually, etc,
@@ -116,6 +128,6 @@
 
 
 
-  
+
 
   )

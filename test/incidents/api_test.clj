@@ -22,6 +22,16 @@
 
   (get-all {:count "1"})
 
+  (->> (get-geos {})
+       json/decode
+       (urepl/massive-spew "/tmp/output.edn"))
+  
+
+  (map #(Double/parseDouble %) (vals {:lat "37.6539574", :lng "-122.4857181"}))
+  
+  (get-all {:lat "37.6539574", :lng "-122.4857181"})
+  (get-all {:lat "37.6408391", :lng "-122.4903562"})
+  
   ;; DOH!
   (for [i  (get-all {:count "10"})]
     (-> i
