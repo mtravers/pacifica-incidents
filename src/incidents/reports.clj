@@ -146,6 +146,10 @@
   (utils/all-keys @db/db :type)
 
   (utils/simple-contains :description "Canyon")
+
+
+  (-> @db/db
+      (get "120613195"))
   
   )
 

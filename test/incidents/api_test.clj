@@ -43,11 +43,19 @@
        json/decode)
   
 
-(->> (srv/app {:uri "/api/dates"
-               :request-method :get})
-     :body
-     json/decode)
-              
+  (->> (srv/app {:uri "/api/dates"
+                 :request-method :get})
+       :body
+       json/decode)
+  
 
   
+  )
+
+(comment
+  ;; live
+  (->> (client/get "http://incidents.bamfic.com/api/status" {:as :json})
+       :body)
+
+
   )

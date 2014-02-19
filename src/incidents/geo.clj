@@ -40,10 +40,11 @@
   [s]
   ;; the Pacifica needs to be there so that it doesn't pull
   ;; up Monterey road in Monterey, for example.
-  (when-let [match (-> #".*?(at|on) (.*Pacifica).*"
-                       (re-matches s)
-                       (nth 2))]
-    (str match ", CA")))
+  (when s
+    (when-let [match (-> #".*?(at|on) (.*Pacifica).*"
+                         (re-matches s)
+                         (nth 2))]
+      (str match ", CA"))))
 
 
 
@@ -53,6 +54,7 @@
   (if address
     item
     (assoc item :address (find-address description))))
+
 
 (defn find-existing-geo
   "Looks for dupes already in db"
@@ -65,16 +67,20 @@
              first
              :geo)))
 
+
+
 (defn copy-or-fetch-geo
   [{:keys [address] :as item}]
   (assoc item :geo (or (find-existing-geo address)
                        (geocode-address address))))
 
+
 (defn add-geo-and-address
   [item]
-  (->> item
-       ensure-address
-       copy-or-fetch-geo))
+  {:pre [(map? item)]}
+  (some->> item
+           ensure-address
+           copy-or-fetch-geo))
 
 
 
@@ -85,9 +91,10 @@
   Shuffles them as a dirty hack to get around persistently bad addresses"
   []
   (doseq [id (-> @db/db keys shuffle)
-          :when (and id
-                     (some-> id nil? not) ;; there's one bad id in there
-                     (some->> id (get @db/db) :geo nil? not))]
+          :when (and (some-> id nil? not) ;; there's one bad id in there
+                     (-> (get @db/db id nil)
+                         nil?
+                         not))]
     (log/debug "adding geo for " id)
     (swap! db/db  (db/update-record id add-geo-and-address)))
   (db/save-data!))
