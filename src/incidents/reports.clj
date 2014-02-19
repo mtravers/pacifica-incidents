@@ -81,6 +81,10 @@
        ((juxt first last))
        (zipmap [:min :max])))
 
+(defn days-total
+  []
+  (count (unique-dates)))
+
 (defn timestamps-min-max
   []
   (->> @db/db
@@ -139,8 +143,10 @@
 
   (timestamps-min-max)
 
-  (total-addresses)
+  (date-only-min-max)
+  (days-total)
   
+  (total-addresses)
   (future
     (->> (address-counts)
          (urepl/massive-spew "/tmp/output.edn")))
