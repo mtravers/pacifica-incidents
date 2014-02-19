@@ -87,6 +87,15 @@
         nil?
         not))
   
+  ;; how many so far
+  (->> @db/db
+       vals
+       (filter :geo)
+       count)
+
+  ;; example one
+  (->> 130927231
+       (get @db/db))
 
   
   )

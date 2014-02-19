@@ -92,7 +92,7 @@
   []
   (doseq [id (-> @db/db keys shuffle)
           :when (and (some-> id nil? not) ;; there's one bad id in there
-                     (-> (get @db/db id nil)
+                     (-> (get @db/db id nil) ;; CANNOT USE some->> here!!
                          nil?
                          not))]
     (log/debug "adding geo for " id)
@@ -124,15 +124,6 @@
   
   (future-done? @running-update)
   
-  ;; how many so far
-  (->> @db/db
-       vals
-       (filter :geo)
-       count)
-
-  ;; example one
-  (->> 130927231
-       (get @db/db))
 
 
 
