@@ -73,7 +73,7 @@
                           ;; application/clojure ;; could support edn, but why really?
                           ]
   :handle-ok (fn [{{:keys [params]} :request}]
-               (reports/dates-min-max)))
+               (reports/timestamps-min-max)))
 
 
 (compojure/defroutes routes

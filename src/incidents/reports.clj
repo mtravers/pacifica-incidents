@@ -81,7 +81,7 @@
        ((juxt first last))
        (zipmap [:min :max])))
 
-(defn dates-min-max
+(defn timestamps-min-max
   []
   (->> @db/db
        vals
@@ -118,7 +118,7 @@
    ;; :botchy-geos (botchy-geos) ;; not really an issue anymore
    :total-addresses (total-addresses)
    :min-max-days (date-only-min-max)
-   :min-max-timestamps   (dates-min-max)})
+   :min-max-timestamps   (timestamps-min-max)})
 
 (comment
 
@@ -137,7 +137,7 @@
 
   (quick-status)
 
-  (dates-min-max)
+  (timestamps-min-max)
 
   (total-addresses)
   
