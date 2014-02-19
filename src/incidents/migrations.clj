@@ -16,6 +16,7 @@
   (doseq [{:keys [id] :as item} (->> "/tmp/db-as-seq.edn"
                                      slurp
                                      clojure.edn/read-string)]
+    (log/debug "fixing " id)
     (swap! db/db  #(assoc % id item)))
   (db/save-data!))
 
@@ -28,6 +29,7 @@
   (doseq [id (keys @db/db)
           :when (and (-> id nil? not) ;; there's one bad id in there
                      (->> id (get @db/db) :disposition))]
+    (log/debug "fixing " id)
     (swap! db/db (fn [db] (update-in db [id :disposition] parse/fix-stupid-pdf))))
   (db/save-data!))
 
@@ -39,6 +41,7 @@
   (doseq [id (keys @db/db)
           :when (and (-> id nil? not) ;; there's one bad id in there
                      (->> id (get @db/db) :description))]
+    (log/debug "fixing " id)
     (swap! db/db (fn [db] (assoc-in db [id :address] (some-> db (get id) :description geo/find-address)))))
   (db/save-data!))
 
@@ -49,6 +52,7 @@
   (doseq [id (keys @db/db)
           :when (and (-> id nil? not) ;; there's one bad id in there
                      (->> id (get @db/db) :geo))]
+    (log/debug "fixing " id)
     (swap! db/db (db/update-record id (fn [rec] (update-in rec [:geo]
                                                            #(if (= java.lang.String (type %))
                                                               nil
@@ -62,6 +66,7 @@
   (doseq [id (keys @db/db)
           :when (and (-> id nil? not) ;; there's one bad id in there
                      (->> id (get @db/db) :geo :geometry :location map?))]
+    (log/debug "fixing " id)
     (swap! db/db (db/update-record id #(assoc % :geo (-> % :geo :geometry :location)))))
   (db/save-data!))
 
