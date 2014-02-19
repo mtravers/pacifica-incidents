@@ -98,7 +98,7 @@
 
 (comment
 
-   (total-records)
+  (total-records)
   (spot-check)
   
   (types-total)
@@ -116,19 +116,14 @@
   (dates-min-max)
 
   (total-addresses)
-  (address-counts)
-
-  (botchy-geos)
-  
-  ;; unique ones.
-  (->> (address-counts)
-       (map first)
-       set
-       count)
   
   (future
     (->> (address-counts)
          (urepl/massive-spew "/tmp/output.edn")))
+
+  
+  (botchy-geos)
+  
   
   (urepl/massive-spew "/tmp/output.edn" *1)
 
