@@ -67,7 +67,7 @@
                (reports/quick-status)))
 
 
-(liberator/defresource min-max-dates
+(liberator/defresource min-max-timestamps
   :method-allowed? (liberator/request-method-in :get)
   :available-media-types ["application/json"
                           ;; application/clojure ;; could support edn, but why really?
@@ -79,7 +79,7 @@
 (compojure/defroutes routes
   (compojure/ANY "/incidents" [] incidents) ;; depreciated
   (compojure/ANY "/api" [] incidents)
-  (compojure/ANY "/api/dates" [] min-max-dates)
+  (compojure/ANY "/api/dates" [] min-max-timestamps)
   (compojure/ANY "/api/status" [] status))
 
 

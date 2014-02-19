@@ -1,4 +1,5 @@
 (ns incidents.reports
+  (:import org.joda.time.DateTime)
   (:require [clojure.edn :as edn]
             [utilza.repl :as urepl]
             [incidents.db :as db]
@@ -42,6 +43,7 @@
        count))
 
 
+
 (defn spot-check
   []
   (get @db/db (-> @db/db
@@ -57,6 +59,27 @@
             {}
             [:description :type :disposition])))
 
+
+(defn unique-dates
+  "Unique dates without timestamps in the db"
+  []
+  (reduce #(conj %1 %2)
+          #{}
+          (r/map #(-> %
+                      :time
+                      org.joda.time.DateTime.
+                      .toLocalDate
+                      .toString)
+                 (->> @db/db
+                      vals))))
+
+(defn date-only-min-max
+  "poorly named"
+  []
+  (->> (unique-dates)
+       sort
+       ((juxt first last))
+       (zipmap [:min :max])))
 
 (defn dates-min-max
   []
@@ -94,7 +117,8 @@
    :total-geos (geo-total)
    ;; :botchy-geos (botchy-geos) ;; not really an issue anymore
    :total-addresses (total-addresses)
-   :min-max-dates   (dates-min-max)})
+   :min-max-days (date-only-min-max)
+   :min-max-timestamps   (dates-min-max)})
 
 (comment
 
@@ -149,6 +173,12 @@
        keys
        (map type)
        frequencies)
+
+  
+
+
+
+
 
   
   )
