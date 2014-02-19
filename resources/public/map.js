@@ -51,11 +51,14 @@ function incidentTimeString(incident) {
 
 
 function prepMarker(marker, incident, map, w) {
-    google.maps.event.addListener(marker, 'click', function() {
-	w.setContent(incident.type + ' ' + incidentTimeString(incident) + '<br/>' + incident.description);
-	w.open(map, marker);
-    });
+    google.maps.event.addListener(marker, 'click', 
+								  function() {
+									  w.setContent(incident.type + ' ' 
+												   + incidentTimeString(incident) + '<br/>' 
+												   + incident.description);
+									  w.open(map, marker);
+								  });
 }
 
 $(document).ready(function() { map_init(37.621592, -122.4885218)});
-				   
+
