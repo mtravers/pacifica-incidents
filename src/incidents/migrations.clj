@@ -87,10 +87,37 @@
                          (assoc num-id (assoc (get db id) :id num-id)))))))
   (db/save-data!))
 
+
+(defn new-parsing-system
+  "Use the new pdf parsing library"
+  []
+  (doseq [f (->> "/mnt/sdcard/tmp/logs/policelogs"
+                 java.io.File.
+                 .listFiles)
+          :when (->> f .toString  (re-find #"PPDdailymediabulletin.+.pdf"))]
+    (let [fname (.toString f)]
+      (log/info fname)
+      (try
+        (-> fname
+            parse/pdf-to-text
+            parse/parse-pdf-text
+            (as-> items (doseq [{:keys [id] :as item} items]
+                          (swap! db/db (fn [db]
+                                         (assoc db id (geo/add-geo-and-address item)))))))
+        (catch Exception e
+          (log/error e))))))
+
+
+
+
 (comment
 
+  (def running-test (future new-parsing-system))
+  
+  (future-cancel running-test)
 
-  (fix-non-numeric-keys)
+  (future-done? running-test)
+
 
   
   )
