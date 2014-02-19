@@ -37,7 +37,7 @@ incidents reporting db notes
 **** snowtide requires a license becasue clojure does stuff that makes it think it's multihtreaded.*
 *** DONE now have to update the EBNF grammar to make it deal with the new, better format.
 **** DONE and test everything.
-*** TODO now TEST it!
+*** DONE now TEST it!
 ** TODO cron jobs
 *** TODO use moments or at-at
 * geo
