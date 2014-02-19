@@ -49,16 +49,36 @@ function incidentTimeString(incident) {
     return new Date(incident.time).toLocaleString();
 }
 
+function formatIncidentList(incidents){
+	var acc = "";
+    for (idx in incidents) {
+		var incident = incidents[idx];
+		acc = acc  +incident.type + ' ' 
+			+ incidentTimeString(incident) + '<br/>' 
+			+ incident.description + "<br />";
+	}
+	return acc;
+}
+
+function showIncidentDetails(response, map, marker, w) {
+	w.setContent(formatIncidentList(response));
+	w.open(map, marker);
+};
 
 function prepMarker(marker, incident, map, w) {
     google.maps.event.addListener(marker, 'click', 
 								  function() {
-									  w.setContent(incident.type + ' ' 
-												   + incidentTimeString(incident) + '<br/>' 
-												   + incident.description);
-									  w.open(map, marker);
-								  });
-}
+									  $.ajax("/api?" + "lat=" + incident.geo.lat 
+											 + "&lng=" + incident.geo.lng , 
+											 { success:
+											   function(response) {
+												   showIncidentDetails(response, map, marker, w);
+											   },
+											   error: 
+											   function(XHR, textStatus, errorThrown) {
+												   alert("error: " + textStatus + "; " + errorThrown);}
+											 });
+								  })};
 
 $(document).ready(function() { map_init(37.621592, -122.4885218)});
 
