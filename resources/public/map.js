@@ -51,11 +51,12 @@ function incidentTimeString(incident) {
 
 function formatIncidentList(incidents){
 	var acc = "";
+	$('.gm-style').removeClass('gm-style');
     for (idx in incidents) {
 		var incident = incidents[idx];
-		acc = acc  + "<span class='type'>" + incident.type + '</span> ' 
+		acc = acc  + "<div class='incident'><span class='incidenttype'>" + incident.type + '</span> ' 
 			+ "<span class='datestamp'>" + incidentTimeString(incident) + '</span><br/>' 
-			+ "<span class='description'>" + incident.description + "</span><br />";
+			+ "<span class='description'>" + incident.description + "</span></div>";
 	}
 	return acc;
 }

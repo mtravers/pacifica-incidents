@@ -1,1 +1,9 @@
+span.incidenttype { 
+  font-weight: bold; 
+}
 
+div.incident{ 
+  margin-bottom: 5px;
+ }
+
+/* span.datestamp { font-weight: italic; } */
