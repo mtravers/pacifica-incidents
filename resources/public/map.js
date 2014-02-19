@@ -16,7 +16,7 @@ function map_init(lat, lng) {
     // });
 
     // load data
-    $.ajax("/api?count=900", {
+    $.ajax("/api/geos", {
 		//	data: {lat: lat, lng: lng},
 		success:
 		function(response) {
