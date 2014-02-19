@@ -94,7 +94,7 @@
   (doseq [f (->> file-dir
                  java.io.File.
                  .listFiles)
-          :when (->> f .toString  (re-find #"PPDdailymediabulletin.+.pdf"))]
+          :when (->> f .toString  (re-find #".*PPDdailymediabulletin.+.pdf"))]
     (let [fname (.toString f)]
       (log/info fname)
       (try
@@ -105,14 +105,15 @@
                           (swap! db/db (fn [db]
                                          (assoc db id (geo/add-geo-and-address item)))))))
         (catch Exception e
-          (log/error e))))))
+          (log/error e)))))
+  (db/save-data!))
 
 
 
 
 (comment
 
-  (def running-test (future new-parsing-system "/mnt/sdcard/tmp/logs/policelogs"))
+  (def running-test (future (new-parsing-system "/mnt/sdcard/tmp/logs/policelogs")))
   
   (future-cancel running-test)
 
