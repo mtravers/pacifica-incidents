@@ -123,7 +123,7 @@
 
   
   ;; WIN!
-  (-> "http://localhost/PPDdailymediabulletin2013-03-23.pdf"
+  (-> "http://localhost/logs/policelogs/PPDdailymediabulletin2013-03-23.pdf"
       java.net.URL.
       pdf-to-text)
 

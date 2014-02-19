@@ -19,11 +19,12 @@
 (defn pdf-to-text
   "Turns a pdf into sweet, sweet text"
   [in]
-  (-> (doto (PDFTextStripper. "UTF-8")
-        (.setForceParsing true)
-        (.setSortByPosition false)
-        (.setShouldSeparateByBeads true))
-      (.getText  (PDDocument/load  in true))))
+  (with-open [d (PDDocument/load  in true)]
+    (-> (doto (PDFTextStripper. "UTF-8")
+          (.setForceParsing true)
+          (.setSortByPosition false)
+          (.setShouldSeparateByBeads true))
+        (.getText  d))))
 
 
 ;; XXX this wouldn't be necessary if there were a way
@@ -227,7 +228,7 @@
   
   
 
-       
+
 
   
   )
