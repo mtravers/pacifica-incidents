@@ -2,6 +2,8 @@
   (:require [incidents.db :as db]
             [taoensso.timbre :as log]
             [incidents.geo :as geo]
+            [incidents.utils :as utils]
+            [utilza.repl :as urepl]
             [incidents.scrape :as scrape]
             [incidents.parse :as parse]))
 
@@ -101,14 +103,28 @@
 
 
 
+(defn- redo-slash-addresses
+  "Mike's improvement to slash address regexp"
+  []
+  (doseq [{:keys [id]} (utils/simple-contains  :address "/")
+          :when (-> id nil? not)]
+    (log/debug "fixing " id)
+    (swap! db/db (db/update-record id (fn [{:keys [description] :as rec}]
+                                        (->> description
+                                             geo/find-address
+                                             (assoc rec :address)
+                                             geo/copy-or-fetch-geo ;; redo the geocoding now!
+                                             )))))
+  (db/save-data!))
+
 
 (comment
 
-  (def running-test (future (new-parsing-system "/mnt/sdcard/tmp/logs/policelogs")))
+  (def running-migration (future (redo-slash-addresses)))
   
-  (future-cancel running-test)
+  (future-cancel running-migration)
 
-  (future-done? running-test)
+  (future-done? running-migration)
 
 
   
