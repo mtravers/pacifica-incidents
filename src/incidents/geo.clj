@@ -44,7 +44,7 @@
     (when-let [match (-> #".*?(at|on) (.*Pacifica).*"
                          (re-matches s)
                          (nth 2))]
-      (str match ", CA"))))
+      (str (clojure.string/replace match #"/" " & ") ", CA"))))
 
 
 
