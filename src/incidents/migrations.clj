@@ -104,14 +104,14 @@
 
 
 (defn- redo-slash-addresses
-  "Mike's improvement to slash address regexp"
+  "Migrate to Mike's improvement to slash address regexp"
   []
   (doseq [{:keys [id]} (utils/simple-contains  :address "/")
           :when (-> id nil? not)]
     (log/debug "fixing " id)
     (swap! db/db (db/update-record id (fn [{:keys [description] :as rec}]
                                         (->> description
-                                             geo/find-address
+                                             geo/find-address ;; Mike's new find-address with the / handling
                                              (assoc rec :address)
                                              geo/copy-or-fetch-geo ;; redo the geocoding now!
                                              )))))
