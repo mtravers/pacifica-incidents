@@ -3,7 +3,7 @@
 ## Endpoints
 
 ### /api
-	Returns all of the incidents
+	Returns all of the incidents, sorted by date of incident in reverse order
 #### Parameters
 #####	count (integer)
 	Max number of records to return
@@ -33,7 +33,7 @@
 ]
 ```
 ### /api/geos
-	Returns of the geocodes in the database, and the most recent incident for each geocode.
+	Returns of the geocodes in the database, and the most recent incident for each geocode, sorted by date of most recent incident at each geocode, in reverse order
 #### Parameters
 #####	count (integer)
 	Max number of records to return
@@ -57,14 +57,75 @@
 ```
 ### /api/dispositions
 	Returns all of the set of dispositions in the database
+#### Parameters
+	None
+#### Response
+```javascript
+[null,
+ "",
+ "False  Alarm.",
+ "Report Taken. .",
+ "Field Interview  from Incident.",
+ " Cover Unit.",
+ "Cover Unit.",
+ // ...
+ ]
+```
 ### /api/dispositions/stats
 	Returns the count of each disposition in the database, sorted by count, in reverse order.
+#### Parameters
+	None yet (TBD, will support date, count, and geo)
+#### Response
+```javascript
+[["Log Note Only.",7153],
+ ["Report Taken.",3994],
+ ["Gone On Arrival.",2508],
+ ["Checks Ok.",2346],
+ ["Abated\/Advised.",1347],
+ ["Citation.",852],
+ // ...
+ ]
+```
 ### /api/types 
 	Returns all of the set of types in the database
+#### Parameters
+	None
+#### Response
+```javascript
+["Dist Noise",
+ "Missing Adult",
+ "Damaged Property",
+ "Citizen Assist",
+ "Assault and Battery",
+ //...
+ ]
+```
 ### /api/types/stats 
 	Returns the count of each type in the database, sorted by count, in reverse order.
+#### Parameters
+	None Yet (TBD, will support date, count, and geo)
+#### Response
+```javascript
+[["Traffic Law Vehicle",3076],
+ ["Traffic Law Abandoned",2281],
+ ["Citizen Assist",1469],
+ ["School Check",1440],
+ ["Subject Stop",1427],
+ ["SPCA Case",1252],
+ ["Suspicious Circumstances",1160],
+ ["Alarm",1055],
+ // ..
+ ]
+```
 ### /api/dates
 	Returns the min and max timestamps in the database
+#### Parameters
+	None
+#### Response
+```javascript
+{"max":1392709980000,
+ "min":1338366000000}
+```
 ### /api/docs
 	Returns this document, formatted as HTML
 ### /api/status
