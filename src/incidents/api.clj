@@ -3,6 +3,7 @@
             [incidents.db :as db]
             [incidents.utils :as utils]
             [taoensso.timbre :as log]
+            [markdown.core :as markdown]
             [incidents.reports :as reports]
             [clojure.walk :as walk]
             [compojure.core :as compojure]
@@ -184,6 +185,7 @@
   (compojure/ANY "/api/types" [] all-types)
   (compojure/ANY "/api/types/stats" [] type-stats)
   (compojure/ANY "/api/dates" [] min-max-timestamps)
+  (compojure/GET "/api/docs" [] (markdown/md-to-html-string (slurp "doc/API.md")))
   (compojure/ANY "/api/status" [] status))
 
 
