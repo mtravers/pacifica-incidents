@@ -81,7 +81,7 @@
        :body
        json/decode)
 
-    (->> (srv/app {:uri "/api/types/stats"
+  (->> (srv/app {:uri "/api/types/stats"
                  :request-method :get})
        :body
        json/decode)
@@ -92,7 +92,7 @@
        json/decode)
 
 
-    (->> (srv/app {:uri "/api/dispositions/stats"
+  (->> (srv/app {:uri "/api/dispositions/stats"
                  :request-method :get})
        :body
        json/decode)
