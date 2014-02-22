@@ -28,7 +28,10 @@
   "Gets only those dates not yet in the db"
   [urlmaps]
   (let [in-db (reports/unique-dates)]
-    (filter #(in-db %) urlmaps)))
+    (->> urlmaps
+         (map :date)
+         (remove #(in-db %))
+         (remove nil?))))
 
 
 (defn add-items-to-db!
@@ -78,6 +81,14 @@
   (-> "/mnt/sdcard/tmp/logs/policelogs.html"
       slurp
       scrape-urls)
+
+  (-> (:dl-index-url env/env)
+      slurp
+      scrape-urls
+      filter-not-in-db)
+
+
+  ;; (urepl/massive-spew "/tmp/output.edn" *1)
   
   (get-all-pdfs! "/mnt/sdcard/tmp/logs/policelogs.html")
   

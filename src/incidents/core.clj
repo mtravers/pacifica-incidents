@@ -3,6 +3,7 @@
             [incidents.parse :as parse]
             [incidents.db :as db]
             [incidents.server :as srv]
+            [incidents.scrape :as scrape]
             [taoensso.timbre :as log]
             [environ.core :as env]
             [clojure.tools.trace :as trace]
