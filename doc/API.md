@@ -5,6 +5,7 @@
 ### /api
 	Returns all of the incidents, sorted by date of incident in reverse order
 #### Parameters
+	All parameters are optional. With no parameters, returns all.
 #####	count (integer)
 	Max number of records to return
 #####	min (javascript timestamp)
@@ -35,6 +36,7 @@
 ### /api/geos
 	Returns of the geocodes in the database, and the most recent incident for each geocode, sorted by date of most recent incident at each geocode, in reverse order
 #### Parameters
+	All parameters are optional. With no parameters, returns all.
 #####	count (integer)
 	Max number of records to return
 #####	min (javascript timestamp)
