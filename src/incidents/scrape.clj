@@ -47,18 +47,8 @@
                    (assoc db id (geo/add-geo-and-address item))))))
 
 
-(defn fetch-and-add-to-db!
-  "TODO: this might belong in another ns?"
-  [url]
-  (log/info "fetching " url)
-  (-> url
-      parse/pdf-to-text
-      parse/parse-pdf-text
-      add-items-to-db!))
 
 
-
-;; XXX not really tested thoroughly yet.
 (defn get-all-pdfs!
   "Takes an URL to the index page.
     Fetches and parses all the pdfs not in the db yet"
@@ -69,7 +59,11 @@
                                    scrape-urls
                                    filter-not-in-db)]
     (try
-      (fetch-and-add-to-db! url)
+      (log/info "fetching " url)
+      (-> url
+          parse/pdf-to-text
+          parse/parse-pdf-text
+          add-items-to-db!)
       (catch Exception e
         (log/error e)))))
 
