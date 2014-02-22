@@ -10,6 +10,11 @@
 
 (defonce dl-agent (agent nil))
 
+(defn fix-malformed-url
+  "Really? Pacificaindex has urls that are totally screwed up."
+  [url]
+  (.replace url "http:/www" "http://www"))
+
 (defn scrape-urls
   "Takes a string with a parsable HTML page in it,
    and returns a seq of maps of urls and dates."
@@ -20,7 +25,7 @@
     (when-let [[url date] (some->> a :attrs :href
                                    (re-matches #".*PPDdailymediabulletin.*?(\d+-\d+-\d+).*?pdf" ))]
       ;; TODO: make sure these urls are either absolute or add a host to them!!
-      {:url url
+      {:url (fix-malformed-url url)
        :date date})))
 
 
@@ -29,8 +34,7 @@
   [urlmaps]
   (let [in-db (reports/unique-dates)]
     (->> urlmaps
-         (map :date)
-         (remove #(in-db %))
+         (remove #(in-db (some-> % :date)))
          (remove nil?))))
 
 
@@ -46,14 +50,12 @@
 (defn fetch-and-add-to-db!
   "TODO: this might belong in another ns?"
   [url]
-  (try
-    (log/info "fetching " url)
-    (-> url
-        parse/pdf-to-text
-        parse/parse-pdf-text
-        add-items-to-db!)
-    (catch Exception e
-      (log/error e))))
+  (log/info "fetching " url)
+  (-> url
+      parse/pdf-to-text
+      parse/parse-pdf-text
+      add-items-to-db!))
+
 
 
 ;; XXX not really tested thoroughly yet.
@@ -62,11 +64,14 @@
     Fetches and parses all the pdfs not in the db yet"
   [index-url]
   (log/info "fetching index from " index-url)
-  (doseq [{:keys [date pdf-url]}  (->> index-url
-                                       slurp
-                                       scrape-urls
-                                       filter-not-in-db)]
-    (fetch-and-add-to-db! pdf-url)))
+  (doseq [{:keys [date url]}  (->> index-url
+                                   slurp
+                                   scrape-urls
+                                   filter-not-in-db)]
+    (try
+      (fetch-and-add-to-db! url)
+      (catch Exception e
+        (log/error e)))))
 
 
 (defn start-pdf-downloading
@@ -91,6 +96,8 @@
   ;; (urepl/massive-spew "/tmp/output.edn" *1)
   
   (get-all-pdfs! "/mnt/sdcard/tmp/logs/policelogs.html")
+
+  (log/info "wtf?")
   
   (start-pdf-downloading)
   
