@@ -64,7 +64,7 @@
   (db/read-data! "/tmp/backup.db")
 
 
-  
+  (log/info "wtf?")
   
   )
 

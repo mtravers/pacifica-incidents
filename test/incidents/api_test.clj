@@ -76,7 +76,30 @@
        :body
        json/decode)
   
+  (->> (srv/app {:uri "/api/types"
+                 :request-method :get
+                 :query-string "count=2"})
+       :body
+       json/decode)
 
+    (->> (srv/app {:uri "/api/types/stats"
+                 :request-method :get
+                 :query-string "count=2"})
+       :body
+       json/decode)
+  
+  (->> (srv/app {:uri "/api/dispositions"
+                 :request-method :get
+                 :query-string "count=2"})
+       :body
+       json/decode)
+
+
+    (->> (srv/app {:uri "/api/dispositions/stats"
+                 :request-method :get
+                 :query-string "count=2"})
+       :body
+       json/decode)
   
   )
 

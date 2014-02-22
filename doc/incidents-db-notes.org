@@ -101,8 +101,8 @@ Expected one of:
 ** DONE the id's are non-numeric on some records. fix that plz
 ** TODO the pdf you did not close error is very annoying
 * api endpoints
-** TODO counts of types/dispositions/addresses
-** TODO keys for types/dispositions/addresses
+** DONE counts of types/dispositions/addresses
+** DONE keys for types/dispositions/addresses
 ** TODO constrain by types/disposition/addresses
 ** TODO constrain by lat-min, lat-max, long-min, long-max
 ** TODO individual incident by id

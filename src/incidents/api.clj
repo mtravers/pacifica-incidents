@@ -132,11 +132,57 @@
                (get-geos params)))
 
 
-;; TODO: api endpoint for types, to be used for checkbox searches
+
+
+
+(liberator/defresource all-dispositions
+  :method-allowed? (liberator/request-method-in :get)
+  :available-media-types ["application/json"
+                          ;; application/clojure ;; could support edn, but why really?
+                          ]
+  :handle-ok (fn [{{:keys [params]} :request}]
+               (->> :disposition
+                    (utils/all-keys @db/db)
+                    vec)))
+
+(liberator/defresource disposition-stats
+  :method-allowed? (liberator/request-method-in :get)
+  :available-media-types ["application/json"
+                          ;; application/clojure ;; could support edn, but why really?
+                          ]
+  :handle-ok (fn [{{:keys [params]} :request}]
+               ;; TODO: filter these based on params, possibly by adding ->> with-date, with-geo
+               ;; requires refactoring key-set-counts to take a seq of maps (->> @db/db vals), not a db
+               (reports/disposition-counts)))
+
+(liberator/defresource all-types
+  :method-allowed? (liberator/request-method-in :get)
+  :available-media-types ["application/json"
+                          ;; application/clojure ;; could support edn, but why really?
+                          ]
+  :handle-ok (fn [{{:keys [params]} :request}]
+               (->> :type
+                    (utils/all-keys @db/db)
+                    vec)))
+
+(liberator/defresource type-stats
+  :method-allowed? (liberator/request-method-in :get)
+  :available-media-types ["application/json"
+                          ;; application/clojure ;; could support edn, but why really?
+                          ]
+  :handle-ok (fn [{{:keys [params]} :request}]
+               ;; TODO: filter these based on params, possibly by adding ->> with-date, with-geo
+               ;; requires refactoring key-set-counts to take a seq of maps (->> @db/db vals), not a db
+               (reports/type-counts)))
+
 ;; TODO: api endpoints for (reports/disposition-counts), (reports/type-counts), maybe (reports/address-counts)?
 (compojure/defroutes routes
   (compojure/ANY "/api" [] incidents)
   (compojure/ANY "/api/geos" [] geos)
+  (compojure/ANY "/api/dispositions" [] all-dispositions)
+  (compojure/ANY "/api/dispositions/stats" [] disposition-stats)
+  (compojure/ANY "/api/types" [] all-types)
+  (compojure/ANY "/api/types/stats" [] type-stats)
   (compojure/ANY "/api/dates" [] min-max-timestamps)
   (compojure/ANY "/api/status" [] status))
 
