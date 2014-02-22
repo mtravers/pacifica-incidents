@@ -45,14 +45,15 @@
 	(Params must include min as well in order to be effective)
 #### Response
 ```javascript
-[{"geo":null,
-  "address":null,
-  "time":1392541320000,
-  "type":"Traffic Law Vehicle",
-  "id":140216013,
-  "disposition":null,
-  "description":null},
-  // ...
+[{"geo":{"lat":37.5874805,
+		 "lng":-122.4984811},
+  "address":"Bower Rd, Pacifica, CA",
+  "time":1391559600000,
+  "type":"Traffic Law Abandoned",
+  "id":140204177,
+  "disposition":"Log Note Only.",
+  "description":"Occurred on Bower Rd, Pacifica. Motor home parked in roadway \/\/ vehicle has been there since the weekend "}
+  ...
   ]
 ```
 ### /api/dispositions
