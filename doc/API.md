@@ -7,10 +7,10 @@
 #### Parameters
 #####	count (integer)
 	Max number of records to return
-#####	min (unix/javascript timestamp)
+#####	min (javascript timestamp)
 	Minimum date of record set to return
 	(Params must include max as well in order to be effective)
-#####	max (unix/javascript timestamp)
+#####	max (javascript timestamp)
 	Maximum date of record set to return
 	(Params must include min as well in order to be effective)
 #####	lat (double)
@@ -37,10 +37,10 @@
 #### Parameters
 #####	count (integer)
 	Max number of records to return
-#####	min (unix/javascript timestamp)
+#####	min (javascript timestamp)
 	Minimum date of record set to return
 	(Params must include max as well in order to be effective)
-#####	max (unix/javascript timestamp)
+#####	max (javascript timestamp)
 	Maximum date of record set to return
 	(Params must include min as well in order to be effective)
 #### Response
