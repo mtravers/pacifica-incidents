@@ -51,6 +51,7 @@
   [{:keys [min-lat min-lng max-lat max-lng]} xs]
   (if (and min-lat min-lng max-lat max-lng)
     ;; TODO: bound the neighborhod by >= <= min max lng
+    nil
     ))
 
 

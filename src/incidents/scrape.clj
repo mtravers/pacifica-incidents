@@ -47,6 +47,14 @@
                    (assoc db id (geo/add-geo-and-address item))))))
 
 
+(defn fetch-and-add-to-db!
+  "Required to be a separate function for migration purposes."
+  [url]
+  (log/info "fetching " url)
+  (-> url
+      parse/pdf-to-text
+      parse/parse-pdf-text
+      add-items-to-db!))
 
 
 (defn get-all-pdfs!
@@ -59,11 +67,7 @@
                                    scrape-urls
                                    filter-not-in-db)]
     (try
-      (log/info "fetching " url)
-      (-> url
-          parse/pdf-to-text
-          parse/parse-pdf-text
-          add-items-to-db!)
+      (fetch-and-add-to-db! url)
       (catch Exception e
         (log/error e)))))
 
