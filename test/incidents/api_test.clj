@@ -44,6 +44,8 @@
        json/decode)
 
 
+  ;; (spit "/tmp/foo.js")
+  
   (->> (srv/app {:uri "/api"
                  :request-method :get
                  :query-string "count=2"})
