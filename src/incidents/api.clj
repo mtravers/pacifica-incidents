@@ -46,7 +46,7 @@
     xs))
 
 ;; XXX TODO
-(defn- with-min-max-geo
+#_(defn- with-min-max-geo
   "XXX unfinished"
   [{:keys [min-lat min-lng max-lat max-lng]} xs]
   (if (and min-lat min-lng max-lat max-lng)
