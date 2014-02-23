@@ -149,3 +149,8 @@
 					   "min":1338366000000}}
 ```
 
+## General
+### JSONP
+	Just add callback=foo argument to any query in the above endpoints, and you'll get back jsonp, i.e the result wrapped as an argument to foo()
+### Authentication
+	Nothing is authenticated at this time.
