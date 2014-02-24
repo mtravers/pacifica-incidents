@@ -3,7 +3,6 @@
             [incidents.parse :as parse]
             [incidents.db :as db]
             [incidents.server :as srv]
-            [incidents.scrape :as scrape]
             [taoensso.timbre :as log]
             [environ.core :as env]
             [clojure.tools.trace :as trace]
@@ -21,13 +20,15 @@
                                                (fn [name value]
                                                  (log/debug name value))))
 
+(def port 8000)
+
 (defn -main
   []
   (future
     (try
       (db/db-init)
-      (log/info "starting web server")
-      (srv/start)
+      (log/info (format "starting web server on port %s" port))
+      (srv/start port port)
       (log/info "web server started (presumbably)")
       (catch Exception e
         (log/error e)))))

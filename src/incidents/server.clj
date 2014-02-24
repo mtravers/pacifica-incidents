@@ -21,15 +21,14 @@
       handler/site
       wrap-exceptions))
 
-(defn start
-  []
+(defn start [port]
   (db/db-init)
   (send srv
         (fn [s]
           (when (and s (.isRunning s))
             (.stop s))
           ;; TODO: port in env/env
-          (jetty/run-jetty #'app {:port 8000, :join? false}))))
+          (jetty/run-jetty #'app {:port port, :join? false}))))
 
 
 (comment

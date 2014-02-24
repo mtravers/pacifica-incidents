@@ -3,7 +3,6 @@
             [incidents.db :as db]
             [incidents.utils :as utils]
             [taoensso.timbre :as log]
-            [markdown.core :as markdown]
             [incidents.reports :as reports]
             [clojure.walk :as walk]
             [compojure.core :as compojure]
@@ -32,7 +31,8 @@
       (filter (fn [{:keys [time]}]
                 (let [millis (.getTime time)]
                   (and (> millis min)
-                       (< millis max)))) xs))
+                       (< millis max))))
+              xs))
     xs))
 
 (defn- with-geo
@@ -44,15 +44,6 @@
                 (and (= lat chosen-lat)
                      (= lng chosen-lng))) xs))
     xs))
-
-;; XXX TODO
-#_(defn- with-min-max-geo
-  "XXX unfinished"
-  [{:keys [min-lat min-lng max-lat max-lng]} xs]
-  (if (and min-lat min-lng max-lat max-lng)
-    ;; TODO: bound the neighborhod by >= <= min max lng
-    nil
-    ))
 
 
 (defn- with-types
@@ -86,21 +77,17 @@
 ;; this bolus will  be necessary
 (defn get-geos
   [params]
-  (->> (let [sorted (->> @db/db
-                         vals
-                         (with-dates params)
-                         ;;(with-search-string params)
-                         ;;(with-types params)
-                         (sort-by :time)
-                         reverse)]
-         (for [geo  (utils/all-keys @db/db :geo)]
-           (->> sorted
-                (filter #(= geo (:geo %)))
-                first)))
+  (->> @db/db
+       vals
+       (filter :geo)
+       (with-dates params)
+       ;;(with-search-string params)
+       ;;(with-types params)
+       (sort-by :time)
+       reverse
        (with-count params)
-       serialize-for-json))
-
-
+       serialize-for-json
+       ))
 
 (liberator/defresource incidents
   :method-allowed? (liberator/request-method-in :get)
@@ -194,7 +181,6 @@
   (compojure/ANY "/api/types" [] all-types)
   (compojure/ANY "/api/types/stats" [] type-stats)
   (compojure/ANY "/api/dates" [] min-max-timestamps)
-  (compojure/GET "/api/docs" [] (markdown/md-to-html-string (slurp "doc/API.md")))
   (compojure/ANY "/api/status" [] status))
 
 
