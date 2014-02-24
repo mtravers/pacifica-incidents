@@ -58,6 +58,14 @@
        :body
        json/decode)  
 
+
+
+  (->> (srv/app {:uri "/api/geos"
+                 :request-method :get})
+       :body
+       json/decode
+       count)
+  
   (->> (srv/app {:uri "/api"
                  :request-method :get
                  :query-string "count=5&min=1338366000000&max=1392013560000"})

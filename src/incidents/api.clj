@@ -71,24 +71,28 @@
        (with-count params) ;; must be last before serializing
        serialize-for-json))
 
-;; I think you're getting multiple events per geo here.
-;; TODO: a filter for unique geos, sorted by date.
-;; Yes, it'll probably look like that ugly bolus that
-;; I had in here before, and which got deleted in ab30a3f,
-;; but maybe not.
+
+;; Sorry this looks like ass, but it works.
+;; Make things as simple as possible, but no simpler.
 (defn get-geos
+  "Gets only unique geos, summarized by date and count params."
   [params]
-  (->> @db/db
-       vals
-       (filter :geo)
-       (with-dates params)
-       ;;(with-search-string params)
-       ;;(with-types params)
-       (sort-by :time)
-       reverse
-       (with-count params)
-       serialize-for-json
-       ))
+  (let [sorted (->> @db/db
+                    vals
+                    (with-dates params)
+                    ;;(with-search-string params)
+                    ;;(with-types params)
+                    (sort-by :time)
+                    reverse)
+        geos (utils/all-keys @db/db :geo)]
+    (->> (for [g geos]
+           (->> sorted
+                (filter #(= g (:geo %)))
+                first))
+         (filter map?) ;; skip the nil's and empties.
+         (with-count params)
+         serialize-for-json
+         )))
 
 (liberator/defresource incidents
   :method-allowed? (liberator/request-method-in :get)
