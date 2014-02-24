@@ -28,7 +28,7 @@
     (try
       (db/db-init)
       (log/info (format "starting web server on port %s" port))
-      (srv/start port port)
+      (srv/start port )
       (log/info "web server started (presumbably)")
       (catch Exception e
         (log/error e)))))
