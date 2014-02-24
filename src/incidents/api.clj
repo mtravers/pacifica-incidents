@@ -71,10 +71,10 @@
        (with-count params) ;; must be last before serializing
        serialize-for-json))
 
-
-;; This is ugly, but if it needs to support sorting/searching
-;; by dates, with a count, by lat-long eventually, etc,
-;; this bolus will  be necessary
+;; I think you're getting multiple events per geo here.
+;; TODO: a filter for unique geos, sorted by date.
+;; Yes, it'll probably look like that ugly bolus that
+;; I had in here before, and which got deleted, but maybe not.
 (defn get-geos
   [params]
   (->> @db/db
