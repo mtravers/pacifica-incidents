@@ -123,6 +123,8 @@ function prepare_form() {
 }
 
 $(document).ready(function() {
+    $( "#start_datepicker" ).datepicker();
+    $( "#end_datepicker" ).datepicker();
     prepare_form();
     map_init(37.621592, -122.4885218)
     ;});
