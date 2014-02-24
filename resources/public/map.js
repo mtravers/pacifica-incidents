@@ -32,13 +32,13 @@ function clearMarkers() {
 
 
 // really should take other params, prob in a map
-function map_update(start, end) {
+function map_update(start_end) {
     // load data
     $.ajax("/api/geos", {
-	data: {min: start, max: end},
+	data: {min: start_end.start, max: start_end.end},
 	success:
 	function(response) {
-	    displayIncidents(map, response);
+	    displayIncidents(map, response, start_end);
 	},
 	error: 
 	function(XHR, textStatus, errorThrown) {alert("error: " + textStatus + "; " + errorThrown);}
@@ -46,7 +46,7 @@ function map_update(start, end) {
 }
 
 
-function displayIncidents(map, incidents) {
+function displayIncidents(map, incidents, start_end) {
     clearMarkers();
     var z = 1000;
     var w = new google.maps.InfoWindow();
@@ -60,7 +60,7 @@ function displayIncidents(map, incidents) {
 		zIndex: z--,
 		title: incident.name});
 	    markers.push(marker);
-	    prepMarker(marker, incident, map, w);
+	    prepMarker(marker, incident, map, w, start_end);
 	}
     }
 }
@@ -86,11 +86,10 @@ function showIncidentDetails(response, map, marker, w) {
     w.open(map, marker);
 };
 
-function prepMarker(marker, incident, map, w) {
+function prepMarker(marker, incident, map, w, start_end) {
     google.maps.event.addListener(marker, 'click', 
 				  function() {
 					  var data = {lat: incident.geo.lat, lng: incident.geo.lng};
-					  var start_end = get_datepickers_as_timestamps();
 					  if(start_end.start !== null && start_end.start > 0 &&
 						 start_end.end !== null && start_end.end > 0){
 						  data.min = start_end.start;
@@ -117,8 +116,8 @@ function get_datepickers_as_timestamps(){
 
 function prepare_form() {
     $("#update").click(function(event) {
-		var start_ends = get_datepickers_as_timestamps();
-		map_update(start_ends.start, start_ends.end);
+		var start_end = get_datepickers_as_timestamps();
+		map_update(start_end);
 		return false;
     });
 }
