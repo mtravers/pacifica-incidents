@@ -89,12 +89,15 @@ function showIncidentDetails(response, map, marker, w) {
 function prepMarker(marker, incident, map, w) {
     google.maps.event.addListener(marker, 'click', 
 				  function() {
+					  var data = {lat: incident.geo.lat, lng: incident.geo.lng};
+					  var start_end = get_datepickers_as_timestamps();
+					  if(start_end.start !== null && start_end.start > 0 &&
+						 start_end.end !== null && start_end.end > 0){
+						  data.min = start_end.start;
+						  data.max = start_end.end;
+					  }
 				      $.ajax("/api",
-					     { data: {lat: incident.geo.lat, lng: incident.geo.lng
-								  // TODO: include the min and max timestamps here
-								  // in order to get only those events within the date range.
-								  // min: xxxx, max: yyyy
-								 },
+						{ data: data,
 					       success:
 					       function(response) {
 						   showIncidentDetails(response, map, marker, w);
@@ -105,14 +108,18 @@ function prepMarker(marker, incident, map, w) {
 					     });
 				  });};
 
+function get_datepickers_as_timestamps(){
+	var start = $('#start_datepicker').datepicker("getDate");
+	var end = $('#end_datepicker').datepicker("getDate");
+	return {start: start !== null ? start.getTime() : 0,
+			end:  end !== null ? end.getTime() : 0};
+}
+
 function prepare_form() {
     $("#update").click(function(event) {
-
-	var start = $('#start_datepicker').datepicker("getDate").getTime();
-	var end = $('#end_datepicker').datepicker("getDate").getTime();
-
-	map_update(start, end);
-	return false;
+		var start_ends = get_datepickers_as_timestamps();
+		map_update(start_ends.start, start_ends.end);
+		return false;
     });
 }
 
