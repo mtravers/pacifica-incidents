@@ -88,7 +88,7 @@
     (->> (for [g geos]
            (->> sorted
                 (filter #(= g (:geo %)))
-                first))
+                first)) ;; only want the most recent.
          (filter map?) ;; skip the nil's and empties.
          (with-count params)
          serialize-for-json
