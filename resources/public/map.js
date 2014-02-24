@@ -115,6 +115,8 @@ function get_datepickers_as_timestamps(){
 }
 
 function prepare_form() {
+    $("#start_datepicker").datepicker();
+    $("#end_datepicker").datepicker();
     $("#update").click(function(event) {
 		var start_end = get_datepickers_as_timestamps();
 		map_update(start_end);
@@ -123,8 +125,6 @@ function prepare_form() {
 }
 
 $(document).ready(function() {
-    $( "#start_datepicker" ).datepicker();
-    $( "#end_datepicker" ).datepicker();
     prepare_form();
     map_init(37.621592, -122.4885218)
     ;});
