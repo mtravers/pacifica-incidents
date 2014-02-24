@@ -90,7 +90,11 @@ function prepMarker(marker, incident, map, w) {
     google.maps.event.addListener(marker, 'click', 
 				  function() {
 				      $.ajax("/api",
-					     { data: {lat: incident.geo.lat, lng: incident.geo.lng},
+					     { data: {lat: incident.geo.lat, lng: incident.geo.lng
+								  // TODO: include the min and max timestamps here
+								  // in order to get only those events within the date range.
+								  // min: xxxx, max: yyyy
+								 },
 					       success:
 					       function(response) {
 						   showIncidentDetails(response, map, marker, w);
