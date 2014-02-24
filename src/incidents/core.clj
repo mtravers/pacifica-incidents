@@ -20,15 +20,15 @@
                                                (fn [name value]
                                                  (log/debug name value))))
 
-(def port 8000)
 
 (defn -main
   []
   (future
     (try
       (db/db-init)
-      (log/info (format "starting web server on port %s" port))
-      (srv/start port )
+      (let [{:keys [port]} env/env]
+        (log/info (format "starting web server on port %s" port))
+        (srv/start port))
       (log/info "web server started (presumbably)")
       (catch Exception e
         (log/error e)))))

@@ -35,6 +35,7 @@
         :geocoding-url "http://maps.googleapis.com/maps/api/geocode/json"
         :db-filename "/tmp/incidents.db"
         :geo-rate-limit-sleep-ms 1000 ;; for google
+        :port 8000 ;; default webserver port
         :timbre-config {:appenders {:spit {:enabled? true
                                            :fmt-output-opts {:nofonts? true}}
                                     :standard-out {:enabled? true
