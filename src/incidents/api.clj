@@ -74,7 +74,8 @@
 ;; I think you're getting multiple events per geo here.
 ;; TODO: a filter for unique geos, sorted by date.
 ;; Yes, it'll probably look like that ugly bolus that
-;; I had in here before, and which got deleted, but maybe not.
+;; I had in here before, and which got deleted in ab30a3f,
+;; but maybe not.
 (defn get-geos
   [params]
   (->> @db/db
