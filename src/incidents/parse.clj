@@ -17,9 +17,9 @@
 
 
 (defn pdf-to-text
-  "Turns a pdf into sweet, sweet text"
-  [in]
-  (with-open [d (-> in java.net.URL. PDDocument/load)]
+  "Takes a string with an url. Turns that pdf into sweet, sweet text"
+  [url]
+  (with-open [d (-> url java.net.URL. PDDocument/load)]
     (-> (doto (PDFTextStripper. "UTF-8")
           (.setForceParsing true)
           (.setSortByPosition false)
