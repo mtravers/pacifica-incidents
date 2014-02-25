@@ -90,7 +90,8 @@ function prepMarker(marker, incident, map, w, start_end) {
     google.maps.event.addListener(marker, 'click', 
 				  function() {
 					  var data = {lat: incident.geo.lat, lng: incident.geo.lng};
-					  if(start_end.start !== null && start_end.start > 0 &&
+					  if(typeof start_end !== 'undefined' &&
+						 start_end.start !== null && start_end.start > 0 &&
 						 start_end.end !== null && start_end.end > 0){
 						  data.min = start_end.start;
 						  data.max = start_end.end;
