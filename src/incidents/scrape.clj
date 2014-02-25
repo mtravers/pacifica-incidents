@@ -96,6 +96,12 @@
   (start-pdf-downloading)
 
 
+  ;; TODO: somewhere in here, put a blacklist of known bad URLs (empty files)
+  ;; probably best to have it in env/env, or maybe in metadata in the database?
+  ;; e.g. known bads are  http://www.pacificaindex.com/pacificadocumentwire/4883-PPDdailymediabulletin(2012-05-15).pdf and
+  ;;  http://www.pacificaindex.com/pacificadocumentwire/4994-PPDdailymediabulletin(2012-07-14).pdf
+
+
 
   
   )
