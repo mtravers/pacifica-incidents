@@ -8,12 +8,8 @@
             [net.cgrand.enlive-html :as enlive]
             [taoensso.timbre :as log]))
 
-(defonce dl-agent (agent nil))
 
-(defn fix-malformed-url
-  "Really? Pacificaindex has urls that are totally screwed up."
-  [url]
-  (.replace url "http:/www" "http://www"))
+(defonce dl-agent (agent nil))
 
 (defn scrape-urls
   "Takes a string with a parsable HTML page in it,
@@ -25,7 +21,7 @@
     (when-let [[url date] (some->> a :attrs :href
                                    (re-matches #".*PPDdailymediabulletin.*?(\d+-\d+-\d+).*?pdf" ))]
       ;; TODO: make sure these urls are either absolute or add a host to them!!
-      {:url (fix-malformed-url url)
+      {:url url
        :date date})))
 
 
@@ -98,5 +94,8 @@
   (log/info "wtf?")
   
   (start-pdf-downloading)
+
+
+
   
   )
