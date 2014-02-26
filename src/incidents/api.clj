@@ -60,8 +60,8 @@
     xs))
 
 (defn get-all
-  [params]
-  (->> @db/db
+  [db params]
+  (->> db
        vals
        (with-geo params)
        (with-dates params)
@@ -77,8 +77,8 @@
 ;; Make things as simple as possible, but no simpler.
 (defn get-geos
   "Gets only unique geos, summarized by date and count params."
-  [params]
-  (let [sorted (->> @db/db
+  [db params]
+  (let [sorted (->> db
                     vals
                     (with-dates params)
                     (with-search-string params)
@@ -103,9 +103,9 @@
                           ]
   :see-other (fn [context]
                (:new-url context))
-  :handle-ok (fn [{{:keys [params]} :request}]
+  :handle-ok (fn [{{:keys [params db ]} :request}]
                ;;(log/debug params) don't even need this.
-               (get-all params)))
+               (get-all (or db @db/db) params)))
 
 
 
@@ -114,8 +114,8 @@
   :available-media-types ["application/json"
                           ;; application/clojure ;; could support edn, but why really?
                           ]
-  :handle-ok (fn [{{:keys [params]} :request}]
-               (reports/quick-status)))
+  :handle-ok (fn [{{:keys [params db]} :request}]
+               (reports/quick-status))) ;; TODO; db-ify
 
 
 (liberator/defresource min-max-timestamps
@@ -123,16 +123,16 @@
   :available-media-types ["application/json"
                           ;; application/clojure ;; could support edn, but why really?
                           ]
-  :handle-ok (fn [{{:keys [params]} :request}]
-               (reports/timestamps-min-max)))
+  :handle-ok (fn [{{:keys [params db]} :request}]
+               (reports/timestamps-min-max))) ;; TODO: dbify
 
 (liberator/defresource geos
   :method-allowed? (liberator/request-method-in :get)
   :available-media-types ["application/json"
                           ;; application/clojure ;; could support edn, but why really?
                           ]
-  :handle-ok (fn [{{:keys [params]} :request}]
-               (get-geos params)))
+  :handle-ok (fn [{{:keys [db params]} :request}]
+               (get-geos (or db @db/db) params)))
 
 
 
@@ -163,9 +163,9 @@
   :available-media-types ["application/json"
                           ;; application/clojure ;; could support edn, but why really?
                           ]
-  :handle-ok (fn [{{:keys [params]} :request}]
+  :handle-ok (fn [{{:keys [params db]} :request}]
                (->> :type
-                    (utils/all-keys @db/db)
+                    (utils/all-keys (or db @db/db))
                     vec)))
 
 (liberator/defresource type-stats

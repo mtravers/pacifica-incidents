@@ -2,6 +2,7 @@
   (:import org.joda.time.DateTime)
   (:require [clojure.test :refer :all]
             [clj-http.client :as client]
+            [incidents.utils :as utils]
             [incidents.db :as db]
             [incidents.server :as srv]
             [cheshire.core :as json]
@@ -15,6 +16,12 @@
   []
   (into {} (repeatedly 200 #(rand-nth (vec @db/db)))))
 
+
+(defn test-db
+  []
+  (-> "resources/testdata/testdb.edn"
+      slurp
+      clojure.edn/read-string))
 
 
 (comment
@@ -47,6 +54,7 @@
         DateTime.))
 
   (->> (srv/app {:uri "/api/status"
+                 :db (test-db)
                  :request-method :get})
        :body
        json/decode)
@@ -55,12 +63,14 @@
   ;; (spit "/tmp/foo.js")
   
   (->> (srv/app {:uri "/api"
+                 :db (test-db)
                  :request-method :get
                  :query-string "count=2"})
        :body
        json/decode)
 
   (->> (srv/app {:uri "/api/geos"
+                 :db (test-db)
                  :request-method :get
                  :query-string "count=2"})
        :body
@@ -69,12 +79,14 @@
 
 
   (->> (srv/app {:uri "/api/geos"
+                 :db (test-db)
                  :request-method :get})
        :body
        json/decode
        count)
   
   (->> (srv/app {:uri "/api"
+                 :db (test-db)
                  :request-method :get
                  :query-string "count=5&min=1338366000000&max=1392013560000"})
        :body
@@ -82,12 +94,14 @@
 
   
   (->> (srv/app {:uri "/api"
+                 :db (test-db)
                  :request-method :get
                  :query-string "lat=37.6408391&lng=-122.4903562"})
        :body
        json/decode)
   
   (->> (srv/app {:uri "/api"
+                 :db (test-db)
                  :request-method :get
                  :query-string "lat=37.6408391&lng=-122.4903562&min=1338366000000&max=1392013560000"})
        :body
@@ -95,27 +109,32 @@
        count)
 
   (->> (srv/app {:uri "/api/dates"
+                 :db (test-db)
                  :request-method :get})
        :body
        json/decode)
   
   (->> (srv/app {:uri "/api/types"
+                 :db (test-db)
                  :request-method :get})
        :body
        json/decode)
 
   (->> (srv/app {:uri "/api/types/stats"
+                 :db (test-db)
                  :request-method :get})
        :body
        json/decode)
   
   (->> (srv/app {:uri "/api/dispositions"
+                 :db (test-db)
                  :request-method :get})
        :body
        json/decode)
 
 
   (->> (srv/app {:uri "/api/dispositions/stats"
+                 :db (test-db)
                  :request-method :get})
        :body
        json/decode)
@@ -123,6 +142,7 @@
 
   
   (->> (srv/app {:uri "/api"
+                 :db (test-db)
                  :request-method :get
                  :query-string "search=Canyon"})
        :body
@@ -137,8 +157,21 @@
        :body)
 
   
+  (utils/all-keys @db/db :type)
 
+  (-> "resources/testdata/testdb.edn"
+      slurp
+      clojure.edn/read-string
+      (utils/all-keys :type))
   
   
+  (count *1)
+  
+
+  (->> (srv/app {:uri "/api/types"
+                 :db (test-db)
+                 :request-method :get})
+       :body
+       json/decode)
   
   )
