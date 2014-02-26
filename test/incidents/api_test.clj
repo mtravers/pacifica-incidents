@@ -2,11 +2,19 @@
   (:import org.joda.time.DateTime)
   (:require [clojure.test :refer :all]
             [clj-http.client :as client]
+            [incidents.db :as db]
             [incidents.server :as srv]
             [cheshire.core :as json]
             [incidents.reports :as reports]
             [utilza.repl :as urepl])
   (:use incidents.api))
+
+
+(defn generate-random-sample-for-test-data
+  "To prepare for functional tests, a subset of the db"
+  []
+  (into {} (repeatedly 200 #(rand-nth (vec @db/db)))))
+
 
 
 (comment
@@ -129,5 +137,8 @@
        :body)
 
   
-
+    (generate-random-sample-for-test-data)
+  
+  
+  
   )
