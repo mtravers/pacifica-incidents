@@ -115,7 +115,18 @@ function prepare_form() {
     $("#update").click(function(event) {
         var start_end = get_datepickers_as_timestamps();
 	var text = $('#text_search').val();
-	map_update({min: start_end.start, max: start_end.end, search: text});
+	var params = {};
+	// I know this sucks, but it's gotta happen somewhere, might as well be here.
+	if(start_end !== undefined && 
+	   start_end.end !== null && start_end.end > 0 && 
+	   start_end.start !== null && start_end.start > 0 ){
+		params.min = start_end.start;
+		params.max = start_end.end;
+	}
+	if(text !== undefined && text !== ""){
+		params.search = text;
+	}
+	map_update(params);
 	return false;
     });
 }
