@@ -111,6 +111,14 @@
                  :request-method :get})
        :body
        json/decode)
+
+
+  (->> (srv/app {:uri "/api"
+                 :request-method :get
+                 :query-string "search=Canyon"})
+       :body
+       json/decode)
+
   
   )
 
@@ -119,5 +127,6 @@
   (->> (client/get "http://incidents.bamfic.com/api/status" {:as :json})
        :body)
 
+  
 
   )

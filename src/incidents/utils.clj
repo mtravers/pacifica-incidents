@@ -23,18 +23,21 @@
   (reduce (fn [c _] (inc c)) 0 (r/filter k (vals @db/db))))
 
 
-(defn simple-contains
-  [k s]
-  (->> (reduce #(conj %1 %2)
-               []
-               (->> @db/db
-                    vals
-                    (r/filter #(some-> % k (.contains s)))))
-       (sort-by :time)))
-
-;;; what's wrong with this?
-(defn simpler-contains [thing k s]
-  (some-> thing k (.contains s)))
+(defn simpler-contains [k s m]
+  (some-> m k (.contains s)))
 
 
-                                        
+(defn unnecessarily-complex-contains
+  "Takes vals seq so it can be threaded through with other searches/filters.
+    vals is a seq of maps. k is the key to search for in those maps.
+    s is the string to search for."
+  [vals k s]
+  ;; Took out the reducers, unnecessarily fancy.
+  (filter #(some-> % k (.contains s)) vals))
+
+
+
+
+
+
+

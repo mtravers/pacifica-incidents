@@ -106,7 +106,7 @@
 (defn- redo-slash-addresses
   "Migrate to Mike's improvement to slash address regexp"
   []
-  (doseq [{:keys [id]} (utils/simple-contains  :address "/")
+  (doseq [{:keys [id]} (-> @db/db vals (utils/unnecessarily-complex-contains  :address "/"))
           :when (-> id nil? not)]
     (log/debug "fixing " id)
     (swap! db/db (db/update-record id (fn [{:keys [description] :as rec}]

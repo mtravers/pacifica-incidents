@@ -55,7 +55,7 @@
   "filter results based on search string"
   [{:keys [search]} xs]
   (if search
-    (filter #(utils/simpler-contains % :description search)
+    (filter (partial utils/simpler-contains  :description search)
             xs)
     xs))
 
@@ -194,7 +194,8 @@
 
 
 
-
+  (filter (partial utils/simpler-contains  :description "Canyon")
+          (vals @db/db))
 
 
   )

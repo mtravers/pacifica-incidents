@@ -189,7 +189,9 @@
   (utils/all-keys @db/db :geo)
   (utils/all-keys @db/db :address)
   
-  (utils/simple-contains :description "Canyon")
+  (-> @db/db
+      vals
+      (utils/unnecessarily-complex-containsq :description "Canyon"))
 
 
   ;; check for non-numeric keys
