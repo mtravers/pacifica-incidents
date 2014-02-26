@@ -31,3 +31,10 @@
                     vals
                     (r/filter #(some-> % k (.contains s)))))
        (sort-by :time)))
+
+;;; what's wrong with this?
+(defn simpler-contains [thing k s]
+  (some-> thing k (.contains s)))
+
+
+                                        

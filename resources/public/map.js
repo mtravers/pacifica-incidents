@@ -3,9 +3,9 @@ var markers = [];
 
 function map_init(lat, lng) {
     var myOptions = {
-		zoom: 12,
-		center: new google.maps.LatLng(lat,lng),
-		mapTypeId: google.maps.MapTypeId.ROADMAP
+	zoom: 12,
+	center: new google.maps.LatLng(lat,lng),
+	mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 
@@ -32,13 +32,13 @@ function clearMarkers() {
 
 
 // really should take other params, prob in a map
-function map_update(start_end) {
+function map_update(params) {
     // load data
     $.ajax("/api/geos", {
-	data: {min: start_end.start, max: start_end.end},
+	data: params,
 	success:
 	function(response) {
-	    displayIncidents(map, response, start_end);
+	    displayIncidents(map, response, params);
 	},
 	error: 
 	function(XHR, textStatus, errorThrown) {alert("error: " + textStatus + "; " + errorThrown);}
@@ -46,7 +46,7 @@ function map_update(start_end) {
 }
 
 
-function displayIncidents(map, incidents, start_end) {
+function displayIncidents(map, incidents, params) {
     clearMarkers();
     var z = 1000;
     var w = new google.maps.InfoWindow();
@@ -60,7 +60,7 @@ function displayIncidents(map, incidents, start_end) {
 		zIndex: z--,
 		title: incident.name});
 	    markers.push(marker);
-	    prepMarker(marker, incident, map, w, start_end);
+	    prepMarker(marker, incident, map, w, params);
 	}
     }
 }
@@ -86,18 +86,12 @@ function showIncidentDetails(response, map, marker, w) {
     w.open(map, marker);
 };
 
-function prepMarker(marker, incident, map, w, start_end) {
+function prepMarker(marker, incident, map, w, params) {
     google.maps.event.addListener(marker, 'click', 
 				  function() {
-					  var data = {lat: incident.geo.lat, lng: incident.geo.lng};
-					  if(typeof start_end !== 'undefined' &&
-						 start_end.start !== null && start_end.start > 0 &&
-						 start_end.end !== null && start_end.end > 0){
-						  data.min = start_end.start;
-						  data.max = start_end.end;
-					  }
+				      var data = $.extend({}, params, {lat: incident.geo.lat, lng: incident.geo.lng});
 				      $.ajax("/api",
-						{ data: data,
+					     { data: data,
 					       success:
 					       function(response) {
 						   showIncidentDetails(response, map, marker, w);
@@ -109,19 +103,20 @@ function prepMarker(marker, incident, map, w, start_end) {
 				  });};
 
 function get_datepickers_as_timestamps(){
-	var start = $('#start_datepicker').datepicker("getDate");
-	var end = $('#end_datepicker').datepicker("getDate");
-	return {start: start !== null ? start.getTime() : 0,
-			end:  end !== null ? end.getTime() : 0};
+    var start = $('#start_datepicker').datepicker("getDate");
+    var end = $('#end_datepicker').datepicker("getDate");
+    return {start: start !== null ? start.getTime() : 0,
+	    end:  end !== null ? end.getTime() : 0};
 }
 
 function prepare_form() {
-        $("#start_datepicker").datepicker();
-        $("#end_datepicker").datepicker();
-        $("#update").click(function(event) {
+    $("#start_datepicker").datepicker();
+    $("#end_datepicker").datepicker();
+    $("#update").click(function(event) {
         var start_end = get_datepickers_as_timestamps();
-		map_update(start_end);
-		return false;
+	var text = $('#text_search').val();
+	map_update({min: start_end.start, max: start_end.end, search: text});
+	return false;
     });
 }
 

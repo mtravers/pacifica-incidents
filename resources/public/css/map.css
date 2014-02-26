@@ -1,3 +1,7 @@
+body {
+    font-family: "Gill Sans";
+}
+
 span.incidenttype { 
   font-weight: bold; 
 }

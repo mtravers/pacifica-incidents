@@ -54,9 +54,10 @@
 (defn- with-search-string
   "filter results based on search string"
   [{:keys [search]} xs]
-  ;; TODO: filter #(utils/simple-contains :description search)
-  ;; TODO: will need to mod simple-contains to take the vals supplied
-  )
+  (if search
+    (filter #(utils/simpler-contains % :description search)
+            xs)
+    xs))
 
 (defn get-all
   [params]
@@ -64,7 +65,7 @@
        vals
        (with-geo params)
        (with-dates params)
-       ;;(with-search-string params)
+       (with-search-string params)
        ;;(with-types params)
        (sort-by :time)
        reverse
@@ -80,7 +81,7 @@
   (let [sorted (->> @db/db
                     vals
                     (with-dates params)
-                    ;;(with-search-string params)
+                    (with-search-string params)
                     ;;(with-types params)
                     (sort-by :time)
                     reverse)
