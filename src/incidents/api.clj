@@ -194,8 +194,7 @@
 
 
 
-  (filter (partial utils/simpler-contains  :description "Canyon")
-          (vals @db/db))
+
 
 
   )

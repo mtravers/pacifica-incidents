@@ -113,6 +113,7 @@
        json/decode)
 
 
+  
   (->> (srv/app {:uri "/api"
                  :request-method :get
                  :query-string "search=Canyon"})
