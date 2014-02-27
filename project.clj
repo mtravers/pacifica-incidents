@@ -27,9 +27,9 @@
          :init    incidents.server/start
          }
   ;; Might as well do this as soon as the project loads, for convenience.
-  :injections [(do (require 'incidents.core)
-                   (incidents.core/-main)
-                   )]
+  :profiles {:repl {:injections [(do (require 'incidents.core)
+                                     (incidents.core/-main)
+                                     )]}}
   ;; defaults, you can overidde in .lein-env, or java environment
   :env {:dl-index-url "http://www.pacificaindex.com/policelogs.html"
         :geocoding-url "http://maps.googleapis.com/maps/api/geocode/json"
