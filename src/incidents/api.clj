@@ -23,7 +23,8 @@
   (cond->> xs count (take (Integer/parseInt count))))
 
 
-(defn- sanity-check-dates
+(defn- convert-dates
+  "Takes params map, and returns a map of :min :max dates IFF the input is valid"
   [{:keys [min max]}]
   (when (and min max (every? #(-> % empty? not) [min max]))
     (let [min (Long/parseLong min)
@@ -35,7 +36,7 @@
 
 (defn- with-dates
   [params xs]
-  (if-let [{:keys [min max]} (sanity-check-dates params)]
+  (if-let [{:keys [min max]} (convert-dates params)]
     (filter (fn [{:keys [time]}]
               (let [millis (.getTime time)]
                 (and (> millis min)
@@ -43,9 +44,10 @@
             xs)
     xs))
 
-(defn- sanity-check-geos
+(defn- convert-geos
+  "Takes a params map, and returns a map of :chosen-lat and :chosen-lng IFF the input is valid"
   [{:keys [lat lng]}]
-  (if (and lat lng (every? #(-> % empty? not) [lat lng]))
+  (when (and lat lng (every? #(-> % empty? not) [lat lng]))
     (let [lat (Double/parseDouble lat)
           lng (Double/parseDouble lng)]
       (when (every? (partial not= 0.0 ) [lat lng])
@@ -55,7 +57,7 @@
 
 (defn- with-geo
   [params xs]
-  (if-let [{:keys [chosen-lat chosen-lng]} (sanity-check-geos params)]
+  (if-let [{:keys [chosen-lat chosen-lng]} (convert-geos params)]
     (filter (fn [{{:keys [lat lng]} :geo}]
               (and (= lat chosen-lat)
                    (= lng chosen-lng)))
