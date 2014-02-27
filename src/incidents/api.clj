@@ -85,7 +85,7 @@
                     ;;(with-types params)
                     (sort-by :time)
                     reverse)
-        geos (utils/all-keys @db/db :geo)]
+        geos (utils/all-keys db :geo)]
     (->> (for [g geos]
            (->> sorted
                 (filter #(= g (:geo %)))
