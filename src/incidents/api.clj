@@ -23,19 +23,25 @@
   (cond->> xs count (take (Integer/parseInt count))))
 
 
-(defn- with-dates
-  [{:keys [min max]} xs]
+(defn- sanity-check-dates
+  [{:keys [min max]}]
   (if (and min max (every? #(-> % empty? not) [min max]))
     (let [min (Long/parseLong min)
           max (Long/parseLong max)]
-      (if (every? (partial < 0) [min max])
-        (filter (fn [{:keys [time]}]
-                  (let [millis (.getTime time)]
-                    (and (> millis min)
-                         (< millis max))))
-                xs)
-        xs))
-    xs)) ;; All the xs's are ugly, but necessary to protect from broken client requests with empty min/max
+      (when (every? (partial < 0) [min max])
+        {:min min
+         :max max}))))
+
+
+(defn- with-dates
+  [params xs]
+  (if-let [{:keys [min max]} (sanity-check-dates params)]
+    (filter (fn [{:keys [time]}]
+              (let [millis (.getTime time)]
+                (and (> millis min)
+                     (< millis max))))
+            xs)
+    xs))
 
 (defn- with-geo
   [{:keys [lat lng]} xs]
