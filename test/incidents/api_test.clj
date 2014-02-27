@@ -62,21 +62,28 @@
 
 (deftest count-apis
   (testing "first two apis")
-  (is (= (get-uri-from-test-db "/api" "count=2")
-         '({:geo {:lat 37.5876447, :lng -122.4682416},
-            :address "Oddstad Bl. , Pacifica, CA",
-            :time 1392406620000,
-            :type "Fraud",
-            :id 140214093,
-            :disposition "Report Taken.",
-            :description "Occurred on Oddstad Bl. , Pacifica. Rp at pd."}
-           {:geo {:lat 37.6468476, :lng -122.487535},
-            :address "Avalon Dr, Pacifica, CA",
-            :time 1392338880000,
-            :type "Suspicious Vehicle",
-            :id 140213214,
-            :disposition "Citation.",
-            :description "Officer initiated activity at Avalon Dr, Pacifica. ."}))))
+  (let [first-2-incidents '({:geo {:lat 37.5876447, :lng -122.4682416},
+                             :address "Oddstad Bl. , Pacifica, CA",
+                             :time 1392406620000,
+                             :type "Fraud",
+                             :id 140214093,
+                             :disposition "Report Taken.",
+                             :description "Occurred on Oddstad Bl. , Pacifica. Rp at pd."}
+                            {:geo {:lat 37.6468476, :lng -122.487535},
+                             :address "Avalon Dr, Pacifica, CA",
+                             :time 1392338880000,
+                             :type "Suspicious Vehicle",
+                             :id 140213214,
+                             :disposition "Citation.",
+                             :description "Officer initiated activity at Avalon Dr, Pacifica. ."})]
+    (is (= (get-uri-from-test-db "/api" "count=2")
+           first-2-incidents))
+    (testing "broken min/max strings")
+    (is (= (get-uri-from-test-db "/api" "count=2&min=0&max=0")
+           first-2-incidents))
+    (testing "broken lat/lng strings")
+    (is (= (get-uri-from-test-db "/api" "count=2&lat=0&lng=0")
+           first-2-incidents))))
 
 
 

@@ -25,7 +25,7 @@
 
 (defn- with-dates
   [{:keys [min max]} xs]
-  (if (and min max)
+  (if (and min max (every? #(-> % empty? not) [min max]))
     (let [min (Long/parseLong min)
           max (Long/parseLong max)]
       (if (every? (partial < 0) [min max])
@@ -39,16 +39,20 @@
 
 (defn- with-geo
   [{:keys [lat lng]} xs]
-  (if (and lat lng)
+  (if (and lat lng (every? #(-> % empty? not) [lat lng]))
     (let [chosen-lat (Double/parseDouble lat)
           chosen-lng (Double/parseDouble lng)]
-      (if (every? (partial not= 0) [lat lng])
+      (if (every? (partial not= 0.0 ) [chosen-lat chosen-lng])
         (filter (fn [{{:keys [lat lng]} :geo}]
                   (and (= lat chosen-lat)
                        (= lng chosen-lng))) xs)
         xs))
     xs)) ;; All the xs's are ugly, but necessary to protect from broken client requests with zero/empty lat/lng
 
+(comment
+  (Double/parseDouble "")
+
+)
 
 (defn- with-types
   [{:keys [typess]} xs]
