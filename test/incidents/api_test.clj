@@ -166,6 +166,61 @@
               keyed-decode))))
 
 
+(deftest by-geos
+  (testing "search by lat/lng")
+  (is (= '({:geo {:lat 37.6408391, :lng -122.4903562},
+            :address
+            "Ocean Shore Elementary School on Oceana Bl. , Pacifica, CA",
+            :time 1367445000000,
+            :type "Susp Circ 911",
+            :id 130501187,
+            :disposition "Checks Ok.",
+            :description
+            "Occurred at Ocean Shore Elementary School on Oceana Bl. , Pacifica. 911 HANGUP"})
+         (->> (srv/app {:uri "/api"
+                        :db (test-db)
+                        :request-method :get
+                        :query-string "lat=37.6408391&lng=-122.4903562"})
+              :body
+              keyed-decode))))
+
+
+#_(deftest by-geo-and-date
+    (testing "by geo AND date")
+    ;; TODO: find a better lat/lng and date combination in the subset db, that has > 1 record
+    (->> (srv/app {:uri "/api"
+                   :db (test-db)
+                   :request-method :get
+                   :query-string "lat=37.6408391&lng=-122.4903562&min=1338366000000&max=1392013560000"})
+         :body
+         keyed-decode))
+
+
+(deftest min-max-dates
+  (testing "min and max dates")
+  (is (= {:max 1392406620000, :min 1338760800000}
+         (->> (srv/app {:uri "/api/dates"
+                        :db (test-db)
+                        :request-method :get})
+              :body
+              keyed-decode))))
+
+(deftest text-search
+  (testing "text search")
+  (is (= '({:geo {:lat 37.6509378, :lng -122.4772329},
+            :address "Inverness Dr, Pacifica, CA",
+            :time 1389787500000,
+            :type "Police Mutual Aid",
+            :id 140115018,
+            :disposition "Report Taken.",
+            :description
+            "Officer initiated activity at Inverness Dr, Pacifica.1030 veh unoccupied  -- vehicle facing southbound. . "})
+         (->> (srv/app {:uri "/api"
+                        :db (test-db)
+                        :request-method :get
+                        :query-string "search=vehicle"})
+              :body
+              keyed-decode))))
 
 (comment
 
@@ -200,32 +255,8 @@
 
 
   ;; (spit "/tmp/foo.js")
-  
-
-  
 
 
-  
-  (->> (srv/app {:uri "/api"
-                 :db (test-db)
-                 :request-method :get
-                 :query-string "lat=37.6408391&lng=-122.4903562"})
-       :body
-       keyed-decode)
-  
-  (->> (srv/app {:uri "/api"
-                 :db (test-db)
-                 :request-method :get
-                 :query-string "lat=37.6408391&lng=-122.4903562&min=1338366000000&max=1392013560000"})
-       :body
-       keyed-decode
-       count)
-
-  (->> (srv/app {:uri "/api/dates"
-                 :db (test-db)
-                 :request-method :get})
-       :body
-       keyed-decode)
   
   (->> (srv/app {:uri "/api/types"
                  :db (test-db)
@@ -254,12 +285,7 @@
 
 
   
-  (->> (srv/app {:uri "/api"
-                 :db (test-db)
-                 :request-method :get
-                 :query-string "search=Canyon"})
-       :body
-       keyed-decode)
+
 
   
   )
