@@ -78,11 +78,20 @@
                              :description "Officer initiated activity at Avalon Dr, Pacifica. ."})]
     (is (= (get-uri-from-test-db "/api" "count=2")
            first-2-incidents))
-    (testing "broken min/max strings")
+    (testing "ignore broken min/max strings")
     (is (= (get-uri-from-test-db "/api" "count=2&min=0&max=0")
            first-2-incidents))
-    (testing "broken lat/lng strings")
+    (is (= (get-uri-from-test-db "/api" "count=2&min=0")
+           first-2-incidents))
+    (is (= (get-uri-from-test-db "/api" "count=2&max=0")
+           first-2-incidents))
+    (testing "ignore broken lat/lng strings")
     (is (= (get-uri-from-test-db "/api" "count=2&lat=0&lng=0")
+           first-2-incidents))
+    (testing "ignore broken lat/lng strings")
+    (is (= (get-uri-from-test-db "/api" "count=2&lat=")
+           first-2-incidents))
+    (is (= (get-uri-from-test-db "/api" "count=2&lng=0")
            first-2-incidents))))
 
 
