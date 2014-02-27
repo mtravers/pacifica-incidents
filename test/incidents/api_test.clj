@@ -75,6 +75,47 @@
               :body
               keyed-decode))))
 
+
+
+(deftest count-geos
+  (testing "first two geos")
+  (is (= '({:geo nil,
+            :address nil,
+            :time 1381024140000,
+            :type "Fire Assist",
+            :id 131005161,
+            :disposition "Log Note Only.",
+            :description "Officer initiated activity Cabrillo Hwy, Pacifica. ."}
+           {:geo {:lat 37.6408391, :lng -122.4903562},
+            :address
+            "Ocean Shore Elementary School on Oceana Bl. , Pacifica, CA",
+            :time 1367445000000,
+            :type "Susp Circ 911",
+            :id 130501187,
+            :disposition "Checks Ok.",
+            :description
+            "Occurred at Ocean Shore Elementary School on Oceana Bl. , Pacifica. 911 HANGUP"})
+         (->> (srv/app {:uri "/api/geos"
+                        :db (test-db)
+                        :request-method :get
+                        :query-string "count=2"})
+              :body
+              keyed-decode))))
+
+
+
+(deftest all-geos
+  (testing "all the unfiltered geos. should show only UNIQUE geos, with most recent incident")
+  (is (= (-> "resources/testdata/geos-api-all.edn"
+             slurp
+             clojure.edn/read-string)
+         (->> (srv/app {:uri "/api/geos"
+                        :db (test-db)
+                        :request-method :get})
+              :body
+              keyed-decode))))
+
+
 (comment
 
   [1338366000000 1392018300000]
@@ -110,22 +151,6 @@
   ;; (spit "/tmp/foo.js")
   
 
-
-  (->> (srv/app {:uri "/api/geos"
-                 :db (test-db)
-                 :request-method :get
-                 :query-string "count=2"})
-       :body
-       keyed-decode)  
-
-
-
-  (->> (srv/app {:uri "/api/geos"
-                 :db (test-db)
-                 :request-method :get})
-       :body
-       keyed-decode
-       count)
   
   (->> (srv/app {:uri "/api"
                  :db (test-db)

@@ -1,0 +1,852 @@
+({:geo nil,
+  :address nil,
+  :time 1381024140000,
+  :type "Fire Assist",
+  :id 131005161,
+  :disposition "Log Note Only.",
+  :description "Officer initiated activity Cabrillo Hwy, Pacifica. ."}
+ {:geo {:lat 37.6408391, :lng -122.4903562},
+  :address
+  "Ocean Shore Elementary School on Oceana Bl. , Pacifica, CA",
+  :time 1367445000000,
+  :type "Susp Circ 911",
+  :id 130501187,
+  :disposition "Checks Ok.",
+  :description
+  "Occurred at Ocean Shore Elementary School on Oceana Bl. , Pacifica. 911 HANGUP"}
+ {:geo {:lat 37.5845638, :lng -122.4863492},
+  :address "Linda Mar. , Pacifica, CA",
+  :time 1383693240000,
+  :type "Man Down",
+  :id 131105134,
+  :disposition "Log Note Only.",
+  :description
+  "Occurred on Linda Mar. , Pacifica.  --- req pd ----. ."}
+ {:geo {:lat 37.6473705, :lng -122.4818526},
+  :address "Manor Dr. , Pacifica, CA",
+  :time 1383648300000,
+  :type "Suspicious Circumstances",
+  :id 131105010,
+  :disposition " Abated/Advised.",
+  :description
+  "Occurred on Manor Dr. , Pacifica. RP HEARING SUBJS ON THE ROOF -- AT LEAST 2 SUBJS . ."}
+ {:geo {:lat 37.64514670000001, :lng -122.4716686},
+  :address "Claridge Dr/Southmoor Av, Pacifica, CA",
+  :time 1388175420000,
+  :type "Traffic Law Vehicle",
+  :id 131227116,
+  :disposition "Not  Dispatched.",
+  :description
+  "Occurred at Claridge Dr/Southmoor Av, Pacifica. Blk ford f160 pk  blocking sidewalk  "}
+ {:geo {:lat 37.58244, :lng -122.48358},
+  :address "Linda Mar Bl/Capistrano Dr, Pacifica, CA",
+  :time 1390684740000,
+  :type "Warrant Arrest",
+  :id 140125130,
+  :disposition "Arrest Made.",
+  :description
+  "Officer initiated activity at Linda Mar Bl/Capistrano Dr, Pacifica."}
+ {:geo {:lat 37.5861049, :lng -122.47048},
+  :address "Muir Wy, Pacifica, CA",
+  :time 1344733380000,
+  :type "Welfare Check",
+  :id 120811138,
+  :disposition "Log Note Only.",
+  :description
+  "Occurred on Muir Wy, Pacifica. CHECK ON  MOTHER - SOUNDED CONFUSED DURING A PHONE CALL 1  AGO -  . ."}
+ {:geo {:lat 37.5854681, :lng -122.4968526},
+  :address "Adobe Dr. , Pacifica, CA",
+  :time 1351823880000,
+  :type "Suspicious Vehicle",
+  :id 121101191,
+  :disposition "Cancelled.",
+  :description
+  "Occurred on Adobe Dr. , Pacifica. Large moving type trk  assoc with 2 subject at the x's house  -- were  knocking at her door/she doesn't know who they are  /"}
+ {:geo {:lat 37.5902661, :lng -122.5006957},
+  :address "Flores Dr, Pacifica, CA",
+  :time 1378734660000,
+  :type "Dist Family",
+  :id 130909029,
+  :disposition "Report  Taken.",
+  :description
+  "Occurred on Flores Dr, Pacifica. Rp says his dad stole his car battery this morning and is trying to prevent him  from leaving to go to work dad is on scene and is trying to reposses the car. not physical, dad left to walk the dog . ."}
+ {:geo {:lat 37.6654377, :lng -122.4829937},
+  :address "Eastridge Cr, Pacifica, CA",
+  :time 1356350760000,
+  :type "Traffic Law Abandoned",
+  :id 121224037,
+  :disposition "Citation.",
+  :description
+  "Occurred on Eastridge Cr, Pacifica. DRK GRN TOYT CAMRY "}
+ {:geo {:lat 37.62169, :lng -122.48582},
+  :address "Fairway Dr/Bradford Wy, Pacifica, CA",
+  :time 1379446500000,
+  :type "Suspicious Circumstances",
+  :id 130917106,
+  :disposition "Gone On Arrival.",
+  :description
+  "Occurred at Fairway Dr/Bradford Wy, Pacifica. Subj walking w/ a bow and arrow on his bck ---  -- walking on  \"fairway\"  ."}
+ {:geo {:lat 37.6493654, :lng -122.4918489},
+  :address "W Manor Dr. , Pacifica, CA",
+  :time 1369171200000,
+  :type "Traffic Law Vehicle",
+  :id 130521135,
+  :disposition " Abated/Advised.",
+  :description
+  "Occurred on W Manor Dr. , Pacifica. Veh parked in 2 hrs parking zone all day - chev blazer"}
+ {:geo {:lat 37.5876447, :lng -122.4682416},
+  :address "Oddstad Bl. , Pacifica, CA",
+  :time 1392406620000,
+  :type "Fraud",
+  :id 140214093,
+  :disposition "Report Taken.",
+  :description "Occurred on Oddstad Bl. , Pacifica. Rp at pd."}
+ {:geo {:lat 37.6306073, :lng -122.4859577},
+  :address "Brighton Rd, Pacifica, CA",
+  :time 1384929900000,
+  :type "Vehicle Stored",
+  :id 131119196,
+  :disposition "Log Note Only.",
+  :description
+  "Occurred on Brighton Rd, Pacifica. Blk 2d vw gti // owner is aware // . ."}
+ {:geo {:lat 37.6519756, :lng -122.4764134},
+  :address "Forest Lake Dr, Pacifica, CA",
+  :time 1340430240000,
+  :type "Traffic Law Vehicle",
+  :id 120622210,
+  :disposition "Abated/Advised.",
+  :description
+  "Occurred on Forest Lake Dr, Pacifica. VEH BLOCKING DRIVEWAY - TAN FORD TAURUS"}
+ {:geo {:lat 37.6125121, :lng -122.4777769},
+  :address "Juanita Av, Pacifica, CA",
+  :time 1358485440000,
+  :type "Dist Noise",
+  :id 130117215,
+  :disposition "Log Note Only.",
+  :description
+  "Occurred on Juanita Av, Pacifica.  - subjs in backyard hammering  ."}
+ {:geo {:lat 37.64883, :lng -122.47205},
+  :address "Skyline Bl/Glencourt Wy, Pacifica, CA",
+  :time 1346239680000,
+  :type "Vehicle Stolen",
+  :id 120829026,
+  :disposition "Report Taken.",
+  :description
+  "Occurred at Skyline Bl/Glencourt Wy, Pacifica. Via chp  veh into a ditch  on skyline between glencourt and  manor     no desc . ."}
+ {:geo {:lat 37.5816092, :lng -122.4814138},
+  :address "Madeira Dr, Pacifica, CA",
+  :time 1372398060000,
+  :type "Fireworks",
+  :id 130627228,
+  :disposition "Gone On Arrival.",
+  :description
+  "Occurred on Madeira Dr, Pacifica. heard in the area of  - rp is going to call everytime they light one off "}
+ {:geo {:lat 37.63338340000001, :lng -122.4921501},
+  :address "Santa Rosa Av, Pacifica, CA",
+  :time 1343589300000,
+  :type "Vehicle Stored",
+  :id 120729068,
+  :disposition "Report Taken.",
+  :description
+  "Officer initiated activity at Santa Rosa Av, Pacifica.. ."}
+ {:geo {:lat 37.6303023, :lng -122.4930177},
+  :address "Beach Bl/Elder Ln, Pacifica, CA",
+  :time 1372983000000,
+  :type "Citizen Assist",
+  :id 130704187,
+  :disposition "Assisted.",
+  :description
+  "Officer initiated activity at Beach Bl/Elder Ln, Pacifica. ."}
+ {:geo {:lat 37.5905072, :lng -122.47599},
+  :address "Terra Nova Bl. , Pacifica, CA",
+  :time 1390796100000,
+  :type "Civil Case",
+  :id 140126222,
+  :disposition "Assisted.",
+  :description
+  "Occurred on Terra Nova Bl. , Pacifica. Regarding custody issues"}
+ {:geo {:lat 37.5928217, :lng -122.4988326},
+  :address "Arguello Bl, Pacifica, CA",
+  :time 1390261380000,
+  :type "Citizen Assist",
+  :id 140120138,
+  :disposition "Log Note Only.",
+  :description
+  "Occurred on Arguello Bl, Pacifica. Ticket sign off /rp not able to leave his home/"}
+ {:geo {:lat 37.6511192, :lng -122.491419},
+  :address "Bill Drake Wy, Pacifica, CA",
+  :time 1351900800000,
+  :type "Man Down",
+  :id 121102153,
+  :disposition "Assisted.",
+  :description "Occurred on Bill Drake Wy, Pacifica.   ."}
+ {:geo {:lat 37.5906731, :lng -122.4796685},
+  :address "Redwood Wy, Pacifica, CA",
+  :time 1352078340000,
+  :type "Court Order Violation",
+  :id 121104153,
+  :disposition "Report Taken.",
+  :description
+  "Occurred on Redwood Wy, Pacifica. Exbf called to say he wasn't bringing home their child - child was due  home at 1700  ."}
+ {:geo {:lat 37.6326502, :lng -122.4889904},
+  :address "Eureka Square Ctr. , Pacifica, CA",
+  :time 1360116300000,
+  :type "Alarm",
+  :id 130205234,
+  :disposition "False Alarm.",
+  :description
+  "Occurred at Eureka Square Ctr. , Pacifica. INSIDE THE GROCERY STORE - COMMUNICATIONS FAILURE  FROM THE ATM MACHINE - AS IF SOMEONE MAY HAVE UNPLUGGED IT. ."}
+ {:geo {:lat 37.6616848, :lng -122.4793516},
+  :address "Gateway Dr, Pacifica, CA",
+  :time 1364242860000,
+  :type "Civil Case",
+  :id 130325102,
+  :disposition " Abated/Advised.",
+  :description
+  "Occurred on Gateway Dr, Pacifica. Rp in a blu chev s10 - wants a standby for back rent collection"}
+ {:geo {:lat 37.656878, :lng -122.4747879},
+  :address "Andover Dr, Pacifica, CA",
+  :time 1382616960000,
+  :type "Traffic Law Abandoned",
+  :id 131024026,
+  :disposition "Log Note Only.",
+  :description
+  "Occurred on Andover Dr, Pacifica. Blue truck never moves. ."}
+ {:geo {:lat 37.613304, :lng -122.4794413},
+  :address "Reina Del Mar Av/Minerva Av, Pacifica, CA",
+  :time 1344978900000,
+  :type "Suspicious Vehicle",
+  :id 120814131,
+  :disposition ".",
+  :description
+  "Occurred at Reina Del Mar Av/Minerva Av, Pacifica. WM GREY HAIR SITTING IN A TRUCK ALL MORNING   4 HRS  NOW/ GREEN PICK UP W CAMPER . ."}
+ {:geo {:lat 37.595614, :lng -122.5091109},
+  :address "Shelter Cove Rd/Danmann Av. , Pacifica, CA",
+  :time 1372805580000,
+  :type "Fire Assist",
+  :id 130702137,
+  :disposition "Assisted.",
+  :description
+  "Occurred on Shelter Cove Rd/Danmann Av. , Pacifica. Grass fire down below on shelter cove - tx fire dept "}
+ {:geo {:lat 37.58929, :lng -122.46619},
+  :address "Oddstad Bl/Big Bend Dr, Pacifica, CA",
+  :time 1385792400000,
+  :type "Welfare Check",
+  :id 131129220,
+  :disposition "Log Note Only.",
+  :description
+  "Occurred at Oddstad Bl/Big Bend Dr, Pacifica. At the corner -  boy sitting on the sidewalk by himself for the  past 15 minutes. ."}
+ {:geo {:lat 37.59341, :lng -122.48887},
+  :address "Crespi Dr/Regina Wy, Pacifica, CA",
+  :time 1369868580000,
+  :type "Traffic Law Vehicle",
+  :id 130529149,
+  :disposition "Abated/Advised.",
+  :description
+  "Occurred at Crespi Dr/Regina Wy, Pacifica. RED VEH IN ROADWAY WITH TIRE OFF - X OUTSIDE VEH  "}
+ {:geo {:lat 37.583742, :lng -122.4712639},
+  :address "Lincoln Pl/Woodrow Pl, Pacifica, CA",
+  :time 1359417600000,
+  :type "Traffic Law Abandoned",
+  :id 130128163,
+  :disposition "Log Note Only.",
+  :description
+  "Officer initiated activity at Lincoln Pl/Woodrow Pl, Pacifica. ."}
+ {:geo {:lat 37.5866923, :lng -122.4756512},
+  :address "Aspen Dr, Pacifica, CA",
+  :time 1370299980000,
+  :type "SPCA Case",
+  :id 130603157,
+  :disposition "Gone On Arrival.",
+  :description "Occurred on Aspen Dr, Pacifica. Barking dog all day"}
+ {:geo {:lat 37.58113, :lng -122.48365},
+  :address "Capistrano Dr/Rosita Rd, Pacifica, CA",
+  :time 1371411780000,
+  :type "Petty Theft",
+  :id 130616085,
+  :disposition "Report Taken.",
+  :description
+  "Occurred at Capistrano Dr/Rosita Rd, Pacifica. Unk subj stole stop sigm/meet . ."}
+ {:geo {:lat 37.6055867, :lng -122.4913707},
+  :address "Rockaway Beach Av. , Pacifica, CA",
+  :time 1383706680000,
+  :type "Burglary",
+  :id 131105191,
+  :disposition "Report Taken.",
+  :description
+  "Occurred on Rockaway Beach Av. , Pacifica. Cold  ** rp is calling for 2 customers --- #1 = truck    #2 = \"car was  tampered with\" ---\"tried to break locking mechanism on truck\" / #1 veh :\"utility truck\" --- #2 = p/u truck  ---- . . "}
+ {:geo {:lat 37.63275369999999, :lng -122.492436},
+  :address "Montecito Av, Pacifica, CA",
+  :time 1391026260000,
+  :type "Property Incident",
+  :id 140129096,
+  :disposition "Report Taken.",
+  :description
+  "Occurred on Montecito Av, Pacifica. Service Class: VOIP  subj outside wma  whi tshirt khaki pants not  suppose to be here  last seen on foot twds the beach. ."}
+ {:geo {:lat 37.6462621, :lng -122.4920282},
+  :address "Palmetto Av., Pacifica, CA",
+  :time 1386079620000,
+  :type "Acc No Detail",
+  :id 131203039,
+  :disposition "Referred To Other Agency.",
+  :description
+  "Occurred on Palmetto Av., Pacifica. SOLO VEHICLE ACCIDENT SB 1. ."}
+ {:geo {:lat 37.6089782, :lng -122.4956351},
+  :address "Old County Rd, Pacifica, CA",
+  :time 1361603100000,
+  :type "Subject Stop",
+  :id 130222273,
+  :disposition "Log Note Only.",
+  :description
+  "Officer initiated activity at Old County Rd, Pacifica. ."}
+ {:geo {:lat 37.6472707, :lng -122.491662},
+  :address "W Avalon Dr, Pacifica, CA",
+  :time 1340249520000,
+  :type "Traffic Law Vehicle",
+  :id 120620213,
+  :disposition "Log Note Only.",
+  :description
+  "Occurred on W Avalon Dr, Pacifica. Veh's parked on side walk / 3 vans -- on going problem  . ."}
+ {:geo {:lat 37.6312221, :lng -122.4899058},
+  :address "Francisco Bl, Pacifica, CA",
+  :time 1346215800000,
+  :type "Suspicious Circumstances",
+  :id 120828266,
+  :disposition "Report Taken.",
+  :description
+  "Occurred on Francisco Bl, Pacifica. rp's attorney kissed the rp and touched her inappropriately COLD occured  on . ."}
+ {:geo {:lat 37.5863838, :lng -122.4815059},
+  :address "Manzanita Dr, Pacifica, CA",
+  :time 1364061180000,
+  :type "Malicious Mischief",
+  :id 130323097,
+  :disposition "Report Taken.",
+  :description
+  "Occurred on Manzanita Dr, Pacifica. Tires slashed and  veh egg'd // 5th time this year // neighbors have had  similar issues"}
+ {:geo {:lat 37.582299, :lng -122.4911855},
+  :address "Palou Dr, Pacifica, CA",
+  :time 1371631620000,
+  :type "Dist Domestic",
+  :id 130619011,
+  :disposition "Report Taken.",
+  :description
+  "Occurred on Palou Dr, Pacifica.RP in sf but receiving calls from her ex/ who says that he's at her residence/rpx's  sister has called the rpx and says that she hears someone knocking at the bedroom window   ex boyfriend/wma  blonde hair blu eyes 602 unknown on clothing/no weapons  --  -- should be on foot/lives on rosita. . "}
+ {:geo {:lat 37.6138253, :lng -122.4869194},
+  :address "Calera Creek, Cabrillo Hwy, Pacifica, CA",
+  :time 1384812420000,
+  :type "Warrant Arrest",
+  :id 131118154,
+  :disposition "Report Taken.",
+  :description
+  "Officer initiated activity at Calera Creek, Cabrillo Hwy, Pacifica. ."}
+ {:geo {:lat 37.6511954, :lng -122.4841703},
+  :address "Monterey Rd, Pacifica, CA",
+  :time 1391496000000,
+  :type "Dist Domestic",
+  :id 140203252,
+  :disposition "Report Taken.",
+  :description
+  "Occurred on Monterey Rd, Pacifica. Screaming in bcakgroung // x screaming for pd // bf is losing it no  weapons // unk drinking or drugs -- may be on drugs"}
+ {:geo {:lat 37.6438742, :lng -122.4716836},
+  :address "Lockhaven Dr, Pacifica, CA",
+  :time 1363630560000,
+  :type "Attempt To Contact",
+  :id 130318115,
+  :disposition "Outside Assist / Mutual Aid GIven.",
+  :description "Occurred on Lockhaven Dr, Pacifica."}
+ {:geo {:lat 37.6334227, :lng -122.4942087},
+  :address "Beach Bl, Pacifica, CA",
+  :time 1358241540000,
+  :type "Suspicious Vehicle",
+  :id 130115020,
+  :disposition "Field Interview from Incident.",
+  :description "Officer initiated activity at Beach Bl, Pacifica. ."}
+ {:geo {:lat 37.66576999999999, :lng -122.48593},
+  :address "Gateway Dr/Skyline Dr, Pacifica, CA",
+  :time 1349671380000,
+  :type "Police Mutual Aid",
+  :id 121007197,
+  :disposition "Assisted.",
+  :description
+  "Occurred at Gateway Dr/Skyline Dr, Pacifica.  NEWER DARK TOYT CAMRY NO PLATES INVOLVED IN  HIT/RUN OCCD AT HICKEY/SKYLINE. ."}
+ {:geo {:lat 37.5868796, :lng -122.492129},
+  :address
+  "Alma Heights Jr/Sr High School, Linda Mar Bl, Pacifica, CA",
+  :time 1389636120000,
+  :type "School Check",
+  :id 140113081,
+  :disposition "Checks Ok.",
+  :description
+  "Officer initiated activity at Alma Heights Jr/Sr High School, Linda Mar Bl, Pacifica. ."}
+ {:geo {:lat 37.63012, :lng -122.48911},
+  :address "Oceana Bl/Clarendon Rd, Pacifica, CA",
+  :time 1372145460000,
+  :type "Warrant Arrest",
+  :id 130624261,
+  :disposition "Cancelled.",
+  :description
+  "Officer initiated activity at Oceana Bl/Clarendon Rd, Pacifica. ."}
+ {:geo {:lat 37.651224, :lng -122.4926284},
+  :address "Esplanade Av. , Pacifica, CA",
+  :time 1374968040000,
+  :type "Susp Circ 911",
+  :id 130727174,
+  :disposition "Cancelled.",
+  :description
+  "Occurred on Esplanade Av. , Pacifica. advised misdialed"}
+ {:geo {:lat 37.5924856, :lng -122.5019823},
+  :address "Navarre Dr, Pacifica, CA",
+  :time 1359202800000,
+  :type "Traffic Law Abandoned",
+  :id 130126039,
+  :disposition "Citation.",
+  :description
+  "Occurred on Navarre Dr, Pacifica. Gry chry pt cruiser parked for past 4 days. ."}
+ {:geo {:lat 37.6484288, :lng -122.4763987},
+  :address "X Street on Heathcliff Dr. , Pacifica, CA",
+  :time 1340452980000,
+  :type "Traffic Law Abandoned",
+  :id 120623036,
+  :disposition "Gone On Arrival.",
+  :description
+  "Occurred at X Street on Heathcliff Dr. , Pacifica. Primer gry veh - two weeks. ."}
+ {:geo {:lat 37.6492728, :lng -122.480911},
+  :address "Norfolk Dr, Pacifica, CA",
+  :time 1374193800000,
+  :type "Traffic Law Vehicle",
+  :id 130718174,
+  :disposition "Log Note Only.",
+  :description
+  "Occurred on Norfolk Dr, Pacifica. Construction veh blocking rps driveway "}
+ {:geo {:lat 37.5935951, :lng -122.4976219},
+  :address "Marvilla Cr, Pacifica, CA",
+  :time 1339790340000,
+  :type "Dist Peace Words",
+  :id 120615088,
+  :disposition "Report Taken.",
+  :description
+  "Occurred on Marvilla Cr, Pacifica. BEHIND RP'S HOUSE ON MARVILLA CIRCLE   RP HEARS YOUNG  FEMALE SCREAMING  INSIDE A HOUSE     RP HEARS A MALE SUBJ ALSO. ."}
+ {:geo {:lat 37.652208, :lng -122.4867787},
+  :address "Bancroft Wy, Pacifica, CA",
+  :time 1355464800000,
+  :type "Vehicle Stored",
+  :id 121213208,
+  :disposition "Log Note Only.",
+  :description "Occurred on Bancroft Wy, Pacifica. California . ."}
+ {:geo {:lat 37.6551432, :lng -122.4766227},
+  :address "Imperial Dr. , Pacifica, CA",
+  :time 1383098640000,
+  :type "Fraud",
+  :id 131029193,
+  :disposition "Log Note Only.",
+  :description
+  "Occurred on Imperial Dr. , Pacifica. Wallet lost in may - since then receiving lots of credit cards and bills - today  stating that he was going to come to her house to serve her papers because of some fraudulent activity and  kept asking her to pay the $745"}
+ {:geo {:lat 37.5918756, :lng -122.4790435},
+  :address "Lerida Wy, Pacifica, CA",
+  :time 1341946200000,
+  :type "Civil Case",
+  :id 120710079,
+  :disposition "Checks Ok.",
+  :description "Officer initiated activity at Lerida Wy, Pacifica. ."}
+ {:geo {:lat 37.6543029, :lng -122.4841589},
+  :address "Hickey Bl/Farallon Av, Pacifica, CA",
+  :time 1341317100000,
+  :type "Traffic Law Abandoned",
+  :id 120703022,
+  :disposition "Log Note Only.",
+  :description
+  "Occurred at Hickey Bl/Farallon Av, Pacifica. Three weeks. ."}
+ {:geo {:lat 37.6562311, :lng -122.4788613},
+  :address "Skyline Bl/Hickey Bl, Pacifica, CA",
+  :time 1385540880000,
+  :type "Traffic Law Vehicle",
+  :id 131127005,
+  :disposition "Log Note Only.",
+  :description
+  "Officer initiated activity at Skyline Bl/Hickey Bl, Pacifica.Veh breakdown. ."}
+ {:geo {:lat 37.6110007, :lng -122.4917264},
+  :address "Pacifica Police Department, Cabrillo Hwy, Pacifica, CA",
+  :time 1380321780000,
+  :type "Fraud",
+  :id 130927153,
+  :disposition "Report Taken.",
+  :description
+  "Officer initiated activity at Pacifica Police Department, Cabrillo Hwy, Pacifica. ."}
+ {:geo {:lat 37.6198544, :lng -122.4883235},
+  :address "Seaside Dr, Pacifica, CA",
+  :time 1361387280000,
+  :type "Burglary",
+  :id 130220105,
+  :disposition "Report Taken.",
+  :description
+  "Occurred on Seaside Dr, Pacifica. DURING THE NIGHT SOMEONE GOT INTO AND TOOK ITEMS FROM  RP'S GARAGE"}
+ {:geo {:lat 37.656851, :lng -122.4897799},
+  :address "Holiday Ct, Pacifica, CA",
+  :time 1390225020000,
+  :type "Traffic Law Abandoned",
+  :id 140120038,
+  :disposition "Citation.",
+  :description
+  "Occurred on Holiday Ct, Pacifica. DARK GREEN AUDI W EXP TAGS // OVER 2 WEEKS"}
+ {:geo {:lat 37.582488, :lng -122.4860701},
+  :address "Avila Ct, Pacifica, CA",
+  :time 1376115780000,
+  :type "Susp Circ 911",
+  :id 130809246,
+  :disposition "Cancelled.",
+  :description
+  "Occurred on Avila Ct, Pacifica. Service Class: VOIP. ."}
+ {:geo {:lat 37.6361352, :lng -122.4866981},
+  :address "Carmel Av, Pacifica, CA",
+  :time 1338760800000,
+  :type "Suspicious Circumstances",
+  :id 120603116,
+  :disposition "Gone On Arrival.",
+  :description
+  "Occurred on Carmel Av, Pacifica. RP THINKS SHE HEARS GUNSHOTS COMING FROM CANYON -  THOUGHT SHE HEARD A TOTAL OF 14  - HEARD IN THE LAST 5 MINS. ."}
+ {:geo {:lat 37.6764113, :lng -122.490692},
+  :address "Cabrillo Hwy/Skyline Bl, Pacifica, CA",
+  :time 1345228440000,
+  :type "Traffic Law Vehicle",
+  :id 120817099,
+  :disposition "Checks Ok.",
+  :description
+  "Officer initiated activity at Cabrillo Hwy/Skyline Bl, Pacifica. ."}
+ {:geo {:lat 37.6597183, :lng -122.4798571},
+  :address "Parkview Ct, Pacifica, CA",
+  :time 1378400460000,
+  :type "Traffic Law Vehicle",
+  :id 130905080,
+  :disposition "Log Note Only.",
+  :description
+  "Occurred on Parkview Ct, Pacifica. LARGE MOVING TRUCK PARKED SINCE LAST NIGHT IN THE MIDDLE  OF THE STREET. ."}
+ {:geo {:lat 37.6649451, :lng -122.4846515},
+  :address "Seabreeze Ct, Pacifica, CA",
+  :time 1381406820000,
+  :type "Traffic Law Abandoned",
+  :id 131010029,
+  :disposition "Log Note Only.",
+  :description
+  "Occurred on Seabreeze Ct, Pacifica. Mazda over 4 weeks. ."}
+ {:geo {:lat 37.6452674, :lng -122.4865339},
+  :address "Edgemar Av/Milagra Av, Pacifica, CA",
+  :time 1355845320000,
+  :type "Traffic Law Vehicle",
+  :id 121218048,
+  :disposition "Gone On Arrival.",
+  :description
+  "Occurred at Edgemar Av/Milagra Av, Pacifica. Whi hyun parked 3 ft from curb  . ."}
+ {:geo {:lat 37.5833184, :lng -122.4817275},
+  :address "Madrid Ct/Alicante Dr, Pacifica, CA",
+  :time 1372980060000,
+  :type "Fireworks",
+  :id 130704172,
+  :disposition "Gone On Arrival.",
+  :description
+  "Occurred at Madrid Ct/Alicante Dr, Pacifica. On madrid ct. ."}
+ {:geo {:lat 37.6492775, :lng -122.4853923},
+  :address "Vista Mar Av, Pacifica, CA",
+  :time 1346875200000,
+  :type "Acc No Injury",
+  :id 120905114,
+  :disposition "Report Taken.",
+  :description "Occurred on Vista Mar Av, Pacifica. ."}
+ {:geo {:lat 37.6628986, :lng -122.4804021},
+  :address "Sunshine Dr, Pacifica, CA",
+  :time 1371231060000,
+  :type "Alarm",
+  :id 130614072,
+  :disposition "False Alarm.",
+  :description
+  "Occurred on Sunshine Dr, Pacifica. Audible act/window alarm company made contact with responsible..not  able to respond..requesting pd to respond . ."}
+ {:geo {:lat 36.7606931, :lng -121.7657346},
+  :address "Pacific Manor Ctr. , Pacifica, CA",
+  :time 1380412560000,
+  :type "Dist Others",
+  :id 130928162,
+  :disposition "Gone On Arrival.",
+  :description
+  "Occurred at Pacific Manor Ctr. , Pacifica. Some sort of 415 outside   rp went to go find out further one involved  party -  "}
+ {:geo {:lat 37.6468476, :lng -122.487535},
+  :address "Avalon Dr, Pacifica, CA",
+  :time 1392338880000,
+  :type "Suspicious Vehicle",
+  :id 140213214,
+  :disposition "Citation.",
+  :description "Officer initiated activity at Avalon Dr, Pacifica. ."}
+ {:geo {:lat 37.6016205, :lng -122.4963387},
+  :address "Roberts Rd. , Pacifica, CA",
+  :time 1352727780000,
+  :type "Alarm",
+  :id 121112032,
+  :disposition "Log Note Only.",
+  :description
+  "Occurred on Roberts Rd. , Pacifica. Alarm from the rear office and safe.  . ."}
+ {:geo {:lat 37.5996209, :lng -122.486425},
+  :address "Fassler Av/Driftwood Cr, Pacifica, CA",
+  :time 1347069180000,
+  :type "Suspicious Circumstances",
+  :id 120907188,
+  :disposition "Gone On Arrival.",
+  :description
+  "Occurred at Fassler Av/Driftwood Cr, Pacifica.  - rp saw a bloody severed foot in roadway wb fassler jeo  driftwood  it's near the center line - rp no longer in the area, didn't see any vehs or bicyclist in area . ."}
+ {:geo {:lat 37.5941463, :lng -122.5013924},
+  :address "De Solo Dr, Pacifica, CA",
+  :time 1365914880000,
+  :type "Fireworks",
+  :id 130413249,
+  :disposition "Log Note Only.",
+  :description
+  "Occurred on De Solo Dr, Pacifica. Rp believes  fireworks are going off"}
+ {:geo {:lat 37.6532679, :lng -122.4897939},
+  :address "Masonic Lodge on Waterford St. , Pacifica, CA",
+  :time 1340930940000,
+  :type "Suspicious Vehicle",
+  :id 120628167,
+  :disposition "Checks Ok.",
+  :description
+  "Occurred at Masonic Lodge on Waterford St. , Pacifica. POSS 10851 -- RED MC ON SIDE OF RD --HAD 49ER  STICKERS ON IT - WIRES STICKING OUT AND LOOKED TAMPERED WITH"}
+ {:geo {:lat 37.6314869, :lng -122.484206},
+  :address "Moana Wy, Pacifica, CA",
+  :time 1376762460000,
+  :type "Susp Circ 911",
+  :id 130817093,
+  :disposition "Checks Ok.",
+  :description
+  "Occurred on Moana Wy, Pacifica. Service Class: VOIP     911 hangup..on call back resident advising no  emergency. ."}
+ {:geo {:lat 37.5859886, :lng -122.4690579},
+  :address "Yosemite Dr, Pacifica, CA",
+  :time 1384579860000,
+  :type "Subject Stop",
+  :id 131115224,
+  :disposition "Log Note Only.",
+  :description
+  "Officer initiated activity at Yosemite Dr, Pacifica. ."}
+ {:geo {:lat 37.648342, :lng -122.4811227},
+  :address "Lewis Ln, Pacifica, CA",
+  :time 1367876760000,
+  :type "Dist Neighbors",
+  :id 130506124,
+  :disposition " Abated/Advised.",
+  :description
+  "Occurred on Lewis Ln, Pacifica. Rp upset because neighbors are blocking street parking w/ garbage cans - she  doesn't want to move them or tell them because she doesn't want to cause problems"}
+ {:geo {:lat 37.595805, :lng -122.4928342},
+  :address "Corona Dr. , Pacifica, CA",
+  :time 1359821820000,
+  :type "Alarm",
+  :id 130202079,
+  :disposition "Cancelled.",
+  :description
+  "Occurred on Corona Dr. , Pacifica. Audible act/rear  door      pending responsible "}
+ {:geo {:lat 37.5910382, :lng -122.4926706},
+  :address "Seville Dr, Pacifica, CA",
+  :time 1372993680000,
+  :type "Fireworks",
+  :id 130704250,
+  :disposition "Gone On Arrival.",
+  :description "Occurred on Seville Dr, Pacifica. ."}
+ {:geo {:lat 37.6106717, :lng -122.4733542},
+  :address "Berendos Av, Pacifica, CA",
+  :time 1363044240000,
+  :type "Dist Neighbors",
+  :id 130311138,
+  :disposition "Log Note Only.",
+  :description
+  "Occurred on Berendos Av, Pacifica.  --ONGOING ISSUE OF NEIGHBOR. ."}
+ {:geo {:lat 37.6325, :lng -122.49263},
+  :address "Palmetto Av/Montecito Av, Pacifica, CA",
+  :time 1352124420000,
+  :type "Suspicious Circumstances",
+  :id 121105032,
+  :disposition "Checks Ok.",
+  :description
+  "Occurred at Palmetto Av/Montecito Av, Pacifica. HEARD A MALE VOICE SCREAM AS IF IN AGONY -  HEARD ONLY 5 AGO . ."}
+ {:geo {:lat 37.6509378, :lng -122.4772329},
+  :address "Inverness Dr, Pacifica, CA",
+  :time 1389787500000,
+  :type "Police Mutual Aid",
+  :id 140115018,
+  :disposition "Report Taken.",
+  :description
+  "Officer initiated activity at Inverness Dr, Pacifica.1030 veh unoccupied  -- vehicle facing southbound. . "}
+ {:geo {:lat 37.59894999999999, :lng -122.49937},
+  :address "Roberts Rd/Crespi Dr, Pacifica, CA",
+  :time 1380937080000,
+  :type "Subject Stop",
+  :id 131004181,
+  :disposition "Abated/Advised.",
+  :description
+  "Officer initiated activity at Roberts Rd/Crespi Dr, Pacifica. ."}
+ {:geo {:lat 37.59885, :lng -122.48153},
+  :address "Terra Nova Bl/Fassler Av, Pacifica, CA",
+  :time 1352835480000,
+  :type "Suspicious Circumstances",
+  :id 121113086,
+  :disposition "Gone On Arrival.",
+  :description
+  "Occurred at Terra Nova Bl/Fassler Av, Pacifica. Chp tx - rp is being followed - rp says he is on terra nova ,he  doesn't have a car, not answering my questions and said let me see what i can do and hung up "}
+ {:geo {:lat 37.5890351, :lng -122.4988634},
+  :address "Peralta Rd, Pacifica, CA",
+  :time 1351582800000,
+  :type "Dist Others",
+  :id 121029222,
+  :disposition "Gone On Arrival.",
+  :description
+  "Occurred on Peralta Rd, Pacifica. Out on the street ifo above     verbal agrument between 2 male   2 wma's . ."}
+ {:geo {:lat 37.6323333, :lng -122.4915853},
+  :address "Hilton Wy. , Pacifica, CA",
+  :time 1364944980000,
+  :type "Property Incident",
+  :id 130402142,
+  :disposition "Report Taken.",
+  :description
+  "Occurred on Hilton Wy. , Pacifica. at front desk - laptop left in parking lot since 03/21 and haven't been claimed "}
+ {:geo {:lat 37.65462, :lng -122.4862363},
+  :address "Beaumont Bl, Pacifica, CA",
+  :time 1345824000000,
+  :type "SPCA Case",
+  :id 120824045,
+  :disposition "Gone On Arrival.",
+  :description
+  "Occurred on Beaumont Bl, Pacifica. Barking dogs in the backyard . ."}
+ {:geo {:lat 37.5907, :lng -122.46522},
+  :address "Everglades Dr/Oddstad Bl, Pacifica, CA",
+  :time 1343737020000,
+  :type "Traffic Law Abandoned",
+  :id 120731029,
+  :disposition "Log Note Only.",
+  :description
+  "Occurred at Everglades Dr/Oddstad Bl, Pacifica. LARGE GRY PU TRUCK WITH OVERSIZED WHEELS - 1  WEEK. ."}
+ {:geo {:lat 37.6298799, :lng -122.4895451},
+  :address "Clarendon Rd, Pacifica, CA",
+  :time 1383887820000,
+  :type "Welfare Check",
+  :id 131107221,
+  :disposition "Log  Note Only.",
+  :description
+  "Occurred on Clarendon Rd, Pacifica. RP HEARS A BABY CRYING - SMELL MARIJUANA . ."}
+ {:geo {:lat 37.6322376, :lng -122.4941658},
+  :address "Pacifica Beach Bl, Pacifica, CA",
+  :time 1387784700000,
+  :type "Traffic Law Vehicle",
+  :id 131222201,
+  :disposition "Warning  (Cite/Verbal).",
+  :description
+  "Officer initiated activity at Pacifica Beach Bl, Pacifica.NO PLATES //  OUT W VEH. ."}
+ {:geo {:lat 37.5900127, :lng -122.5021609},
+  :address "San Pedro Terrace Rd. , Pacifica, CA",
+  :time 1348769640000,
+  :type "Susp Circ 911",
+  :id 120927081,
+  :disposition "Log Note Only.",
+  :description
+  "Occurred on San Pedro Terrace Rd. , Pacifica. 911 hangup / misdial "}
+ {:geo {:lat 37.58418, :lng -122.48644},
+  :address "Alicante Dr/Linda Mar Bl, Pacifica, CA",
+  :time 1380439980000,
+  :type "Subject Stop",
+  :id 130928288,
+  :disposition "Field Interview from Incident.",
+  :description
+  "Officer initiated activity at Alicante Dr/Linda Mar Bl, Pacifica. ."}
+ {:geo {:lat 37.6448541, :lng -122.4888859},
+  :address "Bruce St, Pacifica, CA",
+  :time 1374384180000,
+  :type "SPCA Case",
+  :id 130720239,
+  :disposition "Log Note Only.",
+  :description "Occurred on Bruce St, Pacifica. Barking dog "}
+ {:geo {:lat 37.5938334, :lng -122.4896711},
+  :address "Crespi Dr, Pacifica, CA",
+  :time 1385303100000,
+  :type "Suspicious Vehicle",
+  :id 131124046,
+  :disposition "Warning (Cite/Verbal).",
+  :description "Officer initiated activity at Crespi Dr, Pacifica. ."}
+ {:geo {:lat 37.623102, :lng -122.4848858},
+  :address "Sharp Park Rd/Lundy Wy, Pacifica, CA",
+  :time 1389542040000,
+  :type "Traffic Law Vehicle",
+  :id 140112045,
+  :disposition "Log Note Only.",
+  :description
+  "Occurred at Sharp Park Rd/Lundy Wy, Pacifica. VEH BREAKDOWN EB SHARP PARK JUST PAST LUNDY,  SEDAN IN THE LANE OF TRAFFIC, NOTHING FURTHER"}
+ {:geo {:lat 37.6314769, :lng -122.4767936},
+  :address "Sharp Park Rd. , Pacifica, CA",
+  :time 1371943380000,
+  :type "Traffic Law Vehicle",
+  :id 130622133,
+  :disposition "Checks Ok.",
+  :description
+  "Occurred on Sharp Park Rd. , Pacifica. MOTORIZED SCOOTER ON THE PATH BY THE GOLF COURSE "}
+ {:geo {:lat 37.59424, :lng -122.48099},
+  :address "Crespi Dr/Lerida Wy, Pacifica, CA",
+  :time 1384949100000,
+  :type "Traffic Law Abandoned",
+  :id 131120019,
+  :disposition "Log Note  Only.",
+  :description
+  "Occurred at Crespi Dr/Lerida Wy, Pacifica. Blue and whi impala  4 months  all tires flat. ."}
+ {:geo {:lat 37.5876416, :lng -122.4837366},
+  :address "View Wy, Pacifica, CA",
+  :time 1361945940000,
+  :type "Suspicious Vehicle",
+  :id 130226265,
+  :disposition "Abated/Advised.",
+  :description "Officer initiated activity at View Wy, Pacifica. ."}
+ {:geo {:lat 37.5822371, :lng -122.4895486},
+  :address "Rosita Rd, Pacifica, CA",
+  :time 1375964400000,
+  :type "Traffic Law Abandoned",
+  :id 130808042,
+  :disposition "Log Note Only.",
+  :description
+  "Occurred on Rosita Rd, Pacifica. Pontiac sunbird blue. ."}
+ {:geo {:lat 37.6130305, :lng -122.478626},
+  :address "Reina Del Mar Av/Bonita Av, Pacifica, CA",
+  :time 1377878460000,
+  :type "Hazardous Condition",
+  :id 130830059,
+  :disposition "Checks Ok.",
+  :description
+  "Occurred at Reina Del Mar Av/Bonita Av, Pacifica. Tree down blocking the roadway  ."}
+ {:geo {:lat 37.6567044, :lng -122.4756362},
+  :address "Firecrest Av Pacifica, CA",
+  :time 1379378340000,
+  :type "Welfare Check",
+  :id 130916220,
+  :disposition "Log Note  Only.",
+  :description
+  "Occurred on Firecrest Av Pacifica.male wandering around appears disoriented -----  ."}
+ {:geo {:lat 37.6134264, :lng -122.4803093},
+  :address "Cabrillo Hwy/Reina Del Mar Av, Pacifica, CA",
+  :time 1381117860000,
+  :type "Citizen Assist",
+  :id 131006167,
+  :disposition "Assisted.",
+  :description
+  "Occurred at Cabrillo Hwy/Reina Del Mar Av, Pacifica. RPX WAITING -- WANTS TO CONDUCT A CUSTODY  EXCHANGE AT THE PD . ."}
+ {:geo {:lat 37.62983, :lng -122.48995},
+  :address "Sharp Park Rd/Francisco  Bl, Pacifica, CA",
+  :time 1360433340000,
+  :type "Traffic Law Vehicle",
+  :id 130209078,
+  :disposition "Log Note Only.",
+  :description
+  "Officer initiated activity at Sharp Park Rd/Francisco  Bl, Pacifica.1123. ."}
+ {:geo {:lat 37.58199, :lng -122.48891},
+  :address "Perez Dr/Rosita Rd, Pacifica, CA",
+  :time 1374520740000,
+  :type "Subject Stop",
+  :id 130722128,
+  :disposition "Field Interview from Incident.",
+  :description
+  "Officer initiated activity at Perez Dr/Rosita Rd, Pacifica. ."}
+ {:geo {:lat 37.5857, :lng -122.47652},
+  :address "Terra Nova Bl/Alicante Dr, Pacifica, CA",
+  :time 1353714960000,
+  :type "Welfare Check",
+  :id 121123102,
+  :disposition "Gone On Arrival.",
+  :description
+  "Occurred at Terra Nova Bl/Alicante Dr, Pacifica. COMING DOWN FROM THE HIGH SCHOOL BEFORE  ALICANTE WMA IN HIS 80'S RED JACKET BLUE JEANS HITCH HIKING. ."})
