@@ -56,11 +56,12 @@
                          :min "2012-06-03"},
           :min-max-timestamps {:max 1392406620000,
                                :min 1338760800000}})))
-         
+
 
 (deftest count-apis
   (testing "first two apis")
-  (is (= '({:geo {:lat 37.5876447, :lng -122.4682416},
+  (is (= (get-uri-from-test-db "/api" "count=2")
+         '({:geo {:lat 37.5876447, :lng -122.4682416},
             :address "Oddstad Bl. , Pacifica, CA",
             :time 1392406620000,
             :type "Fraud",
@@ -73,19 +74,14 @@
             :type "Suspicious Vehicle",
             :id 140213214,
             :disposition "Citation.",
-            :description "Officer initiated activity at Avalon Dr, Pacifica. ."})
-         (->> (srv/app {:uri "/api"
-                        :db (test-db)
-                        :request-method :get
-                        :query-string "count=2"})
-              :body
-              keyed-decode))))
+            :description "Officer initiated activity at Avalon Dr, Pacifica. ."}))))
 
 
 
 (deftest count-geos
   (testing "first two geos")
-  (is (= '({:geo nil,
+  (is (= (get-uri-from-test-db "/api/geos" "count=2")
+         '({:geo nil,
             :address nil,
             :time 1381024140000,
             :type "Fire Assist",
@@ -100,31 +96,24 @@
             :id 130501187,
             :disposition "Checks Ok.",
             :description
-            "Occurred at Ocean Shore Elementary School on Oceana Bl. , Pacifica. 911 HANGUP"})
-         (->> (srv/app {:uri "/api/geos"
-                        :db (test-db)
-                        :request-method :get
-                        :query-string "count=2"})
-              :body
-              keyed-decode))))
+            "Occurred at Ocean Shore Elementary School on Oceana Bl. , Pacifica. 911 HANGUP"}))))
+
 
 
 
 (deftest all-geos
   (testing "all the unfiltered geos. should show only UNIQUE geos, with most recent incident for each")
-  (is (= (-> "resources/testdata/geos-api-all.edn"
+  (is (= (get-uri-from-test-db "/api/geos" "")
+         (-> "resources/testdata/geos-api-all.edn"
              slurp
-             clojure.edn/read-string)
-         (->> (srv/app {:uri "/api/geos"
-                        :db (test-db)
-                        :request-method :get})
-              :body
-              keyed-decode))))
+             clojure.edn/read-string))))
+
 
 
 (deftest incidents-by-date
   (testing "all the incidents within a date range")
-  (is (= '({:geo {:lat 37.6511954, :lng -122.4841703},
+  (is (= (get-uri-from-test-db "/api" "count=5&min=1338366000000&max=1392013560000")
+         '({:geo {:lat 37.6511954, :lng -122.4841703},
             :address "Monterey Rd, Pacifica, CA",
             :time 1391496000000,
             :type "Dist Domestic",
@@ -163,18 +152,13 @@
             :id 140120138,
             :disposition "Log Note Only.",
             :description
-            "Occurred on Arguello Bl, Pacifica. Ticket sign off /rp not able to leave his home/"})
-         (->> (srv/app {:uri "/api"
-                        :db (test-db)
-                        :request-method :get
-                        :query-string "count=5&min=1338366000000&max=1392013560000"})
-              :body
-              keyed-decode))))
+            "Occurred on Arguello Bl, Pacifica. Ticket sign off /rp not able to leave his home/"}))))
 
 
 (deftest by-geos
   (testing "search by lat/lng")
-  (is (= '({:geo {:lat 37.6408391, :lng -122.4903562},
+  (is (= (get-uri-from-test-db "/api" "lat=37.6408391&lng=-122.4903562")
+         '({:geo {:lat 37.6408391, :lng -122.4903562},
             :address
             "Ocean Shore Elementary School on Oceana Bl. , Pacifica, CA",
             :time 1367445000000,
@@ -182,51 +166,35 @@
             :id 130501187,
             :disposition "Checks Ok.",
             :description
-            "Occurred at Ocean Shore Elementary School on Oceana Bl. , Pacifica. 911 HANGUP"})
-         (->> (srv/app {:uri "/api"
-                        :db (test-db)
-                        :request-method :get
-                        :query-string "lat=37.6408391&lng=-122.4903562"})
-              :body
-              keyed-decode))))
+            "Occurred at Ocean Shore Elementary School on Oceana Bl. , Pacifica. 911 HANGUP"}))))
+
 
 
 #_(deftest by-geo-and-date
     (testing "by geo AND date")
     ;; TODO: find a better lat/lng and date combination in the subset db, that has > 1 record
-    (->> (srv/app {:uri "/api"
-                   :db (test-db)
-                   :request-method :get
-                   :query-string "lat=37.6408391&lng=-122.4903562&min=1338366000000&max=1392013560000"})
-         :body
-         keyed-decode))
+    (get-uri-from-test-db "/api" "lat=37.6408391&lng=-122.4903562&min=1338366000000&max=1392013560000")
+    )
 
 
 (deftest min-max-dates
   (testing "min and max dates")
-  (is (= {:max 1392406620000, :min 1338760800000}
-         (->> (srv/app {:uri "/api/dates"
-                        :db (test-db)
-                        :request-method :get})
-              :body
-              keyed-decode))))
+  (is (= (get-uri-from-test-db "/api/dates" "")
+         {:max 1392406620000, :min 1338760800000})))
+
 
 (deftest text-search
   (testing "text search")
-  (is (= '({:geo {:lat 37.6509378, :lng -122.4772329},
+  (is (= (get-uri-from-test-db "/api" "search=vehicle")
+         '({:geo {:lat 37.6509378, :lng -122.4772329},
             :address "Inverness Dr, Pacifica, CA",
             :time 1389787500000,
             :type "Police Mutual Aid",
             :id 140115018,
             :disposition "Report Taken.",
             :description
-            "Officer initiated activity at Inverness Dr, Pacifica.1030 veh unoccupied  -- vehicle facing southbound. . "})
-         (->> (srv/app {:uri "/api"
-                        :db (test-db)
-                        :request-method :get
-                        :query-string "search=vehicle"})
-              :body
-              keyed-decode))))
+            "Officer initiated activity at Inverness Dr, Pacifica.1030 veh unoccupied  -- vehicle facing southbound. . "}))))
+
 
 (comment
 
