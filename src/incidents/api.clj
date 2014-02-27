@@ -49,10 +49,7 @@
         xs))
     xs)) ;; All the xs's are ugly, but necessary to protect from broken client requests with zero/empty lat/lng
 
-(comment
-  (Double/parseDouble "")
 
-)
 
 (defn- with-types
   [{:keys [typess]} xs]
