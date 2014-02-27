@@ -30,6 +30,51 @@
   [s]
   (json/decode s true))
 
+
+
+(deftest status-test
+  (testing "status")
+  (is (= {:total-incidents 199,
+          :total-types 199,
+          :total-dispositions 198,
+          :total-descriptions 198,
+          :total-geos 186,
+          :total-addresses 186,
+          :min-max-days {:max "2014-02-14",
+                         :min "2012-06-03"},
+          :min-max-timestamps {:max 1392406620000,
+                               :min 1338760800000}}
+         (->> (srv/app {:uri "/api/status"
+                        :db (test-db)
+                        :request-method :get})
+              :body
+              keyed-decode))))
+
+
+
+(deftest count-apis
+  (testing "first two apis")
+  (is (= '({:geo {:lat 37.5876447, :lng -122.4682416},
+            :address "Oddstad Bl. , Pacifica, CA",
+            :time 1392406620000,
+            :type "Fraud",
+            :id 140214093,
+            :disposition "Report Taken.",
+            :description "Occurred on Oddstad Bl. , Pacifica. Rp at pd."}
+           {:geo {:lat 37.6468476, :lng -122.487535},
+            :address "Avalon Dr, Pacifica, CA",
+            :time 1392338880000,
+            :type "Suspicious Vehicle",
+            :id 140213214,
+            :disposition "Citation.",
+            :description "Officer initiated activity at Avalon Dr, Pacifica. ."})
+         (->> (srv/app {:uri "/api"
+                        :db (test-db)
+                        :request-method :get
+                        :query-string "count=2"})
+              :body
+              keyed-decode))))
+
 (comment
 
   [1338366000000 1392018300000]
@@ -59,21 +104,12 @@
         :time
         DateTime.))
 
-  (->> (srv/app {:uri "/api/status"
-                 :db (test-db)
-                 :request-method :get})
-       :body
-       keyed-decode)
+
 
 
   ;; (spit "/tmp/foo.js")
   
-  (->> (srv/app {:uri "/api"
-                 :db (test-db)
-                 :request-method :get
-                 :query-string "count=2"})
-       :body
-       keyed-decode)
+
 
   (->> (srv/app {:uri "/api/geos"
                  :db (test-db)
@@ -180,4 +216,11 @@
        :body
        keyed-decode)
   
+  )
+
+
+(comment
+
+  (run-tests)
+
   )

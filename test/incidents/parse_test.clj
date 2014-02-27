@@ -1,10 +1,24 @@
 (ns incidents.parse-test
-  (:import org.joda.time.DateTime)
+  (:import org.joda.time.DateTime
+           java.io.File)
   (:require [clojure.test :refer :all]
             [instaparse.core :as ip]
             [utilza.repl :as urepl]
             [taoensso.timbre :as log]
             [incidents.parse :refer :all]))
+
+
+(defn i-hate-you-java
+  "Takes a file path, returns a URL path to that file
+   suitable for passing to something that will be cast as a URL"
+  [s]
+  (-> s
+      File.
+      .toURI
+      .toURL
+      .toString))
+
+
 
 (deftest basic-parse
   (testing "just a dead simple plumbing test"
@@ -79,6 +93,7 @@
 (deftest all-parsing
   (testing "Parsing a well-formed  PDF into the proper finished format")
   (is (= (->> "resources/testdata/well-formed.pdf"
+              i-hate-you-java
               pdf-to-text
               parse-pdf-text)
          (->> "resources/testdata/well-formed-parsed.edn"
@@ -102,6 +117,7 @@
   []
   (urepl/massive-spew "resources/testdata/well-formed-parsed.edn"
                       (->> "resources/testdata/well-formed.pdf"
+                           i-hate-you-java
                            pdf-to-text
                            parse-pdf-text)))
 
