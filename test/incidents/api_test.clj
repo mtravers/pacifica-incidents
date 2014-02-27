@@ -31,10 +31,22 @@
   (json/decode s true))
 
 
+(defn get-uri-from-test-db
+  "Fetches the URI from the API handler, using the query string supplied.
+  Parses the returned JSON and returns keyworded EDN"
+  [uri query-string]
+  (->> (srv/app {:uri uri
+                 :query-string query-string
+                 :db (test-db)
+                 :request-method :get})
+       :body
+       keyed-decode))
+
 
 (deftest status-test
   (testing "status")
-  (is (= {:total-incidents 199,
+  (is (= (get-uri-from-test-db "/api/status" "")
+         {:total-incidents 199,
           :total-types 199,
           :total-dispositions 198,
           :total-descriptions 198,
@@ -43,14 +55,8 @@
           :min-max-days {:max "2014-02-14",
                          :min "2012-06-03"},
           :min-max-timestamps {:max 1392406620000,
-                               :min 1338760800000}}
-         (->> (srv/app {:uri "/api/status"
-                        :db (test-db)
-                        :request-method :get})
-              :body
-              keyed-decode))))
-
-
+                               :min 1338760800000}})))
+         
 
 (deftest count-apis
   (testing "first two apis")
