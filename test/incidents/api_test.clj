@@ -18,6 +18,8 @@
 
 
 (defn test-db
+  "Returns a map of a predictable, version-controlled
+    subset of the database, for testing."
   []
   (-> "resources/testdata/testdb.edn"
       slurp
@@ -35,12 +37,12 @@
   "Fetches the URI from the API handler, using the query string supplied.
   Parses the returned JSON and returns keyworded EDN"
   [uri query-string]
-  (->> (srv/app {:uri uri
-                 :query-string query-string
-                 :db (test-db)
-                 :request-method :get})
-       :body
-       keyed-decode))
+  (-> (srv/app {:uri uri
+                :query-string query-string
+                :db (test-db)
+                :request-method :get})
+      :body
+      (json-decode true)))
 
 
 (deftest status-test
@@ -230,7 +232,7 @@
 
   ;; (spit "/tmp/foo.js")
 
-
+  ;; TODO: make THESE below into unit tests too. Why not? Tedium, it is the way.
   
   (->> (srv/app {:uri "/api/types"
                  :db (test-db)
