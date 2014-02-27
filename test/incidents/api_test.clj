@@ -202,7 +202,7 @@
 
   [1338366000000 1392018300000]
 
-  ;; TODO: make these into unit tests!
+
   
   (get-all {:count "1"
             :min "1338366000000"
