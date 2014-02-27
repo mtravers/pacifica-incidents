@@ -115,7 +115,7 @@
                           ;; application/clojure ;; could support edn, but why really?
                           ]
   :handle-ok (fn [{{:keys [params db]} :request}]
-               (reports/quick-status))) ;; TODO; db-ify
+               (reports/quick-status (or db @db/db)))) 
 
 
 (liberator/defresource min-max-timestamps
@@ -124,7 +124,7 @@
                           ;; application/clojure ;; could support edn, but why really?
                           ]
   :handle-ok (fn [{{:keys [params db]} :request}]
-               (reports/timestamps-min-max))) ;; TODO: dbify
+               (reports/timestamps-min-max (or db @db/db)))) 
 
 (liberator/defresource geos
   :method-allowed? (liberator/request-method-in :get)
@@ -143,9 +143,9 @@
   :available-media-types ["application/json"
                           ;; application/clojure ;; could support edn, but why really?
                           ]
-  :handle-ok (fn [{{:keys [params]} :request}]
+  :handle-ok (fn [{{:keys [params db]} :request}]
                (->> :disposition
-                    (utils/all-keys @db/db)
+                    (utils/all-keys (or db @db/db))
                     vec)))
 
 (liberator/defresource disposition-stats
@@ -153,10 +153,10 @@
   :available-media-types ["application/json"
                           ;; application/clojure ;; could support edn, but why really?
                           ]
-  :handle-ok (fn [{{:keys [params]} :request}]
+  :handle-ok (fn [{{:keys [params db ]} :request}]
                ;; TODO: filter these based on params, possibly by adding ->> with-date, with-geo
                ;; requires refactoring key-set-counts to take a seq of maps (->> @db/db vals), not a db
-               (reports/disposition-counts)))
+               (reports/disposition-counts (or db @db/db))))
 
 (liberator/defresource all-types
   :method-allowed? (liberator/request-method-in :get)
@@ -173,10 +173,10 @@
   :available-media-types ["application/json"
                           ;; application/clojure ;; could support edn, but why really?
                           ]
-  :handle-ok (fn [{{:keys [params]} :request}]
+  :handle-ok (fn [{{:keys [params db]} :request}]
                ;; TODO: filter these based on params, possibly by adding ->> with-date, with-geo
                ;; requires refactoring key-set-counts to take a seq of maps (->> @db/db vals), not a db
-               (reports/type-counts)))
+               (reports/type-counts (or db @db/db))))
 
 ;; TODO: api endpoints for (reports/disposition-counts), (reports/type-counts), maybe (reports/address-counts)?
 (compojure/defroutes routes

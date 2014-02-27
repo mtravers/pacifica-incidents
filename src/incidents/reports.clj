@@ -12,57 +12,57 @@
 
 
 (defn disposition-total
-  []
-  (utils/total-not-null-counts :disposition))
+  [db]
+  (utils/total-not-null-counts db :disposition))
 
 (defn disposition-counts
-  []
-  (utils/key-set-counts @db/db :disposition))
+  [db]
+  (utils/key-set-counts db :disposition))
 
 (defn types-total
-  []
-  (utils/total-not-null-counts :type))
+  [db ]
+  (utils/total-not-null-counts db :type))
 
 
 (defn type-counts
-  []
-  (utils/key-set-counts @db/db :type))
+  [db]
+  (utils/key-set-counts db :type))
 
 (defn geo-total
-  []
-  (utils/total-not-null-counts :geo))
+  [db ]
+  (utils/total-not-null-counts db :geo))
 
 (defn description-total
-  []
-  (utils/total-not-null-counts :description))
+  [db]
+  (utils/total-not-null-counts db :description))
 
 (defn total-records
-  []
-  (->> @db/db
+  [db]
+  (->> db
        vals
        count))
 
 
 
 (defn spot-check
-  []
-  (get @db/db (-> @db/db
-                  keys
-                  rand-nth)))
+  [db]
+  (get db (-> db
+              keys
+              rand-nth)))
 
 
 (defn missing-important-stuff
-  []
+  [db]
   (let [total (total-records)]
     (reduce (fn [a k]
-              (assoc a k  (- total (utils/key-set-counts @db/db k))))
+              (assoc a k  (- total (utils/key-set-counts db k))))
             {}
             [:description :type :disposition])))
 
 
 (defn unique-dates
   "Unique dates without timestamps in the db"
-  []
+  [db]
   (reduce #(conj %1 %2)
           #{}
           (r/map #(-> %
@@ -70,24 +70,24 @@
                       org.joda.time.DateTime.
                       .toLocalDate
                       .toString)
-                 (->> @db/db
+                 (->> db
                       vals))))
 
 (defn date-only-min-max
   "poorly named"
-  []
-  (->> (unique-dates)
+  [db]
+  (->> (unique-dates db)
        sort
        ((juxt first last))
        (zipmap [:min :max])))
 
 (defn days-total
-  []
-  (count (unique-dates)))
+  [db]
+  (count (unique-dates db)))
 
 (defn timestamps-min-max
-  []
-  (->> @db/db
+  [db]
+  (->> db
        vals
        (map :time)
        sort
@@ -98,27 +98,27 @@
 
 
 (defn  address-counts
-  []
-  (utils/key-set-counts @db/db :address))
+  [db]
+  (utils/key-set-counts db :address))
 
 (defn total-addresses
-  []
-  (utils/total-not-null-counts :address))
+  [db]
+  (utils/total-not-null-counts db :address))
 
 (defn  geo-counts
-  []
-  (utils/key-set-counts @db/db :geo))
+  [db]
+  (utils/key-set-counts db :geo))
 
 (defn botchy-geos
-  []
-  (for [[k v] (utils/key-set-counts @db/db (comp type :geo))]
+  [db]
+  (for [[k v] (utils/key-set-counts db (comp type :geo))]
     [(str k) v]))
 
 
 (defn most-recent-by-geo
-  []
-  (for [geo  (utils/all-keys @db/db :geo)]
-    (->> @db/db
+  [db]
+  (for [geo  (utils/all-keys db :geo)]
+    (->> db
          vals
          (filter #(= (:geo %) geo))
          (sort-by :time)
@@ -126,43 +126,43 @@
          first)))
 
 (defn quick-status
-  []
-  {:total-incidents (total-records)
-   :total-types (types-total)
-   :total-dispositions (disposition-total)
-   :total-descriptions (description-total)
-   :total-geos (geo-total)
+  [db]
+  {:total-incidents (total-records db)
+   :total-types (types-total db)
+   :total-dispositions (disposition-total db)
+   :total-descriptions (description-total db)
+   :total-geos (geo-total db)
    ;; :botchy-geos (botchy-geos) ;; not really an issue anymore
-   :total-addresses (total-addresses)
-   :min-max-days (date-only-min-max)
-   :min-max-timestamps   (timestamps-min-max)})
+   :total-addresses (total-addresses db)
+   :min-max-days (date-only-min-max db)
+   :min-max-timestamps   (timestamps-min-max db)})
 
 (comment
 
-  (total-records)
-  (spot-check)
+  (total-records @db/db)
+  (spot-check @db/db)
   
-  (types-total)
-  (type-counts)
+  (types-total @db/db)
+  (type-counts @db/db)
 
-  (disposition-total)
-  (disposition-counts)
+  (disposition-total @db/db)
+  (disposition-counts @db/db)
   
-  (description-total)
+  (description-total @db/db)
 
-  (missing-important-stuff)
+  (missing-important-stuff @db/db)
 
-  (quick-status)
+  (quick-status @db/db)
 
-  (timestamps-min-max)
+  (timestamps-min-max @db/db)
 
-  (date-only-min-max)
-  (days-total)
+  (date-only-min-max @db/db)
+  (days-total @db/db)
   
-  (total-addresses)
-  (address-counts)
+  (total-addresses @db/db)
+  (address-counts @db/db)
 
-  (geo-counts)
+  (geo-counts @db/db)
 
   (future
     (->> (most-recent-by-geo)
@@ -170,7 +170,7 @@
          (urepl/massive-spew "/tmp/output.edn")))
 
   
-  (botchy-geos)
+  (botchy-geos @db/db)
   
   
   (urepl/massive-spew "/tmp/output.edn" *1)

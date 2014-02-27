@@ -19,8 +19,8 @@
        reverse))
 
 (defn total-not-null-counts
-  [k]
-  (reduce (fn [c _] (inc c)) 0 (r/filter k (vals @db/db))))
+  [db k]
+  (reduce (fn [c _] (inc c)) 0 (r/filter k (vals db))))
 
 
 (defn simpler-contains [k s m]
