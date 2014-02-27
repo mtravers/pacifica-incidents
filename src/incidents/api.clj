@@ -25,7 +25,7 @@
 
 (defn- sanity-check-dates
   [{:keys [min max]}]
-  (if (and min max (every? #(-> % empty? not) [min max]))
+  (when (and min max (every? #(-> % empty? not) [min max]))
     (let [min (Long/parseLong min)
           max (Long/parseLong max)]
       (when (every? (partial < 0) [min max])
@@ -43,17 +43,25 @@
             xs)
     xs))
 
-(defn- with-geo
-  [{:keys [lat lng]} xs]
+(defn- sanity-check-geos
+  [{:keys [lat lng]}]
   (if (and lat lng (every? #(-> % empty? not) [lat lng]))
-    (let [chosen-lat (Double/parseDouble lat)
-          chosen-lng (Double/parseDouble lng)]
-      (if (every? (partial not= 0.0 ) [chosen-lat chosen-lng])
-        (filter (fn [{{:keys [lat lng]} :geo}]
-                  (and (= lat chosen-lat)
-                       (= lng chosen-lng))) xs)
-        xs))
-    xs)) ;; All the xs's are ugly, but necessary to protect from broken client requests with zero/empty lat/lng
+    (let [lat (Double/parseDouble lat)
+          lng (Double/parseDouble lng)]
+      (when (every? (partial not= 0.0 ) [lat lng])
+        {:chosen-lat lat
+         :chosen-lng lng}))))
+
+
+(defn- with-geo
+  [params xs]
+  (if-let [{:keys [chosen-lat chosen-lng]} (sanity-check-geos params)]
+    (filter (fn [{{:keys [lat lng]} :geo}]
+              (and (= lat chosen-lat)
+                   (= lng chosen-lng)))
+            xs)
+    xs))
+
 
 
 
