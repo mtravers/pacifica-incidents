@@ -28,22 +28,26 @@
   (if (and min max)
     (let [min (Long/parseLong min)
           max (Long/parseLong max)]
-      (filter (fn [{:keys [time]}]
-                (let [millis (.getTime time)]
-                  (and (> millis min)
-                       (< millis max))))
-              xs))
-    xs))
+      (if (every? (partial < 0) [min max])
+        (filter (fn [{:keys [time]}]
+                  (let [millis (.getTime time)]
+                    (and (> millis min)
+                         (< millis max))))
+                xs)
+        xs))
+    xs)) ;; All the xs's are ugly, but necessary to protect from broken client requests with empty min/max
 
 (defn- with-geo
   [{:keys [lat lng]} xs]
   (if (and lat lng)
     (let [chosen-lat (Double/parseDouble lat)
           chosen-lng (Double/parseDouble lng)]
-      (filter (fn [{{:keys [lat lng]} :geo}]
-                (and (= lat chosen-lat)
-                     (= lng chosen-lng))) xs))
-    xs))
+      (if (every? (partial not= 0) [lat lng])
+        (filter (fn [{{:keys [lat lng]} :geo}]
+                  (and (= lat chosen-lat)
+                       (= lng chosen-lng))) xs)
+        xs))
+    xs)) ;; All the xs's are ugly, but necessary to protect from broken client requests with zero/empty lat/lng
 
 
 (defn- with-types
