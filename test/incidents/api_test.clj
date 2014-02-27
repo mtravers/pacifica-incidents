@@ -42,7 +42,7 @@
                 :db (test-db)
                 :request-method :get})
       :body
-      (json-decode true)))
+      (json/decode true)))
 
 
 (deftest status-test
