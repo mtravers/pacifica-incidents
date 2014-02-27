@@ -105,7 +105,7 @@
 
 
 (deftest all-geos
-  (testing "all the unfiltered geos. should show only UNIQUE geos, with most recent incident")
+  (testing "all the unfiltered geos. should show only UNIQUE geos, with most recent incident for each")
   (is (= (-> "resources/testdata/geos-api-all.edn"
              slurp
              clojure.edn/read-string)
@@ -114,6 +114,57 @@
                         :request-method :get})
               :body
               keyed-decode))))
+
+
+(deftest incidents-by-date
+  (testing "all the incidents within a date range")
+  (is (= '({:geo {:lat 37.6511954, :lng -122.4841703},
+            :address "Monterey Rd, Pacifica, CA",
+            :time 1391496000000,
+            :type "Dist Domestic",
+            :id 140203252,
+            :disposition "Report Taken.",
+            :description
+            "Occurred on Monterey Rd, Pacifica. Screaming in bcakgroung // x screaming for pd // bf is losing it no  weapons // unk drinking or drugs -- may be on drugs"}
+           {:geo {:lat 37.63275369999999, :lng -122.492436},
+            :address "Montecito Av, Pacifica, CA",
+            :time 1391026260000,
+            :type "Property Incident",
+            :id 140129096,
+            :disposition "Report Taken.",
+            :description
+            "Occurred on Montecito Av, Pacifica. Service Class: VOIP  subj outside wma  whi tshirt khaki pants not  suppose to be here  last seen on foot twds the beach. ."}
+           {:geo {:lat 37.5905072, :lng -122.47599},
+            :address "Terra Nova Bl. , Pacifica, CA",
+            :time 1390796100000,
+            :type "Civil Case",
+            :id 140126222,
+            :disposition "Assisted.",
+            :description
+            "Occurred on Terra Nova Bl. , Pacifica. Regarding custody issues"}
+           {:geo {:lat 37.58244, :lng -122.48358},
+            :address "Linda Mar Bl/Capistrano Dr, Pacifica, CA",
+            :time 1390684740000,
+            :type "Warrant Arrest",
+            :id 140125130,
+            :disposition "Arrest Made.",
+            :description
+            "Officer initiated activity at Linda Mar Bl/Capistrano Dr, Pacifica."}
+           {:geo {:lat 37.5928217, :lng -122.4988326},
+            :address "Arguello Bl, Pacifica, CA",
+            :time 1390261380000,
+            :type "Citizen Assist",
+            :id 140120138,
+            :disposition "Log Note Only.",
+            :description
+            "Occurred on Arguello Bl, Pacifica. Ticket sign off /rp not able to leave his home/"})
+         (->> (srv/app {:uri "/api"
+                        :db (test-db)
+                        :request-method :get
+                        :query-string "count=5&min=1338366000000&max=1392013560000"})
+              :body
+              keyed-decode))))
+
 
 
 (comment
@@ -152,12 +203,7 @@
   
 
   
-  (->> (srv/app {:uri "/api"
-                 :db (test-db)
-                 :request-method :get
-                 :query-string "count=5&min=1338366000000&max=1392013560000"})
-       :body
-       keyed-decode)
+
 
   
   (->> (srv/app {:uri "/api"
