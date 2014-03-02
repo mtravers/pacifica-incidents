@@ -148,7 +148,12 @@
  "min-max-timestamps":{"max":1392709980000,
 					   "min":1338366000000}}
 ```
-
+### /api/scrape
+	Starts a scrape job going, refreshing the database with latest police logs from the URL set in the system env settings.
+#### Parameters
+	None
+#### Response
+	None yet.
 ## General
 ### JSONP
 	Just add callback=foo argument to any query in the above endpoints, and you'll get back jsonp, i.e the result wrapped as an argument to foo()

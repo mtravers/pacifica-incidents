@@ -172,7 +172,8 @@
   ;; should really be a PUT or something, but whatever.
   (compojure/GET "/api/scrape" {:keys [params db]}
                  (-> (or db @db/db)
-                     scrape/start-pdf-downloading 
+                     scrape/start-pdf-downloading
+                     (pr-str "running")
                      json-response))
 
   
