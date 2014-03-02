@@ -145,7 +145,7 @@
   
   
   (compojure/GET "/api/dispositions" {:keys [params db]}
-                 (->> :type
+                 (->> :disposition
                       (utils/all-keys (or db @db/db))
                       vec
                       keyed-encode))
