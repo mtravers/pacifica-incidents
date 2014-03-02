@@ -13,7 +13,7 @@
 
 
 (defn json-response
-  "Takes a map, encodes it as JSON, wraps it in a ring response, and returns it as json"
+  "Takes a map, encodes it as JSON, wraps it in a ring response, adds the right header, and returns it."
   [m]
   {:status 200
    :headers {"Content-Type" "application/json"}

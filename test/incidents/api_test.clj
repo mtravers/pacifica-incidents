@@ -33,6 +33,7 @@
   (json/decode s true))
 
 
+
 (defn get-uri-from-test-db
   "Fetches the URI from the API handler, using the query string supplied.
   Parses the returned JSON and returns keyworded EDN"
@@ -214,6 +215,28 @@
             "Officer initiated activity at Inverness Dr, Pacifica.1030 veh unoccupied  -- vehicle facing southbound. . "}))))
 
 
+(deftest proper-json
+  (testing "for proper json headers")
+  ;; TODO: unboilerplate this crap
+  (is (= "application/json"
+         (-> (srv/app {:uri "/geo"
+                       :db (test-db)
+                       :request-method :get})
+             :headers
+             (get "Content-Type"))))
+  (is (= "application/json"
+         (-> (srv/app {:uri "/dates"
+                       :db (test-db)
+                       :request-method :get})
+             :headers
+             (get "Content-Type"))))
+  (is (= "application/json"
+         (-> (srv/app {:uri "/api"
+                       :db (test-db)
+                       :request-method :get})
+             :headers
+             (get "Content-Type")))))
+
 (comment
 
   [1338366000000 1392018300000]
@@ -276,7 +299,8 @@
        keyed-decode)
 
 
-  
+
+
 
 
   
