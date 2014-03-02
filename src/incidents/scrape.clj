@@ -8,8 +8,9 @@
             [net.cgrand.enlive-html :as enlive]
             [taoensso.timbre :as log]))
 
-;; TODO: handle log errors here
-(defonce dl-agent (agent nil))
+;; logs all errors and continues on its merry way.
+(defonce dl-agent (agent nil :error-handler #(log/error %)))
+
 
 (defn scrape-urls
   "Takes a string with a parsable HTML page in it,
@@ -61,16 +62,13 @@
   "Takes an URL to the index page.
     Fetches and parses all the pdfs not in the db yet"
   [db index-url]
-  (try
-    (log/info "fetching index from " index-url)
-    (doseq [{:keys [date url]}  (->> index-url
-                                     slurp
-                                     scrape-urls
-                                     (filter-not-in-db db))]
-      (fetch-and-add-to-db! url))
-    ;; TODO: use dire to move this try/catch out of the program flow
-    (catch Exception e
-      (log/error e))))
+  (log/info "fetching index from " index-url)
+  (doseq [{:keys [date url]}  (->> index-url
+                                   slurp
+                                   scrape-urls
+                                   (filter-not-in-db db))]
+    (fetch-and-add-to-db! url)))
+
 
 
 (defn start-pdf-downloading
