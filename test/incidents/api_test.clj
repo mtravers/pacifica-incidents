@@ -217,25 +217,26 @@
 
 (deftest proper-json
   (testing "for proper json headers")
-  ;; TODO: unboilerplate this crap
-  (is (= "application/json"
-         (-> (srv/app {:uri "/api/geos"
-                       :db (test-db)
-                       :request-method :get})
-             :headers
-             (get "Content-Type"))))
-  (is (= "application/json"
-         (-> (srv/app {:uri "/api/dates"
-                       :db (test-db)
-                       :request-method :get})
-             :headers
-             (get "Content-Type"))))
-  (is (= "application/json"
-         (-> (srv/app {:uri "/api"
-                       :db (test-db)
-                       :request-method :get})
-             :headers
-             (get "Content-Type")))))
+  (let [correct-content-type "application/json;charset=UTF-8"]
+    ;; TODO: unboilerplate this crap
+    (is (=  correct-content-type
+            (-> (srv/app {:uri "/api/geos"
+                          :db (test-db)
+                          :request-method :get})
+                :headers
+                (get "Content-Type"))))
+    (is (= correct-content-type
+           (-> (srv/app {:uri "/api/dates"
+                         :db (test-db)
+                         :request-method :get})
+               :headers
+               (get "Content-Type"))))
+    (is (= correct-content-type
+           (-> (srv/app {:uri "/api"
+                         :db (test-db)
+                         :request-method :get})
+               :headers
+               (get "Content-Type"))))))
 
 
 (comment

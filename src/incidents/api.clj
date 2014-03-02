@@ -18,7 +18,7 @@
   adds the right header, and returns it."
   [data]
   {:status 200
-   :headers {"Content-Type" "application/json"
+   :headers {"Content-Type" "application/json;charset=UTF-8"
              ;; TODO: yeah, OK, maybe ETags might be useful in the future.
              "Cache-Control" "private, no-cache, no-store"}
    :body (json/encode data true)})
