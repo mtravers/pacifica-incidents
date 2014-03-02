@@ -132,13 +132,14 @@
                      (get-all params)
                      keyed-encode))
 
+  
   (compojure/GET "/api/geos" {:keys [params db]}
                  (-> (or db @db/db)
                      (get-geos params)
                      keyed-encode))
 
   
-
+  ;; TODO: error handling/validation for non-valid keys?
   (compojure/GET "/api/keys/:kind" {{:keys [kind]} :params db :db}
                  (some->> kind
                           keyword
@@ -148,6 +149,7 @@
 
   
 
+  ;; TODO: error handling/validation for non-valid keys?
   (compojure/GET "/api/stats/:kind" {{:keys [kind]} :params db :db}  
                  (->> kind
                       keyword 
@@ -160,11 +162,13 @@
                  (-> (or db @db/db)
                      reports/timestamps-min-max
                      keyed-encode))
+
   
   ;; should really be a PUT or something, but whatever.
   (compojure/GET "/api/scrape" {:keys [params db]}
                  (-> (scrape/start-pdf-downloading)
                      keyed-encode))
+
   
   (compojure/GET "/api/status" {:keys [params db]}
                  (-> (or db @db/db)
