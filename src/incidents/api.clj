@@ -127,47 +127,56 @@
 
 ;; TODO: api endpoints for (reports/disposition-counts), (reports/type-counts), maybe (reports/address-counts)?
 (compojure/defroutes routes
-  (compojure/GET "/api" {:keys [params db]} (-> (or db @db/db)
-                                                (get-all params)
-                                                keyed-encode))
+  (compojure/GET "/api" {:keys [params db]}
+                 (-> (or db @db/db)
+                     (get-all params)
+                     keyed-encode))
 
-  (compojure/GET "/api/geos" {:keys [params db]} (-> (or db @db/db)
-                                                     (get-geos params)
-                                                     keyed-encode))
-
-  
-  (compojure/GET "/api/dispositions/stats" {:keys [params db]} (-> (or db @db/db)
-                                                                   reports/disposition-counts
-                                                                   keyed-encode))
-  
-  
-  (compojure/GET "/api/dispositions" {:keys [params db]} (->> :type
-                                                              (utils/all-keys (or db @db/db))
-                                                              vec
-                                                              keyed-encode))
+  (compojure/GET "/api/geos" {:keys [params db]}
+                 (-> (or db @db/db)
+                     (get-geos params)
+                     keyed-encode))
 
   
-  (compojure/GET "/api/types" {:keys [params db]} (->> :type
-                                                       (utils/all-keys (or db @db/db))
-                                                       vec
-                                                       keyed-encode))
-
-
-  (compojure/GET "/api/types/stats"  {:keys [params db]} (-> (or db @db/db)
-                                                             reports/type-counts
-                                                             keyed-encode))
+  (compojure/GET "/api/dispositions/stats" {:keys [params db]}
+                 (-> (or db @db/db)
+                     reports/disposition-counts
+                     keyed-encode))
   
-  (compojure/GET "/api/dates"  {:keys [params db]} (-> (or db @db/db)
-                                                       reports/timestamps-min-max
-                                                       keyed-encode))
+  
+  (compojure/GET "/api/dispositions" {:keys [params db]}
+                 (->> :type
+                      (utils/all-keys (or db @db/db))
+                      vec
+                      keyed-encode))
+
+  
+  (compojure/GET "/api/types" {:keys [params db]}
+                 (->> :type
+                      (utils/all-keys (or db @db/db))
+                      vec
+                      keyed-encode))
+
+
+  (compojure/GET "/api/types/stats"  {:keys [params db]}
+                 (-> (or db @db/db)
+                     reports/type-counts
+                     keyed-encode))
+  
+  (compojure/GET "/api/dates"  {:keys [params db]}
+                 (-> (or db @db/db)
+                     reports/timestamps-min-max
+                     keyed-encode))
   
   ;; should really be a PUT or something, but whatever.
-  (compojure/GET "/api/scrape" {:keys [params db]} (-> (scrape/start-pdf-downloading)
-                                                       keyed-encode))
+  (compojure/GET "/api/scrape" {:keys [params db]}
+                 (-> (scrape/start-pdf-downloading)
+                     keyed-encode))
   
-  (compojure/GET "/api/status" {:keys [params db]} (-> (or db @db/db)
-                                                       reports/quick-status
-                                                       keyed-encode)))
+  (compojure/GET "/api/status" {:keys [params db]}
+                 (-> (or db @db/db)
+                     reports/quick-status
+                     keyed-encode)))
 
 
 
