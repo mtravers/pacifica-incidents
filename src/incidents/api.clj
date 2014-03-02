@@ -2,6 +2,7 @@
   (:require [incidents.db :as db]
             [incidents.utils :as utils]
             [incidents.scrape :as scrape]
+            [ring.util.response :as rutil]
             [taoensso.timbre :as log]
             [cheshire.core :as json]
             [incidents.reports :as reports]
@@ -11,10 +12,13 @@
   (:import java.util.Date))
 
 
-(defn keyed-encode
-  "Because I don't feel like messing around with as->"
-  [s]
-  (json/encode s true))
+(defn json-response
+  "Takes a map, encodes it as JSON, wraps it in a ring response, and returns it as json"
+  [m]
+  {:status 200
+   :headers {"Content-Type" "application/json"}
+   :body (json/encode m true)})
+
 
 (defn serialize-for-json
   [t]
@@ -130,13 +134,13 @@
   (compojure/GET "/api" {:keys [params db]}
                  (-> (or db @db/db)
                      (get-all params)
-                     keyed-encode))
+                     json-response))
 
   
   (compojure/GET "/api/geos" {:keys [params db]}
                  (-> (or db @db/db)
                      (get-geos params)
-                     keyed-encode))
+                     json-response))
 
   
   ;; TODO: error handling/validation for non-valid keys?
@@ -145,7 +149,7 @@
                           keyword
                           (utils/all-keys (or db @db/db))
                           vec
-                          keyed-encode))
+                          json-response))
 
   
 
@@ -154,26 +158,26 @@
                  (some->> kind
                           keyword 
                           (utils/key-set-counts (or db @db/db))
-                          keyed-encode))
+                          json-response))
 
 
   
   (compojure/GET "/api/dates"  {:keys [params db]}
                  (-> (or db @db/db)
                      reports/timestamps-min-max
-                     keyed-encode))
+                     json-response))
 
   
   ;; should really be a PUT or something, but whatever.
   (compojure/GET "/api/scrape" {:keys [params db]}
                  (-> (scrape/start-pdf-downloading)
-                     keyed-encode))
+                     json-response))
 
   
   (compojure/GET "/api/status" {:keys [params db]}
                  (-> (or db @db/db)
                      reports/quick-status
-                     keyed-encode)))
+                     json-response)))
 
 
 
