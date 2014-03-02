@@ -13,11 +13,12 @@
 
 
 (defn json-response
-  "Takes a map, encodes it as JSON, wraps it in a ring response, adds the right header, and returns it."
-  [m]
+  "Takes some clojure data, encodes it as JSON, wraps it in a ring response,
+  adds the right header, and returns it."
+  [data]
   {:status 200
    :headers {"Content-Type" "application/json"}
-   :body (json/encode m true)})
+   :body (json/encode data true)})
 
 
 (defn serialize-for-json
