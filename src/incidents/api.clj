@@ -3,6 +3,7 @@
             [incidents.utils :as utils]
             [incidents.scrape :as scrape]
             [ring.util.response :as rutil]
+            [markdown.core :as md]
             [taoensso.timbre :as log]
             [cheshire.core :as json]
             [incidents.reports :as reports]
@@ -176,6 +177,10 @@
                      (pr-str "running")
                      json-response))
 
+  (compojure/GET "/api/docs" {:keys [params db]}
+                 (-> "doc/API.md"
+                     slurp
+                     md/md-to-html-string))
   
   (compojure/GET "/api/status" {:keys [params db]}
                  (-> (or db @db/db)
