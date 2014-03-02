@@ -27,8 +27,8 @@
 
 (defn filter-not-in-db
   "Gets only those dates not yet in the db"
-  [urlmaps]
-  (let [in-db (reports/unique-dates)]
+  [db urlmaps]
+  (let [in-db (reports/unique-dates db)]
     (->> urlmaps
          (remove #(in-db (some-> % :date)))
          (remove nil?))))
@@ -60,21 +60,25 @@
 (defn get-all-pdfs!
   "Takes an URL to the index page.
     Fetches and parses all the pdfs not in the db yet"
-  [index-url]
-  (log/info "fetching index from " index-url)
-  (doseq [{:keys [date url]}  (->> index-url
-                                   slurp
-                                   scrape-urls
-                                   filter-not-in-db)]
-    (fetch-and-add-to-db! url)))
+  [db index-url]
+  (try
+    (log/info "fetching index from " index-url)
+    (doseq [{:keys [date url]}  (->> index-url
+                                     slurp
+                                     scrape-urls
+                                     (filter-not-in-db db))]
+      (fetch-and-add-to-db! url))
+    ;; TODO: use dire to move this try/catch out of the program flow
+    (catch Exception e
+      (log/error e))))
 
 
 (defn start-pdf-downloading
-  []
+  [db]
   (send-off dl-agent (fn [_]
-                       (-> env/env
-                           :dl-index-url
-                           get-all-pdfs! ))))
+                       (->> env/env
+                            :dl-index-url
+                            (get-all-pdfs! db)))))
 
 (comment
 
@@ -85,16 +89,16 @@
   (-> (:dl-index-url env/env)
       slurp
       scrape-urls
-      filter-not-in-db)
+      (filter-not-in-db @db/db))
 
 
   ;; (urepl/massive-spew "/tmp/output.edn" *1)
-  
+
   (get-all-pdfs! "/mnt/sdcard/tmp/logs/policelogs.html")
 
   (log/info "wtf?")
-  
-  (start-pdf-downloading)
+
+  (start-pdf-downloading @db/db)
 
 
   ;; TODO: somewhere in here, put a blacklist of known bad URLs (empty files)
@@ -104,5 +108,5 @@
 
 
 
-  
+
   )
