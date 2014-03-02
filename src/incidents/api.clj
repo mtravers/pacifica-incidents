@@ -151,10 +151,10 @@
 
   ;; TODO: error handling/validation for non-valid keys?
   (compojure/GET "/api/stats/:kind" {{:keys [kind]} :params db :db}  
-                 (->> kind
-                      keyword 
-                      (utils/key-set-counts (or db @db/db))
-                      keyed-encode))
+                 (some->> kind
+                          keyword 
+                          (utils/key-set-counts (or db @db/db))
+                          keyed-encode))
 
 
   
