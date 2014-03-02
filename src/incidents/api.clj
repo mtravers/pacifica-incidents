@@ -26,6 +26,9 @@
    :body (json/encode data true)})
 
 
+;; TODO: now that we're using cheshire instead of liberator,
+;; this .getTime type-handling for Date could be added as a singleton into
+;; cheshire's config instead of crudely walking trees here.
 (defn serialize-for-json
   [t]
   (walk/postwalk #(if (= java.util.Date (class %))
