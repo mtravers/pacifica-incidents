@@ -62,12 +62,19 @@
   "Takes an URL to the index page.
     Fetches and parses all the pdfs not in the db yet"
   [db index-url]
-  (log/info "fetching index from " index-url)
-  (doseq [{:keys [date url]}  (->> index-url
-                                   slurp
-                                   scrape-urls
-                                   (filter-not-in-db db))]
-    (fetch-and-add-to-db! url)))
+  (try
+    (log/info "fetching index from " index-url)
+    (doseq [{:keys [date url]}  (->> index-url
+                                     slurp
+                                     scrape-urls
+                                     (filter-not-in-db db))]
+      (fetch-and-add-to-db! url))
+    ;; TODO: use dire to move this try/catch out of the program flow
+    (catch Exception e
+      (log/error e))
+    (finally
+      ;; Whatever got downloaded thus far, save it.
+      (db/save-data!))))
 
 
 
