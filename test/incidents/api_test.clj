@@ -219,13 +219,13 @@
   (testing "for proper json headers")
   ;; TODO: unboilerplate this crap
   (is (= "application/json"
-         (-> (srv/app {:uri "/geo"
+         (-> (srv/app {:uri "/api/geos"
                        :db (test-db)
                        :request-method :get})
              :headers
              (get "Content-Type"))))
   (is (= "application/json"
-         (-> (srv/app {:uri "/dates"
+         (-> (srv/app {:uri "/api/dates"
                        :db (test-db)
                        :request-method :get})
              :headers
@@ -236,6 +236,7 @@
                        :request-method :get})
              :headers
              (get "Content-Type")))))
+
 
 (comment
 
