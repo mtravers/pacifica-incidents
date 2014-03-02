@@ -138,19 +138,16 @@
                      keyed-encode))
 
   
-  (compojure/GET "/api/dispositions/stats" {:keys [params db]}
-                 (-> (or db @db/db)
-                     reports/disposition-counts
-                     keyed-encode))
-  
-  
+
+  ;; TODO: /api/disposition and /api/types, etc could be combined
+  ;; as /api/all/disposition and /api/all/type and /api/all/geo etc
+  ;; into a single "/api/all/:kind" route using compojure, and only one function needed,
+  ;; passing kind to utils/all-keys
   (compojure/GET "/api/dispositions" {:keys [params db]}
                  (->> :disposition
                       (utils/all-keys (or db @db/db))
                       vec
                       keyed-encode))
-
-  
   (compojure/GET "/api/types" {:keys [params db]}
                  (->> :type
                       (utils/all-keys (or db @db/db))
@@ -158,10 +155,18 @@
                       keyed-encode))
 
 
+  ;; TODO: likewise /api/types/stats and /api/dispositions/stats could be combined
+  ;; using "/api/stats/%" route and passing % as arg to utils/key-set-counts!
   (compojure/GET "/api/types/stats"  {:keys [params db]}
                  (-> (or db @db/db)
                      reports/type-counts
                      keyed-encode))
+  (compojure/GET "/api/dispositions/stats" {:keys [params db]}
+                 (-> (or db @db/db)
+                     reports/disposition-counts
+                     keyed-encode))
+
+
   
   (compojure/GET "/api/dates"  {:keys [params db]}
                  (-> (or db @db/db)
