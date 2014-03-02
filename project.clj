@@ -7,7 +7,6 @@
                  [clj-time "0.4.4"]
                  [clj-http "0.7.9"]
                  ;; [com.cemerick/friend "0.2.0"] ;; gah, not yet.
-                 [liberator "0.10.0"]
                  [firealarm "0.1.2"]
                  [ring.middleware.jsonp "0.1.3"]
                  [compojure "1.1.5"]
