@@ -58,7 +58,7 @@
   ...
   ]
 ```
-### /api/dispositions
+### /api/keys/disposition
 	Returns all of the set of dispositions in the database
 #### Parameters
 	None
@@ -74,7 +74,7 @@
  // ...
  ]
 ```
-### /api/dispositions/stats
+### /api/stats/disposition
 	Returns the count of each disposition in the database, sorted by count, in reverse order.
 #### Parameters
 	None yet (TBD, will support date, count, and geo)
@@ -89,7 +89,7 @@
  // ...
  ]
 ```
-### /api/types 
+### /api/keys/type
 	Returns all of the set of types in the database
 #### Parameters
 	None
@@ -103,7 +103,7 @@
  //...
  ]
 ```
-### /api/types/stats 
+### /api/stats/type
 	Returns the count of each type in the database, sorted by count, in reverse order.
 #### Parameters
 	None Yet (TBD, will support date, count, and geo)

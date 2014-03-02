@@ -250,26 +250,26 @@
 
   ;; TODO: make THESE below into unit tests too. Why not? Tedium, it is the way.
   
-  (->> (srv/app {:uri "/api/types"
+  (->> (srv/app {:uri "/api/keys/type"
                  :db (test-db)
                  :request-method :get})
        :body
        keyed-decode)
 
-  (->> (srv/app {:uri "/api/types/stats"
+  (->> (srv/app {:uri "/api/stats/type"
                  :db (test-db)
                  :request-method :get})
        :body
        keyed-decode)
   
-  (->> (srv/app {:uri "/api/dispositions"
+  (->> (srv/app {:uri "/api/keys/disposition"
                  :db (test-db)
                  :request-method :get})
        :body
        keyed-decode)
 
 
-  (->> (srv/app {:uri "/api/dispositions/stats"
+  (->> (srv/app {:uri "/api/stats/disposition"
                  :db (test-db)
                  :request-method :get})
        :body
