@@ -8,7 +8,7 @@
             [net.cgrand.enlive-html :as enlive]
             [taoensso.timbre :as log]))
 
-
+;; TODO: handle log errors here
 (defonce dl-agent (agent nil))
 
 (defn scrape-urls
@@ -46,11 +46,15 @@
 (defn fetch-and-add-to-db!
   "Required to be a separate function for migration purposes."
   [url]
-  (log/info "fetching " url)
-  (-> url
-      parse/pdf-to-text
-      parse/parse-pdf-text
-      add-items-to-db!))
+  (try
+    (log/info "fetching " url)
+    (-> url
+        parse/pdf-to-text
+        parse/parse-pdf-text
+        add-items-to-db!)
+    ;; TODO: use dire to move this try/catch out of the program flow
+    (catch Exception e
+      (log/error e))))
 
 
 (defn get-all-pdfs!
@@ -62,10 +66,7 @@
                                    slurp
                                    scrape-urls
                                    filter-not-in-db)]
-    (try
-      (fetch-and-add-to-db! url)
-      (catch Exception e
-        (log/error e)))))
+    (fetch-and-add-to-db! url)))
 
 
 (defn start-pdf-downloading
