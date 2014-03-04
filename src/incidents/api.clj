@@ -138,7 +138,6 @@
 
 
 
-;; TODO: api endpoints for (reports/disposition-counts), (reports/type-counts), maybe (reports/address-counts)?
 (compojure/defroutes routes
   (compojure/GET "/api" {:keys [params db]}
                  (-> (or db @db/db)
