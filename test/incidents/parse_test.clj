@@ -163,3 +163,14 @@
   
   
   )
+
+
+(comment
+  (->> (for [m (vals @db/db)
+             :let [{:keys [time]} m]]
+         [time (stringify-date time)])
+       sort
+       (take-last 400))
+
+  
+  )

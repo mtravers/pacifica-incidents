@@ -1,5 +1,6 @@
 (ns incidents.reports
-  (:import org.joda.time.DateTime)
+  (:import org.joda.time.DateTime
+           org.joda.time.DateTimeZone)
   (:require [clojure.edn :as edn]
             [utilza.repl :as urepl]
             [incidents.db :as db]
@@ -60,6 +61,15 @@
             [:description :type :disposition])))
 
 
+(defn stringify-date
+  "Gets the dates in the hardcoded timezone of Pacific time.
+  Because the server could be in a different timezone!"
+  [d]
+  (-> d
+      (org.joda.time.DateTime. (org.joda.time.DateTimeZone/forID "America/Los_Angeles"))
+      .toLocalDate
+      .toString))
+
 (defn unique-dates
   "Unique dates without timestamps in the db"
   [db]
@@ -67,9 +77,7 @@
           #{}
           (r/map #(-> %
                       :time
-                      org.joda.time.DateTime.
-                      .toLocalDate
-                      .toString)
+                      stringify-date)
                  (->> db
                       vals))))
 
