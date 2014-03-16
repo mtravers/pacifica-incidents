@@ -4,6 +4,7 @@
             [ring.middleware.jsonp :as jsonp]
             [ring.middleware.resource :as res]
             [compojure.handler :as handler]
+            [environ.core :as env]
             [incidents.api :as api]
             [incidents.db :as db]))
 
@@ -21,14 +22,14 @@
       handler/site
       wrap-exceptions))
 
-(defn start [port]
-  (db/db-init)
+(defn start [& port]
   (send srv
         (fn [s]
           (when (and s (.isRunning s))
             (.stop s))
           ;; TODO: port in env/env
-          (jetty/run-jetty #'app {:port port, :join? false}))))
+          (jetty/run-jetty #'app {:port (or (first port) (env/env :port))
+                                  :join? false}))))
 
 
 (comment
