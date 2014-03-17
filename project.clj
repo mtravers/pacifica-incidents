@@ -18,6 +18,7 @@
                  [enlive "1.1.5"]
                  ;; [dire "0.5.2"] ; not actually used yet
                  [org.apache.pdfbox/pdfbox "1.8.4"]
+                 [alandipert/enduro "1.1.5"]
                  [environ "0.4.0"]
                  [com.taoensso/timbre "3.0.1"]
                  [utilza "0.1.49" :exclusions [org.clojure/clojure]]]

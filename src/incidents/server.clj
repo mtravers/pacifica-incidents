@@ -4,6 +4,7 @@
             [ring.middleware.jsonp :as jsonp]
             [ring.middleware.resource :as res]
             [compojure.handler :as handler]
+            [taoensso.timbre :as log]
             [environ.core :as env]
             [incidents.api :as api]
             [incidents.db :as db]))
@@ -22,14 +23,20 @@
       handler/site
       wrap-exceptions))
 
+(defn coerce-to-number [x]
+  (if (number? x) x (read-string x)))
+
 (defn start [& port]
+  (let [port (coerce-to-number (or (first port) (env/env :port)))]
+    (println (list 'port port))
   (send srv
         (fn [s]
           (when (and s (.isRunning s))
             (.stop s))
           ;; TODO: port in env/env
-          (jetty/run-jetty #'app {:port (or (first port) (env/env :port))
-                                  :join? false}))))
+          (log/info "Starting server")
+          (jetty/run-jetty #'app {:port port
+                                  :join? false})))))
 
 
 (comment

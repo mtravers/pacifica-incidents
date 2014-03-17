@@ -61,11 +61,6 @@
 
   (db/read-data!)
   
-  (db/save-data! "/tmp/backup.db")
-
-  (db/read-data! "/tmp/backup.db")
-
-
   (log/info "wtf?")
   
   )

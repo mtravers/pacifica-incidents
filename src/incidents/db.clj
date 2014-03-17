@@ -4,8 +4,8 @@
   To read from disk, just (read-data!)
   You can supply args to read/write from those."
 
-  (:import java.io.File)
-  (:require [clojure.edn :as edn]
+  (:require [incidents.pgdb :as pgdb]
+            [clojure.edn :as edn]
             [utilza.repl :as urepl]
             [taoensso.timbre :as log]
             [environ.core :as env]))
@@ -19,28 +19,18 @@
 
 
 
-(defn save-data!
-  "With no args, saves to :db-filename saved in env.
-   With one arg, saves to the path/filename specified."
-  ([]
-     (-> env/env :db-filename save-data!))
-  ([dbfilename]
-     (binding [*print-length* 10000000 *print-level* 10000000]
-       (let [tmpfile (str dbfilename ".tmp")]
-         (send-off save-agent
-                   (fn [_]
-                     (log/info "saving db " dbfilename)
-                     (spit tmpfile (prn-str @db))
-                     (.renameTo (File. tmpfile) (File. dbfilename))))))))
-
+(defn save-data! []
+  (pgdb/save! @db))
 
 (defn read-data!
-  "With no args, reads from :db-filename saved in env.
+  "With no args, reads from postgres
    With one arg, reads from the path/filename specified."
   ([]
-     (->> env/env :db-filename read-data!))
+     (reset! db (pgdb/read!))
+     )
   ([dbfilename]
      (reset! db (->> dbfilename slurp edn/read-string))
+     (save-data!)
      ;; Don't return the whole db so as not to crash emacs.
      nil))
 
@@ -55,7 +45,7 @@
   (if (< 0 (count @db))
     (log/warn "Cowardly refusing to load db, it looks like it's already loaded")
     (do
-      (log/info "Loading db first." (:db-filename env/env))
+      (log/info "Loading db first.")
       (read-data!)
       (log/info "DB loaded (presumably)"))))
 
