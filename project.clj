@@ -27,6 +27,7 @@
   :ring {:handler incidents.server/app
          :init    incidents.server/start
          }
+  :main incidents.core
   ;; Might as well do this as soon as the project loads, for convenience.
   :profiles {:repl {:injections [(do (require 'incidents.core)
                                      (incidents.core/-main)
