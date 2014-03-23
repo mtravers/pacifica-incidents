@@ -7,7 +7,7 @@
             [environ.core :as env]
             [clojure.tools.trace :as trace]
             [utilza.repl :as urepl]
-            [incidents.dl :as dl])
+            )
   (:gen-class))
 
 ;; IMPORTANT: This bare exec is here to dothis FIRST before running anything, at compile time
