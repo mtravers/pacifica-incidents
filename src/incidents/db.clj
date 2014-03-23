@@ -30,7 +30,6 @@
      )
   ([dbfilename]
      (reset! db (->> dbfilename slurp edn/read-string))
-     (save-data!)
      ;; Don't return the whole db so as not to crash emacs.
      nil))
 
