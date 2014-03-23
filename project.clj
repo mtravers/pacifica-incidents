@@ -31,7 +31,7 @@
   :main ^:skip-aot incidents.core
   :uberjar-name "incidents-standalone.jar"
   ;; Might as well do this as soon as the project loads, for convenience.
-  :profiles {:uberjar {:aot :all}
+  :profiles {;; :uberjar {:aot :all}
              :repl {:injections [(do (require 'incidents.core)
                                      (incidents.core/-main)
                                      )]}}
