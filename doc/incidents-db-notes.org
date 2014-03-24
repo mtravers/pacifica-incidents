@@ -1,6 +1,9 @@
 incidents reporting db notes
 
 
+* deployment
+** TODO to heroku!
+*** TODO urgh, stuck
 * data scraping
 ** grabbing
    http://www.pacificaindex.com/policelogs/PPDdailymediabulletin2013-02-06.pd
@@ -38,9 +41,10 @@ incidents reporting db notes
 *** DONE now have to update the EBNF grammar to make it deal with the new, better format.
 **** DONE and test everything.
 *** DONE now TEST it!
-** TODO test the enlive scraping with latest data!
-** TODO cron jobs
-*** TODO use moments or at-at
+** DONE test the enlive scraping with latest data!
+** cron jobs
+*** use moments or at-at
+*** DONE moot if on heroku, need to be actual cron jobs on a VPS somewhere hittnig links
 * geo
 ** DONE fix the location, it's borken
 * cleanups
