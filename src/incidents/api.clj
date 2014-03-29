@@ -139,7 +139,7 @@
 
 
 (compojure/defroutes routes
-  (compojure/GET "" {:keys [params db]}
+  (compojure/GET "/" {:keys [params db]}
                  (-> (or db @db/db)
                      (get-all params)
                      json-response))
