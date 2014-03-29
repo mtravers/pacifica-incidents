@@ -19,9 +19,11 @@
    (firealarm/file-reporter "/tmp/web.log")))
 
 (compojure/defroutes routes
-  (compojure/GET "/" {:keys [params db]}
+  (compojure/GET "/" {}
                  (ring.util.response/redirect "map.html"))
-  (compojure/GET "/index.html" {:keys [params db]}
+  (compojure/GET "" {}
+                 (ring.util.response/redirect "map.html"))
+  (compojure/GET "/index.html" {}
                  (ring.util.response/redirect "map.html"))
   (compojure/context "/api" [] api/routes))
 
