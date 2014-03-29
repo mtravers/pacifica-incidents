@@ -131,8 +131,23 @@ function prepare_form() {
     });
 }
 
+function fillDetails(api_data) {
+    var minmax = api_data["min-max-timestamps"];
+    $("#start_datepicker").datepicker("setDate", new Date(minmax["min"]));
+    $("#end_datepicker").datepicker("setDate", new Date(minmax["max"]));
+}
+
 $(document).ready(function() {
     prepare_form();
-    map_init(37.621592, -122.4885218)
-    ;});
+    map_init(37.621592, -122.4885218);
+    $.ajax("/api/status",
+	   { success:
+	   function(response) {
+	       fillDetails(response);
+	   },
+	     error: 
+	     function(XHR, textStatus, errorThrown) {
+		 alert("error: " + textStatus + "; " + errorThrown);}
+	   });
+    });
 
