@@ -139,20 +139,20 @@
 
 
 (compojure/defroutes routes
-  (compojure/GET "/api" {:keys [params db]}
+  (compojure/GET "" {:keys [params db]}
                  (-> (or db @db/db)
                      (get-all params)
                      json-response))
 
   
-  (compojure/GET "/api/geos" {:keys [params db]}
+  (compojure/GET "/geos" {:keys [params db]}
                  (-> (or db @db/db)
                      (get-geos params)
                      json-response))
 
   
   ;; TODO: error handling/validation for non-valid keys?
-  (compojure/GET "/api/keys/:kind" {{:keys [kind]} :params db :db}
+  (compojure/GET "/keys/:kind" {{:keys [kind]} :params db :db}
                  (some->> kind
                           keyword
                           (utils/all-keys (or db @db/db))
@@ -162,7 +162,7 @@
   
 
   ;; TODO: error handling/validation for non-valid keys?
-  (compojure/GET "/api/stats/:kind" {{:keys [kind]} :params db :db}  
+  (compojure/GET "/stats/:kind" {{:keys [kind]} :params db :db}  
                  (some->> kind
                           keyword 
                           (utils/key-set-counts (or db @db/db))
@@ -170,25 +170,25 @@
 
 
   
-  (compojure/GET "/api/dates"  {:keys [params db]}
+  (compojure/GET "/dates"  {:keys [params db]}
                  (-> (or db @db/db)
                      reports/timestamps-min-max
                      json-response))
 
   
   ;; should really be a PUT or something, but whatever.
-  (compojure/GET "/api/scrape" {:keys [params db]}
+  (compojure/GET "/scrape" {:keys [params db]}
                  (-> (or db @db/db)
                      scrape/start-pdf-downloading
                      (pr-str "running")
                      json-response))
 
-  (compojure/GET "/api/docs" {:keys [params db]}
-                 (-> "doc/API.md"
+  (compojure/GET "/docs" {:keys [params db]}
+                 (-> "doc.md"
                      slurp
                      md/md-to-html-string))
   
-  (compojure/GET "/api/status" {:keys [params db]}
+  (compojure/GET "/status" {:keys [params db]}
                  (-> (or db @db/db)
                      reports/quick-status
                      json-response)))

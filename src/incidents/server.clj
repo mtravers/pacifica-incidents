@@ -3,6 +3,8 @@
             [firealarm.core :as firealarm]
             [ring.middleware.jsonp :as jsonp]
             [ring.middleware.resource :as res]
+            [compojure.core :as compojure]
+            [compojure.route :as route]
             [compojure.handler :as handler]
             [taoensso.timbre :as log]
             [environ.core :as env]
@@ -16,12 +18,20 @@
   (firealarm/exception-wrapper
    (firealarm/file-reporter "/tmp/web.log")))
 
+(compojure/defroutes routes
+  (compojure/GET "/" {:keys [params db]}
+                 (ring.util.response/redirect "map.html"))
+  (compojure/GET "/index.html" {:keys [params db]}
+                 (ring.util.response/redirect "map.html"))
+  (compojure/context "/api" [] api/routes))
+
 (def app
-  (-> #'api/routes
-      (res/wrap-resource  "public")
+  (-> routes
+      (res/wrap-resource "public")
       jsonp/wrap-json-with-padding
       handler/site
-      wrap-exceptions))
+      wrap-exceptions
+      ))
 
 (defn coerce-to-number [x]
   (if (number? x) x (read-string x)))
