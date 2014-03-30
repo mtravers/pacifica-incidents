@@ -3,6 +3,7 @@
             [firealarm.core :as firealarm]
             [ring.middleware.jsonp :as jsonp]
             [ring.middleware.resource :as res]
+            [ring.util.response :as resp]
             [compojure.core :as compojure]
             [compojure.route :as route]
             [compojure.handler :as handler]
@@ -18,37 +19,42 @@
   (firealarm/exception-wrapper
    (firealarm/file-reporter "/tmp/web.log")))
 
+(defn map-static-page
+  "Miserable hack. For some reason, file-response is botched on heroku"
+  []
+  ;; (resp/file-response "map.html" {:root "resources/public"})
+  {:status 200
+   :headers {"Content-Type" "text/html; charset=utf-8"}
+   :body (slurp "resources/public/map.html")})
+
 (compojure/defroutes routes
-  (compojure/GET "/" {}
-                 (ring.util.response/redirect "map.html"))
-  (compojure/GET "" {}
-                 (ring.util.response/redirect "map.html"))
-  (compojure/GET "/index.html" {}
-                 (ring.util.response/redirect "map.html"))
-  (compojure/context "/api" [] api/routes))
+  (compojure/GET "/" [] (map-static-page))
+  (compojure/GET "" [] (map-static-page))
+  (route/resources "/")
+  (compojure/context "/api" [] #'api/routes)
+  (route/not-found (resp/not-found "Not found")))
 
 (def app
-  (-> routes
-      (res/wrap-resource "public")
-      jsonp/wrap-json-with-padding
+  (-> #'routes
+      jsonp/wrap-json-with-padding ;; is this needed anymore?
       handler/site
       wrap-exceptions
       ))
 
 (defn coerce-to-number [x]
-  (if (number? x) x (read-string x)))
+  (if (number? x) x (clojure.edn/read-string x)))
 
 (defn start [& port]
   (let [port (coerce-to-number (or (first port) (env/env :port)))]
     (println (list 'port port))
-  (send srv
-        (fn [s]
-          (when (and s (.isRunning s))
-            (.stop s))
-          ;; TODO: port in env/env
-          (log/info "Starting server")
-          (jetty/run-jetty #'app {:port port
-                                  :join? false})))))
+    (send srv
+          (fn [s]
+            (when (and s (.isRunning s))
+              (.stop s))
+            ;; TODO: port in env/env
+            (log/info "Starting server")
+            (jetty/run-jetty #'app {:port port
+                                    :join? false})))))
 
 
 (comment
