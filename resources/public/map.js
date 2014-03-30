@@ -19,7 +19,6 @@ function map_init(lat, lng) {
 	error: 
 	function(XHR, textStatus, errorThrown) {alert("error: " + textStatus + "; " + errorThrown);}
     });
-
 }
 
 // left out of maps api
@@ -63,6 +62,7 @@ function displayIncidents(map, incidents, params) {
 	    prepMarker(marker, incident, map, w, params);
 	}
     }
+    $("#loading_data").hide();
 }
 
 function incidentTimeString(incident) {
