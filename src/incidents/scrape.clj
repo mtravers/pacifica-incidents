@@ -85,6 +85,11 @@
                             :dl-index-url
                             (get-all-pdfs! db)))))
 
+(defn -main []
+  (db/db-init)
+  (start-pdf-downloading @db/db)
+  )
+
 (comment
 
   (-> "/mnt/sdcard/tmp/logs/policelogs.html"
