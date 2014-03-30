@@ -184,7 +184,7 @@
                      json-response))
 
   (compojure/GET "/docs" {:keys [params db]}
-                 (-> "doc.md"
+                 (-> "doc/API.md"
                      slurp
                      md/md-to-html-string))
   

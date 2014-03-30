@@ -30,6 +30,8 @@
          }
   :main ^:skip-aot incidents.core
   :uberjar-name "incidents-standalone.jar"
+  :filespecs [{:type :bytes :path "doc/API.md"
+               :bytes ~(slurp "doc/API.md")}]
   ;; Might as well do this as soon as the project loads, for convenience.
   :profiles {;; :uberjar {:aot :all}
              :repl {:injections [(do (require 'incidents.core)
