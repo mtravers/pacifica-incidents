@@ -30,6 +30,7 @@
          }
   :main ^:skip-aot incidents.core
   :uberjar-name "incidents-standalone.jar"
+  ;; Necessary to make the api docs work on heroku with uberjar WAR files.
   :filespecs [{:type :bytes :path "doc/API.md"
                :bytes ~(slurp "doc/API.md")}]
   ;; Might as well do this as soon as the project loads, for convenience.
@@ -48,5 +49,6 @@
                                     :standard-out {:enabled? true
                                                    ;; nrepl/cider/emacs hates the bash escapes.
                                                    :fmt-output-opts {:nofonts? true}}}
+                        ;; TODO: should only be in dev profile/mode
                         :shared-appender-config {:spit-filename "/tmp/wtf.log"}}})
 

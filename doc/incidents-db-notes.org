@@ -2,7 +2,7 @@ incidents reporting db notes
 
 
 * deployment
-** TODO to heroku!
+** DONE to heroku!
 *** DONE correct procfile invocation, and all works
 * data scraping
 ** grabbing
