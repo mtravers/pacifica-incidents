@@ -6,9 +6,11 @@
 
   (:require [incidents.pgdb :as pgdb]
             [clojure.edn :as edn]
+            [cheshire.core :as json]
             [utilza.repl :as urepl]
             [taoensso.timbre :as log]
-            [environ.core :as env]))
+            [environ.core :as env])
+  (:import java.util.Date))
 
 ;; Why not keep it simple, like this:
 ;;    http://www.brandonbloom.name/blog/2013/06/26/slurp-and-spit/
@@ -48,6 +50,17 @@
       (read-data!)
       (log/info "DB loaded (presumably)"))))
 
+
+(defn recover-from-backup
+  "Takes url to disk file or web site, and forces the current db to match it"
+  [url]
+  (reset! db
+          (into {}
+                (for [{:keys [id time] :as rec}
+                      (-> url
+                          slurp
+                          (json/decode true))]
+                  [id (assoc rec :time (Date. time))]))))
 
 (comment
 

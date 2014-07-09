@@ -364,6 +364,20 @@
 
 
 (comment
+  ;; suck everything down from live.
+  ;; um, don't run this on the live site, it'd be pointless.
+  (db/recover-from-backup  "http://pacifica-incidents.herokuapp.com/api")
+
+
+  ;; suck everything down from backup
+  (db/recover-from-backup  "/tmp/backupdata.json")
+  
+            
+
+  )
+
+
+(comment
 
   (run-tests)
 
