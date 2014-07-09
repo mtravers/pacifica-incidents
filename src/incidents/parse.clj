@@ -112,7 +112,7 @@
        Date.))
 
 (defn- fix-times
-  [{:keys [date recs] :as data}]
+  [{:keys [date recs]}]
   (map (fn [m]
          (-> m
              (update-in  [:time] #(fix-time date %))
