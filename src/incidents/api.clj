@@ -87,8 +87,8 @@
 
 
 
-(defn- with-types
-  "filter results based on string type"
+(defn- with-type-string
+  "filter results based on searching for type supplied"
   [{:keys [type]} xs]
   (if type
     (filter (partial utils/simpler-contains  :type type)
@@ -111,7 +111,7 @@
        (with-geo params)
        (with-dates params)
        (with-search-string params)
-       (with-types params)
+       (with-type-string params)
        (sort-by :time)
        reverse
        (with-count params) ;; must be last before serializing
