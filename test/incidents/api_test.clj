@@ -310,7 +310,7 @@
 
 (comment
   ;; live
-  (->> (client/get "http://incidents.bamfic.com/api/status" {:as :json})
+  (->> (client/get "http://pacifica-incidents.herokuapp.com/api/status" {:as :json})
        :body)
 
   
