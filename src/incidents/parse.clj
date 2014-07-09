@@ -112,6 +112,10 @@
        Date.))
 
 (defn- fix-times
+  "Takes a structure with a key :date with the date,
+   and :recs with a seq of all the incidents for that date.
+   Assigns the :time key in the recs to be the correct datetime with teh date AND time combined,
+   and returns the incidents with those assoced in."
   [{:keys [date recs]}]
   (map (fn [m]
          (-> m
