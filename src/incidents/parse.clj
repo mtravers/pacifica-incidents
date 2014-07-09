@@ -112,13 +112,12 @@
        Date.))
 
 (defn- fix-times
-  [data]
-  (let [{:keys [date recs]} data]
-    (map (fn [m]
-           (-> m
-               (update-in  [:time] #(fix-time date %))
-               (dissoc :hdate)))
-         recs)))
+  [{:keys [date recs] :as data}]
+  (map (fn [m]
+         (-> m
+             (update-in  [:time] #(fix-time date %))
+             (dissoc :hdate)))
+       recs))
 
 
 (def transforms {:id  (comp clojure.edn/read-string str) ;; TODO: parseLong?
