@@ -188,50 +188,8 @@
 
 
 
-(comment
-
-  ;; this tests the results and dumps it to output.edn as a hack
-  ;; to pretty-print it because otherwise it's an unreadable mess
-  ;; set up a buffer with /tmp/output.edn as an auto-revert-mode,
-  ;; then eval the below form(s) to do the parsing.
-  
-
-  (->>  "resources/testdata/well-formed.pdf"
-        pdf-to-text
-        parse-pdf-text
-        (urepl/massive-spew "/tmp/output.edn"))
 
 
 
-  )
 
 
-(comment
-
-  ;; debug version
-  (->> (ip/parse
-        (ip/parser (slurp "resources/pdfbox.bnf"))
-        (->> "resources/testdata/well-formed.pdf"
-             pdf-to-text
-             brutal-page-delim-hack
-             no-f-hack)
-        ;; for debuggging!
-        :total true
-        :unhide :all) 
-       (urepl/massive-spew "/tmp/output.edn"))
-
-  
-  
-  
-
-
-  )
-
-(comment
-  
-  
-
-
-
-  
-  )
