@@ -111,6 +111,14 @@
        (apply +)
        Date.))
 
+(defn parse-time
+  [t]
+  (tfmt/parse
+   (tfmt/with-zone
+     (tfmt/formatters :hour-minute)
+     (time/time-zone-for-id "America/Los_Angeles"))
+   t))
+
 (defn- fix-times
   "Takes a structure with a key :date with the date,
    and :recs with a seq of all the incidents for that date.
@@ -125,11 +133,7 @@
 
 
 (def transforms {:id  (comp clojure.edn/read-string str) ;; TODO: parseLong?
-                 :time #(tfmt/parse
-                         (tfmt/with-zone
-                           (tfmt/formatters :hour-minute)
-                           (time/time-zone-for-id "America/Los_Angeles"))
-                         %)})
+                 :time parse-time})
 
 
 
