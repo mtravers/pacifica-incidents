@@ -75,6 +75,7 @@
 
 
 (defn- with-geo
+  "Filter results based on lat lng geo ranges"
   [params xs]
   (if-let [{:keys [chosen-lat chosen-lng]} (convert-geos params)]
     (filter (fn [{{:keys [lat lng]} :geo}]
@@ -87,9 +88,13 @@
 
 
 (defn- with-types
-  [{:keys [typess]} xs]
-  ;; TODO: filter #{} set of types supplied
-  )
+  "filter results based on string type"
+  [{:keys [type]} xs]
+  (if type
+    (filter (partial utils/simpler-contains  :type type)
+            xs)
+    xs))
+
 
 (defn- with-search-string
   "filter results based on search string"
@@ -106,7 +111,7 @@
        (with-geo params)
        (with-dates params)
        (with-search-string params)
-       ;;(with-types params)
+       (with-types params)
        (sort-by :time)
        reverse
        (with-count params) ;; must be last before serializing
