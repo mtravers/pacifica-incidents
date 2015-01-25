@@ -117,6 +117,10 @@
   ;;  http://www.pacificaindex.com/pacificadocumentwire/4994-PPDdailymediabulletin(2012-07-14).pdf
 
 
+  (->> env/env
+       :dl-index-url
+       slurp
+       scrape-urls)
 
 
   )
