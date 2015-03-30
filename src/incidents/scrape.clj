@@ -6,7 +6,8 @@
             [incidents.geo :as geo]
             [incidents.parse :as parse]
             [net.cgrand.enlive-html :as enlive]
-            [taoensso.timbre :as log]))
+            [taoensso.timbre :as log])
+  (:gen-class))
 
 ;; logs all errors and continues on its merry way.
 (defonce dl-agent (agent nil :error-handler #(log/error %)))
