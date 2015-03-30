@@ -8,7 +8,7 @@
             [cheshire.core :as json]
             [incidents.reports :as reports]
             [utilza.repl :as urepl])
-  (:use incidents.api))
+  (:use incidents.api)) ;; TODO: refer-all
 
 
 (defn generate-random-sample-for-test-data

@@ -21,7 +21,8 @@
 
 
 
-(defn save-data! []
+(defn save-data!
+  []
   (pgdb/save! @db))
 
 (defn read-data!

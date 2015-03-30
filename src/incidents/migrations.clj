@@ -14,7 +14,7 @@
 (defn- convert-from-old-db-to-new!
   "DESTRUCTIVE function, not needed anymore."
   []
-  (db/save-data! "/tmp/old-seq.db")
+  (db/save-data!)
   (reset! db/db {})
   (doseq [{:keys [id] :as item} (->> "/tmp/db-as-seq.edn"
                                      slurp
@@ -28,7 +28,7 @@
 (defn- fix-stupid-pdfs!
   "One-off function to fix bad data"
   []
-  (db/save-data! "/tmp/old-bad-pdf-dispositions.db")
+  (db/save-data!)
   (doseq [id (keys @db/db)
           :when (and (-> id nil? not) ;; there's one bad id in there
                      (->> id (get @db/db) :disposition))]

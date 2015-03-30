@@ -175,25 +175,25 @@
 
 
   
-  (compojure/GET "/dates"  {:keys [params db]}
+  (compojure/GET "/dates"  {:keys [db]}
                  (-> (or db @db/db)
                      reports/timestamps-min-max
                      json-response))
 
   
   ;; should really be a PUT or something, but whatever.
-  (compojure/GET "/scrape" {:keys [params db]}
+  (compojure/GET "/scrape" {:keys [db]}
                  (-> (or db @db/db)
                      scrape/start-pdf-downloading
                      (pr-str "running")
                      json-response))
 
-  (compojure/GET "/docs" {:keys [params db]}
+  (compojure/GET "/docs" {:keys [params]}
                  (-> "doc/API.md"
                      slurp
                      md/md-to-html-string))
   
-  (compojure/GET "/status" {:keys [params db]}
+  (compojure/GET "/status" {:keys [db]}
                  (-> (or db @db/db)
                      reports/quick-status
                      json-response)))

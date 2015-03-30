@@ -54,7 +54,7 @@
 
 (defn missing-important-stuff
   [db]
-  (let [total (total-records)]
+  (let [total (total-records db)]
     (reduce (fn [a k]
               (assoc a k  (- total (utils/key-set-counts db k))))
             {}
