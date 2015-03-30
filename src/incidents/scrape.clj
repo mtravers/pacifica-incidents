@@ -44,7 +44,7 @@
                   (-> n
                       Integer/parseInt))]
     (log/trace y d m)
-    (format "%04d-%02d-%02d" (+ 2000 y) m d)))
+    (format "%04d-%02d-%02d" (if (> 2000 y) (+ 2000 y) y) m d)))
 
 
 
