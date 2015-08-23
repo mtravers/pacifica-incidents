@@ -38,7 +38,7 @@
 
 (defn filename->date
   [s]
-  (let [[y d m] (for [n (-> (re-matches #"inline;.*?filename=\"(\d+)-(\d+)-(\d+).*?Bulletin.pdf\"" s)
+  (let [[y d m] (for [n (-> (re-matches #"inline;.*?filename=\"(\d+)-(\d+)-(\d+).*?[Bulletin|MB.pdf]\"" s)
                             rest
                             reverse)]
                   (-> n
@@ -106,9 +106,9 @@
   (try
     (log/info "fetching index from " index-url)
     (doseq [{:keys [url]}  (->> index-url
-                                     scrape-urls
-                                     (filter identity)
-                                     (filter-not-in-db db))]
+                                scrape-urls
+                                (filter identity)
+                                (filter-not-in-db db))]
       (fetch-and-add-to-db! url))
     ;; TODO: use dire to move this try/catch out of the program flow
     (catch Exception e
@@ -130,4 +130,5 @@
   (db/db-init)
   (start-pdf-downloading @db/db)
   )
+
 

@@ -67,3 +67,19 @@
   )
 
 
+(comment
+
+  
+  (->> env/env
+       :dl-index-url
+       scrape-urls)
+
+  (-> "http://www.cityofpacifica.org/civica/filebank/blobdload.asp?BlobID=7714"
+      url->filename)
+
+
+
+  (filename->date "inline; filename=\"07-25-2015 MB.pdf\"")
+
+  )
+
