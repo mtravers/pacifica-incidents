@@ -50,6 +50,9 @@
 
   (filename->date "inline; filename=\"3-7-15 Media Bulletin.pdf\"")
 
+
+  (filename->date "inline; filename=\"3-7-15 MB.pdf\"")
+  
   (basepath "http://www.cityofpacifica.org/depts/police/media/media_bulletin.asp")
 
   (log/set-level! :trace)

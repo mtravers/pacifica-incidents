@@ -38,7 +38,7 @@
 
 (defn filename->date
   [s]
-  (let [[y d m] (for [n (-> (re-matches #"inline;.*?filename=\"(\d+)-(\d+)-(\d+).*?[Bulletin|MB].pdf\"" s)
+  (let [[y d m] (for [n (-> (re-matches #"inline;.*?filename=\"(\d+)-(\d+)-(\d+).*?[Bulletin|MB]\.pdf\"" s)
                             rest
                             reverse)]
                   (-> n
