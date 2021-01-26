@@ -6,7 +6,7 @@ incidents reporting db notes
 *** DONE correct procfile invocation, and all works
 * data scraping
 ** grabbing
-   http://www.pacificaindex.com/policelogs/PPDdailymediabulletin2013-02-06.pd
+   http://www.pacificaindex.com/policelogs/PPDdailymediabulletin2013-02-06.pdf
 *** also    http://www.pacificaindex.com/policelogs/4883-PPDdailymediabulletin(2012-05-15).pdf
 **** thru 12/31/12
 *** DONE generate range of dates somehow

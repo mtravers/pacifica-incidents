@@ -4,7 +4,8 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :min-lein-version "2.0.0"
-  :dependencies [[org.clojure/clojure "1.5.1"]
+  :dependencies [[org.clojure/clojure "1.8.0"]
+                 [org.clojure/java.jdbc "0.7.0-alpha1"]
                  [clj-time "0.4.4"]
                  [clj-http "0.7.9"]
                  ;; [com.cemerick/friend "0.2.0"] ;; gah, not yet.
@@ -19,7 +20,7 @@
                  [enlive "1.1.5"]
                  ;; [dire "0.5.2"] ; not actually used yet
                  [org.apache.pdfbox/pdfbox "1.8.4"]
-                 [alandipert/enduro "1.1.5"]
+                 [alandipert/enduro "1.2.0"]
                  [environ "0.4.0"]
                  [com.taoensso/timbre "3.0.1"]
                  [utilza "0.1.49" :exclusions [org.clojure/clojure]]]
