@@ -6,6 +6,7 @@
   :min-lein-version "2.0.0"
   :dependencies [[org.clojure/clojure "1.10.2"]
                  [org.clojure/java.jdbc "0.7.11"]
+                 [cheshire "5.10.0"]
                  [clj-time "0.4.4"]
                  [clj-http "3.11.0"]
                  ;; [com.cemerick/friend "0.2.0"] ;; gah, not yet.
