@@ -5,17 +5,18 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :min-lein-version "2.0.0"
   :dependencies [[org.clojure/clojure "1.10.2"]
-                 [org.clojure/java.jdbc "0.7.0-alpha1"]
+                 [org.clojure/java.jdbc "0.7.11"]
                  [clj-time "0.4.4"]
-                 [clj-http "0.7.9"]
+                 [clj-http "3.11.0"]
                  ;; [com.cemerick/friend "0.2.0"] ;; gah, not yet.
                  [org.clojure/tools.trace "0.7.6"] ;; required for dev
                  [firealarm "0.1.2"]
-                 [ring.middleware.jsonp "0.1.3"]
-                 [compojure "1.1.5"]
-                 [ring/ring-jetty-adapter "1.1.0"]
-                 [ring/ring-devel "1.2.0"]
-                 [instaparse "1.2.14"]
+                 [ring "1.8.2"]
+                 [ring.middleware.jsonp "0.1.6"]
+                 [compojure "1.6.2"]
+                 [ring/ring-jetty-adapter "1.8.2"]
+                 [ring/ring-devel "1.8.2"]
+                 [instaparse "1.4.10"]
                  [markdown-clj "0.9.41"]
                  [enlive "1.1.5"]
                  ;; [dire "0.5.2"] ; not actually used yet

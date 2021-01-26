@@ -29,7 +29,6 @@
 
 (compojure/defroutes routes
   (compojure/GET "/" [] (map-static-page))
-  (compojure/GET "" [] (map-static-page))
   (route/resources "/")
   (compojure/context "/api" [] #'api/routes)
   (route/not-found (resp/not-found "Not found")))
