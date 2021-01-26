@@ -43,7 +43,7 @@
                                      (incidents.core/-main)
                                      )]}}
   ;; defaults, you can overidde in .lein-env, or java environment
-  :env {:dl-index-url "http://www.cityofpacifica.org/depts/police/media/media_bulletin.asp"
+  :env {:dl-index-url "https://www.cityofpacifica.org/depts/police/media/media_bulletin.asp"
         :geocoding-url "http://maps.googleapis.com/maps/api/geocode/json"
         :db-filename "/tmp/incidents.db"
         :geo-rate-limit-sleep-ms 1000 ;; for google

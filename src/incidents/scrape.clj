@@ -19,7 +19,7 @@
 (defn index->pdfurls
   [s]
   (filter identity (for [a  (-> s
-                                slurp
+                                slurp   ;TODO gets Cert errors now that its an https: url. Fuck me.
                                 enlive/html-snippet
                                 (enlive/select [:a]))]
                      (let [href (-> a
