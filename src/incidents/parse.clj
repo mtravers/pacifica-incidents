@@ -111,22 +111,29 @@
        (apply +)
        Date.))
 
+(defn parse-time
+  [t]
+  (tfmt/parse
+   (tfmt/with-zone
+     (tfmt/formatters :hour-minute)
+     (time/time-zone-for-id "America/Los_Angeles"))
+   t))
+
 (defn- fix-times
-  [data]
-  (let [{:keys [date recs]} data]
-    (map (fn [m]
-           (-> m
-               (update-in  [:time] #(fix-time date %))
-               (dissoc :hdate)))
-         recs)))
+  "Takes a structure with a key :date with the date,
+   and :recs with a seq of all the incidents for that date.
+   Assigns the :time key in the recs to be the correct datetime with teh date AND time combined,
+   and returns the incidents with those assoced in."
+  [{:keys [date recs]}]
+  (map (fn [m]
+         (-> m
+             (update-in  [:time] #(fix-time date %))
+             (dissoc :hdate)))
+       recs))
 
 
 (def transforms {:id  (comp clojure.edn/read-string str) ;; TODO: parseLong?
-                 :time #(tfmt/parse
-                         (tfmt/with-zone
-                           (tfmt/formatters :hour-minute)
-                           (time/time-zone-for-id "America/Los_Angeles"))
-                         %)})
+                 :time parse-time})
 
 
 
@@ -185,50 +192,8 @@
 
 
 
-(comment
-
-  ;; this tests the results and dumps it to output.edn as a hack
-  ;; to pretty-print it because otherwise it's an unreadable mess
-  ;; set up a buffer with /tmp/output.edn as an auto-revert-mode,
-  ;; then eval the below form(s) to do the parsing.
-  
-
-  (->>  "resources/testdata/well-formed.pdf"
-        pdf-to-text
-        parse-pdf-text
-        (urepl/massive-spew "/tmp/output.edn"))
 
 
 
-  )
 
 
-(comment
-
-  ;; debug version
-  (->> (ip/parse
-        (ip/parser (slurp "resources/pdfbox.bnf"))
-        (->> "resources/testdata/well-formed.pdf"
-             pdf-to-text
-             brutal-page-delim-hack
-             no-f-hack)
-        ;; for debuggging!
-        :total true
-        :unhide :all) 
-       (urepl/massive-spew "/tmp/output.edn"))
-
-  
-  
-  
-
-
-  )
-
-(comment
-  
-  
-
-
-
-  
-  )

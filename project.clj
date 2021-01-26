@@ -36,11 +36,12 @@
                :bytes ~(slurp "doc/API.md")}]
   ;; Might as well do this as soon as the project loads, for convenience.
   :profiles {;; :uberjar {:aot :all}
+             :dev {:jvm-opts ["-XX:-OmitStackTraceInFastThrow"]}
              :repl {:injections [(do (require 'incidents.core)
                                      (incidents.core/-main)
                                      )]}}
   ;; defaults, you can overidde in .lein-env, or java environment
-  :env {:dl-index-url "http://www.pacificaindex.com/policelogs.html"
+  :env {:dl-index-url "http://www.cityofpacifica.org/depts/police/media/media_bulletin.asp"
         :geocoding-url "http://maps.googleapis.com/maps/api/geocode/json"
         :db-filename "/tmp/incidents.db"
         :geo-rate-limit-sleep-ms 1000 ;; for google

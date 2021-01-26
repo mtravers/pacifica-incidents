@@ -6,24 +6,65 @@
             [incidents.geo :as geo]
             [incidents.parse :as parse]
             [net.cgrand.enlive-html :as enlive]
-            [taoensso.timbre :as log]))
+            [taoensso.timbre :as log])
+  (:gen-class))
 
 ;; logs all errors and continues on its merry way.
 (defonce dl-agent (agent nil :error-handler #(log/error %)))
 
+(defn basepath
+  [path]
+  (second (re-matches #"(http://.*?)/.*" path)))
+
+(defn index->pdfurls
+  [s]
+  (filter identity (for [a  (-> s
+                                slurp
+                                enlive/html-snippet
+                                (enlive/select [:a]))]
+                     (let [href (-> a
+                                    :attrs
+                                    :href)]
+                       (when (and href (.contains href "BlobID"))
+                         href)))))
+
+
+(defn url->filename
+  [s]
+  (->  s   
+       client/head
+       :headers
+       (get "content-disposition")))
+
+(defn filename->date
+  [s]
+  (let [[y d m] (for [n (-> (re-matches #"inline;.*?filename=\"(\d+)-(\d+)-(\d+).*?[Bulletin|MB]\.pdf\"" s)
+                            rest
+                            reverse)]
+                  (-> n
+                      Integer/parseInt))]
+    (log/trace y d m)
+    (format "%04d-%02d-%02d" (if (> 2000 y) (+ 2000 y) y) m d)))
+
+
 
 (defn scrape-urls
-  "Takes a string with a parsable HTML page in it,
+  "Takes a url with an index page.
    and returns a seq of maps of urls and dates."
-  [s]
-  (for [a  (-> s
-               enlive/html-snippet
-               (enlive/select [:a]))]
-    (when-let [[url date] (some->> a :attrs :href
-                                   (re-matches #".*PPDdailymediabulletin.*?(\d+-\d+-\d+).*?pdf" ))]
-      ;; TODO: make sure these urls are either absolute or add a host to them!!
-      {:url url
-       :date date})))
+  [idx]
+  (let [bn (basepath idx)]
+    (log/info bn)
+    (for [url (index->pdfurls idx)]
+      (try
+        (let [full-url (str bn url)]
+          (log/trace full-url)
+          {:url full-url
+           :date  (filename->date (url->filename full-url))})
+        (catch Exception e
+          (log/error e)
+          nil)))))
+
+
 
 
 (defn filter-not-in-db
@@ -64,10 +105,10 @@
   [db index-url]
   (try
     (log/info "fetching index from " index-url)
-    (doseq [{:keys [date url]}  (->> index-url
-                                     slurp
-                                     scrape-urls
-                                     (filter-not-in-db db))]
+    (doseq [{:keys [url]}  (->> index-url
+                                scrape-urls
+                                (filter identity)
+                                (filter-not-in-db db))]
       (fetch-and-add-to-db! url))
     ;; TODO: use dire to move this try/catch out of the program flow
     (catch Exception e
@@ -90,33 +131,4 @@
   (start-pdf-downloading @db/db)
   )
 
-(comment
 
-  (-> "/mnt/sdcard/tmp/logs/policelogs.html"
-      slurp
-      scrape-urls)
-
-  (-> (:dl-index-url env/env)
-      slurp
-      scrape-urls
-      (filter-not-in-db @db/db))
-
-
-  ;; (urepl/massive-spew "/tmp/output.edn" *1)
-
-  (get-all-pdfs! "/mnt/sdcard/tmp/logs/policelogs.html")
-
-  (log/info "wtf?")
-
-  (start-pdf-downloading @db/db)
-
-
-  ;; TODO: somewhere in here, put a blacklist of known bad URLs (empty files)
-  ;; probably best to have it in env/env, or maybe in metadata in the database?
-  ;; e.g. known bads are  http://www.pacificaindex.com/pacificadocumentwire/4883-PPDdailymediabulletin(2012-05-15).pdf and
-  ;;  http://www.pacificaindex.com/pacificadocumentwire/4994-PPDdailymediabulletin(2012-07-14).pdf
-
-
-
-
-  )

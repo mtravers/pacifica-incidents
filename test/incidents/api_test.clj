@@ -8,7 +8,7 @@
             [cheshire.core :as json]
             [incidents.reports :as reports]
             [utilza.repl :as urepl])
-  (:use incidents.api))
+  (:use incidents.api)) ;; TODO: refer-all
 
 
 (defn generate-random-sample-for-test-data
@@ -215,6 +215,35 @@
             "Officer initiated activity at Inverness Dr, Pacifica.1030 veh unoccupied  -- vehicle facing southbound. . "}))))
 
 
+(deftest type-search
+  (testing "type search")
+  (is (= (get-uri-from-test-db "/api" "type=Warrant")
+         '({:geo {:lat 37.58244, :lng -122.48358},
+            :address "Linda Mar Bl/Capistrano Dr, Pacifica, CA",
+            :time 1390684740000,
+            :type "Warrant Arrest",
+            :id 140125130,
+            :disposition "Arrest Made.",
+            :description
+            "Officer initiated activity at Linda Mar Bl/Capistrano Dr, Pacifica."}
+           {:geo {:lat 37.6138253, :lng -122.4869194},
+            :address "Calera Creek, Cabrillo Hwy, Pacifica, CA",
+            :time 1384812420000,
+            :type "Warrant Arrest",
+            :id 131118154,
+            :disposition "Report Taken.",
+            :description
+            "Officer initiated activity at Calera Creek, Cabrillo Hwy, Pacifica. ."}
+           {:geo {:lat 37.63012, :lng -122.48911},
+            :address "Oceana Bl/Clarendon Rd, Pacifica, CA",
+            :time 1372145460000,
+            :type "Warrant Arrest",
+            :id 130624261,
+            :disposition "Cancelled.",
+            :description
+            "Officer initiated activity at Oceana Bl/Clarendon Rd, Pacifica. ."}))))
+
+
 (deftest proper-json
   (testing "for proper json headers")
   (let [correct-content-type "application/json;charset=UTF-8"]
@@ -310,7 +339,7 @@
 
 (comment
   ;; live
-  (->> (client/get "http://incidents.bamfic.com/api/status" {:as :json})
+  (->> (client/get "http://pacifica-incidents.herokuapp.com/api/status" {:as :json})
        :body)
 
   
@@ -331,6 +360,20 @@
        :body
        keyed-decode)
   
+  )
+
+
+(comment
+  ;; suck everything down from live.
+  ;; um, don't run this on the live site, it'd be pointless.
+  (db/recover-from-backup  "http://pacifica-incidents.herokuapp.com/api")
+
+
+  ;; suck everything down from backup
+  (db/recover-from-backup  "/tmp/backupdata.json")
+  
+            
+
   )
 
 

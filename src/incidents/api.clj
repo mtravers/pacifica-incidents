@@ -75,6 +75,7 @@
 
 
 (defn- with-geo
+  "Filter results based on lat lng geo ranges"
   [params xs]
   (if-let [{:keys [chosen-lat chosen-lng]} (convert-geos params)]
     (filter (fn [{{:keys [lat lng]} :geo}]
@@ -86,10 +87,14 @@
 
 
 
-(defn- with-types
-  [{:keys [typess]} xs]
-  ;; TODO: filter #{} set of types supplied
-  )
+(defn- with-type-string
+  "filter results based on searching for type supplied"
+  [{:keys [type]} xs]
+  (if type
+    (filter (partial utils/simpler-contains  :type type)
+            xs)
+    xs))
+
 
 (defn- with-search-string
   "filter results based on search string"
@@ -106,7 +111,7 @@
        (with-geo params)
        (with-dates params)
        (with-search-string params)
-       ;;(with-types params)
+       (with-type-string params)
        (sort-by :time)
        reverse
        (with-count params) ;; must be last before serializing
@@ -170,25 +175,25 @@
 
 
   
-  (compojure/GET "/dates"  {:keys [params db]}
+  (compojure/GET "/dates"  {:keys [db]}
                  (-> (or db @db/db)
                      reports/timestamps-min-max
                      json-response))
 
   
   ;; should really be a PUT or something, but whatever.
-  (compojure/GET "/scrape" {:keys [params db]}
+  (compojure/GET "/scrape" {:keys [db]}
                  (-> (or db @db/db)
                      scrape/start-pdf-downloading
                      (pr-str "running")
                      json-response))
 
-  (compojure/GET "/docs" {:keys [params db]}
+  (compojure/GET "/docs" {:keys [params]}
                  (-> "doc/API.md"
                      slurp
                      md/md-to-html-string))
   
-  (compojure/GET "/status" {:keys [params db]}
+  (compojure/GET "/status" {:keys [db]}
                  (-> (or db @db/db)
                      reports/quick-status
                      json-response)))
