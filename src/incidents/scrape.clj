@@ -19,7 +19,8 @@
 (defn index->pdfurls
   [s]
   (filter identity (for [a  (-> s
-                                slurp   ;TODO gets Cert errors now that its an https: url. Fuck me.
+                                (client/get {:insecure? true})
+                                :body
                                 enlive/html-snippet
                                 (enlive/select [:a]))]
                      (let [href (-> a
@@ -132,3 +133,7 @@
   )
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(comment
+  (index->pdfurls "http://www.cityofpacifica.org/depts/police/media/media_bulletin.asp")
+  )
