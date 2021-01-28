@@ -7,6 +7,7 @@
   (:require [instaparse.core :as ip]
             [clojure.string :as s]
             [clojure.edn :as edn]
+            [clj-http.client :as client]
             [taoensso.timbre :as log]
             [clojure.stacktrace :as st]
             [clj-time.format :as tfmt]
@@ -159,8 +160,11 @@
 
 (defn parse-with-failure-log
   [parser-file s]
-  (let [p (ip/parse
-           (ip/parser (slurp parser-file)) s)]
+  (let [p (-> parser-file
+              (client/get {:insecure? true})
+              :body
+              ip/parser
+              (ip/parse s))]
     (if (ip/failure? p)
       (let [estr  (str parser-file  (-> p ip/get-failure pr-str) s)]
         ;;(log/debug estr)
