@@ -39,13 +39,13 @@
 
 (defn filename->date
   [s]
-  (let [[y d m] (for [n (-> (re-matches #"inline;.*?filename=\"(\d+)-(\d+)-(\d+).*?[Bulletin|MB]\.pdf\"" s)
+  (let [fmt "%04d-%02d-%02d"
+        [y d m] (for [n (-> (re-matches #"inline;.*?filename=\"(\d+)-(\d+)-(\d+).*?[Bulletin|MB]\.pdf\"" s)
                             rest
                             reverse)]
-                  (-> n
-                      Integer/parseInt))]
-    (log/trace (format "%s-%s-%s" y m d))
-    (format "%04d-%02d-%02d" (if (> 2000 y) (+ 2000 y) y) m d)))
+                  (Integer/parseInt n))]
+    (log/trace (format fmt y m d))
+    (format fmt (if (> 2000 y) (+ 2000 y) y) m d)))
 
 
 
