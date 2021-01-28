@@ -137,9 +137,10 @@
 (comment
   (index->pdfurls "http://www.cityofpacifica.org/depts/police/media/media_bulletin.asp")
 
-  (basepath "http://www.cityofpacifica.org/depts/police/media/media_bulletin.asp")
+ 
   (log/set-level! :trace)
   (-main)
 
-  (-> env/env keys sort)
+ 
+  
   )

@@ -9,9 +9,9 @@ Web service to display and map incident reports from the [Pacifica police blotte
 Broken, the version here has been updated to the point where it compiles.
 
 known problems:
-- data is now at https: and slurp won't work on it
 - the postgres library is broken (currently using a file persistence hack which may or may not work)
 - google map api seems unhappy
+- tests are failing, not sure why
 
 
 ## Usage
@@ -21,6 +21,6 @@ Start server:
 
 ## License
 
-Copyright © 2014-2015 Concerned Hackers of Pacifica
+Copyright © 2014-2021 Concerned Hackers of Pacifica
 
 Distributed under the Eclipse Public License either version 1.0 or (at your option) any later version.
