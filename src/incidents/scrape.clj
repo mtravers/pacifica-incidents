@@ -33,7 +33,7 @@
 (defn url->filename
   [s]
   (->  s   
-       client/head
+       (client/head {:insecure? true})
        :headers
        (get "content-disposition")))
 
@@ -44,7 +44,7 @@
                             reverse)]
                   (-> n
                       Integer/parseInt))]
-    (log/trace y d m)
+    (log/trace (format "%s-%s-%s" y m d))
     (format "%04d-%02d-%02d" (if (> 2000 y) (+ 2000 y) y) m d)))
 
 
