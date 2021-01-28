@@ -14,7 +14,7 @@
 
 (defn basepath
   [path]
-  (second (re-matches #"(http://.*?)/.*" path)))
+  (second (re-matches #"(.+?://.*?)/.*" path)))
 
 (defn index->pdfurls
   [s]
@@ -54,7 +54,7 @@
    and returns a seq of maps of urls and dates."
   [idx]
   (let [bn (basepath idx)]
-    (log/info (str "basepath:" bn))
+    (log/info (format "basepath %s of url %s" bn idx))
     (for [url (index->pdfurls idx)]
       (try
         (let [full-url (str bn url)]
@@ -136,6 +136,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (comment
   (index->pdfurls "http://www.cityofpacifica.org/depts/police/media/media_bulletin.asp")
+
+  (basepath "http://www.cityofpacifica.org/depts/police/media/media_bulletin.asp")
   (log/set-level! :trace)
   (-main)
 
