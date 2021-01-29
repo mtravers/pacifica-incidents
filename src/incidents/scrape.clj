@@ -14,7 +14,7 @@
 
 (defn basepath
   [path]
-  (second (re-matches #"(http://.*?)/.*" path)))
+  (second (re-matches #"(.+?://.*?)/.*" path)))
 
 (defn index->pdfurls
   [s]
@@ -33,19 +33,19 @@
 (defn url->filename
   [s]
   (->  s   
-       client/head
+       (client/head {:insecure? true})
        :headers
        (get "content-disposition")))
 
 (defn filename->date
   [s]
-  (let [[y d m] (for [n (-> (re-matches #"inline;.*?filename=\"(\d+)-(\d+)-(\d+).*?[Bulletin|MB]\.pdf\"" s)
+  (let [fmt "%04d-%02d-%02d"
+        [y d m] (for [n (-> (re-matches #"inline;.*?filename=\"(\d+)-(\d+)-(\d+).*?[Bulletin|MB]\.pdf\"" s)
                             rest
                             reverse)]
-                  (-> n
-                      Integer/parseInt))]
-    (log/trace y d m)
-    (format "%04d-%02d-%02d" (if (> 2000 y) (+ 2000 y) y) m d)))
+                  (Integer/parseInt n))]
+    (log/trace (format fmt y m d))
+    (format fmt (if (> 2000 y) (+ 2000 y) y) m d)))
 
 
 
@@ -54,7 +54,7 @@
    and returns a seq of maps of urls and dates."
   [idx]
   (let [bn (basepath idx)]
-    (log/info bn)
+    (log/info (format "basepath %s of url %s" bn idx))
     (for [url (index->pdfurls idx)]
       (try
         (let [full-url (str bn url)]
@@ -122,18 +122,25 @@
 
 (defn start-pdf-downloading
   [db]
-  (send-off dl-agent (fn [_]
-                       (->> env/env
-                            :dl-index-url
-                            (get-all-pdfs! db)))))
+  (let [{:keys [dl-index-url]} env/env]
+    (when-not dl-index-url
+      (throw (ex-info "You did not specify dl-index-url in env" env/env)))
+    (send-off dl-agent (fn [_]
+                         (get-all-pdfs! db dl-index-url)))))
 
 (defn -main []
   (db/db-init)
-  (start-pdf-downloading @db/db)
-  )
+  (start-pdf-downloading @db/db))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (comment
   (index->pdfurls "http://www.cityofpacifica.org/depts/police/media/media_bulletin.asp")
+
+ 
+  (log/set-level! :trace)
+  (-main)
+
+ 
+  
   )
