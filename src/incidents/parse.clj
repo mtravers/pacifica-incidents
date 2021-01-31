@@ -161,8 +161,6 @@
 (defn parse-with-failure-log
   [parser-file s]
   (let [p (-> parser-file
-              (client/get {:insecure? true})
-              :body
               ip/parser
               (ip/parse s))]
     (if (ip/failure? p)

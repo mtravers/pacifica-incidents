@@ -21,7 +21,7 @@
                  [markdown-clj "0.9.41"]
                  [enlive "1.1.5"]
                  ;; [dire "0.5.2"] ; not actually used yet
-                 [org.apache.pdfbox/pdfbox "1.8.4"]
+                 [org.apache.pdfbox/pdfbox "1.8.4"] ;note: this is up to 2.0.x, but API has changed quite a bit. Also may not use any more since have been forced to OCR
                  [alandipert/enduro "1.2.0"]
                  [environ "0.4.0"]
                  [com.taoensso/timbre "3.0.1"]
@@ -39,9 +39,11 @@
   ;; Might as well do this as soon as the project loads, for convenience.
   :profiles {;; :uberjar {:aot :all}
              :dev {:jvm-opts ["-XX:-OmitStackTraceInFastThrow"]}
-             :repl {:injections [(do (require 'incidents.core)
+             ;; mt: I don't like this, if there's a bug you get screwed by cider
+             #_ :repl #_ {:injections [(do (require 'incidents.core)
                                      (incidents.core/-main)
-                                     )]}}
+                                     )]}
+             }
   ;; defaults, you can overidde in .lein-env, or java environment
   :env {:dl-index-url "https://www.cityofpacifica.org/depts/police/media/media_bulletin.asp"
         :geocoding-url "http://maps.googleapis.com/maps/api/geocode/json"

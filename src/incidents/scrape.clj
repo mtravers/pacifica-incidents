@@ -12,61 +12,37 @@
 ;; logs all errors and continues on its merry way.
 (defonce dl-agent (agent nil :error-handler #(log/error %)))
 
+;;; TODO use fs
 (defn basepath
   [path]
   (second (re-matches #"(.+?://.*?)/.*" path)))
 
-(defn index->pdfurls
-  [s]
-  (filter identity (for [a  (-> s
-                                (client/get {:insecure? true})
-                                :body
-                                enlive/html-snippet
-                                (enlive/select [:a]))]
-                     (let [href (-> a
-                                    :attrs
-                                    :href)]
-                       (when (and href (.contains href "BlobID"))
-                         href)))))
+(defn get-url [url]
+ (-> url
+     (client/get {:insecure? true})
+     :body))
 
-
-(defn url->filename
-  [s]
-  (->  s   
-       (client/head {:insecure? true})
-       :headers
-       (get "content-disposition")))
-
-(defn filename->date
-  [s]
-  (let [fmt "%04d-%02d-%02d"
-        [y d m] (for [n (-> (re-matches #"inline;.*?filename=\"(\d+)-(\d+)-(\d+).*?[Bulletin|MB]\.pdf\"" s)
-                            rest
-                            reverse)]
-                  (Integer/parseInt n))]
-    (log/trace (format fmt y m d))
-    (format fmt (if (> 2000 y) (+ 2000 y) y) m d)))
-
-
+(defn get-url-as-stream [url]
+ (-> url
+     (client/get {:insecure? true :as :stream})
+     :body))
 
 (defn scrape-urls
-  "Takes a url with an index page.
-   and returns a seq of maps of urls and dates."
-  [idx]
-  (let [bn (basepath idx)]
-    (log/info (format "basepath %s of url %s" bn idx))
-    (for [url (index->pdfurls idx)]
-      (try
-        (let [full-url (str bn url)]
-          (log/trace full-url)
-          {:url full-url
-           :date  (filename->date (url->filename full-url))})
-        (catch Exception e
-          (log/error e)
-          nil)))))
-
-
-
+  [s]
+  (let [base (basepath s)
+        links (-> s
+                  get-url
+                  enlive/html-snippet
+                  (enlive/select [:a]))]
+    (filter
+     identity
+     (map (fn [{:keys [attrs content]}]
+            (let [date-string (and (string? (first content))
+                                   (re-matches #"(.*) Media Bulletin" (first content)))]
+              (when date-string
+                {:url (str base (:href attrs))
+                 :date (second date-string)}))) ;TODO parse date 
+          links))))
 
 (defn filter-not-in-db
   "Gets only those dates not yet in the db"
@@ -84,6 +60,17 @@
   (doseq [{:keys [id] :as item} items]
     (swap! db/db (fn [db]
                    (assoc db id (geo/add-geo-and-address item))))))
+
+
+(defn fetch-pdf
+  [url]
+  (try
+    (log/info "fetching " url)
+    (-> url
+        parse/pdf-to-text
+        parse/parse-pdf-text)
+    (catch Exception e
+      (log/error e))))
 
 
 (defn fetch-and-add-to-db!
@@ -135,10 +122,13 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (comment
-  (index->pdfurls "http://www.cityofpacifica.org/depts/police/media/media_bulletin.asp")
+  (index->pdfurls)
+
+
 
  
   (log/set-level! :trace)
+  (get-all-pdfs! @db/db  "http://www.cityofpacifica.org/depts/police/media/media_bulletin.asp")
   (-main)
 
  
