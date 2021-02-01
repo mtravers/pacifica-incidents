@@ -123,6 +123,8 @@
 
 (comment
 
+  (urepl/massive-spew "resources/testdata/textstract-parsed.edn" *1)
+
   ;; (redo-tests) ;; evil, but necessary
 
 
