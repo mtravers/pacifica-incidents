@@ -25,6 +25,7 @@
                  [alandipert/enduro "1.2.0"]
                  [environ "0.4.0"]
                  [com.taoensso/timbre "3.0.1"]
+                 [org.parkerici/multitool "0.0.10"]
                  [utilza "0.1.49" :exclusions [org.clojure/clojure]]]
   :plugins [[lein-environ "0.4.0"]
             [lein-ring "0.8.7"]]
