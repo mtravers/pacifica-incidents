@@ -85,7 +85,7 @@
 
 
 #_
-(->> "test/resources/textract-output.js"
+(->> "resources/testdata/textract-output.js"
      read-file
      parse-table
      entries

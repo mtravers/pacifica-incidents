@@ -1,0 +1,120 @@
+({:id "2101030006",
+  :time "00:31",
+  :type "Muni Code Violation - RV",
+  :location "Santa Maria Av/Palmetto Av.",
+  :disposition "Unfounded."}
+ {:id "2101030012",
+  :time "00:53",
+  :type "Suspicious Vehicle",
+  :location "San Marlo Lot, San Marlo Wy, Pacifica.",
+  :disposition "Warning (Cite/Verbal)."}
+ {:id "2101030015",
+  :time "01:08",
+  :type "School Check",
+  :location "Ingrid B Lacy Middle School, Palmetto Av, Pacifica. .",
+  :disposition "Checks"}
+ {:id "2101030017",
+  :time "01:23",
+  :type "School Check",
+  :location "Good Shepherd School, Oceana Bl, Pacifica. .",
+  :disposition "Checks Ok."}
+ {:id "2101030018",
+  :time "01:24",
+  :type "Vehicle Stolen",
+  :location "Peralta Rd.",
+  :disposition "Report Taken."}
+ {:id "2101030027",
+  :time "02:11",
+  :type "Suspicious Vehicle",
+  :location "St Lawrence Dr.",
+  :disposition "Log Note Only."}
+ {:id "2101030035",
+  :time "02:50",
+  :type "Susp Circ 911",
+  :location "Info Av.",
+  :disposition "Not Dispatched."}
+ {:id "2101030043",
+  :time "03:46",
+  :type "Suspicious Circumstances",
+  :location "Edna Ln.",
+  :disposition "Log Note Only."}
+ {:id "2101030094",
+  :time "09:27",
+  :type "Muni Code Violation",
+  :location "Winona Av, Pacifica. .",
+  :disposition "Abated/Advised."}
+ {:id "2101030099",
+  :time "10:00",
+  :type "Petty Theft",
+  :location "Rainier Av. .",
+  :disposition "Report Taken."}
+ {:id "2101030100",
+  :time "10:03",
+  :type "Welfare Check",
+  :location "Sharp Park Rd/Lundy Wy.",
+  :disposition "Unfounded."}
+ {:id "2101030106",
+  :time "10:27",
+  :type "Dist Domestic",
+  :location "Nick Gust Wy.",
+  :disposition "Report Taken."}
+ {:id "2101030107",
+  :time "10:37",
+  :type "Petty Theft",
+  :location "Sharp Park Rd.",
+  :disposition "Report Taken."}
+ {:id "2101030113",
+  :time "11:05",
+  :type "Burglary",
+  :location "Franz Ct.",
+  :disposition "Report Taken."}
+ {:id "2101030117",
+  :time "11:16",
+  :type "Muni Code Violation - RV",
+  :location "Seaside Dr.",
+  :disposition "Gone On Arrival."}
+ {:id "2101030121",
+  :time "11:22",
+  :type "Citizen Assist",
+  :location "Manor Dr/Monterey Rd.",
+  :disposition "Gone On Arrival."}
+ {:id "2101030131",
+  :time "12:03",
+  :type "Citizen Assist",
+  :location "Winwood Av.",
+  :disposition "Report Taken."}
+ {:id "2101030133",
+  :time "12:13",
+  :type "Suspicious Vehicle",
+  :location "Sharp Park Rd/Lundy Wy.",
+  :disposition "Log Note Only."}
+ {:id "2101030138",
+  :time "12:29",
+  :type "Traffic Law Vehicle",
+  :location "Linda Mar Bl.",
+  :disposition "Gone On Arrival."}
+ {:id "2101030139",
+  :time "12:30",
+  :type "Dist Domestic",
+  :location "Skyline Bl.",
+  :disposition "Report Taken."}
+ {:id "2101030142",
+  :time "13:06",
+  :type "Civil Case",
+  :location "Brighton Rd.",
+  :disposition "Phone Report."}
+ {:id "2101030146",
+  :time "13:38",
+  :type "Traffic Law Abandoned",
+  :location "Palmetto Av/Santa Maria Av. .",
+  :disposition "Unfounded."}
+ {:id "2101030147",
+  :time "13:53",
+  :type "Welfare Check",
+  :location "Grand Teton Dr. .",
+  :disposition "Report Taken."}
+ {:id "2101030154",
+  :time "14:38",
+  :type "Traffic Law Vehicle",
+  :location "Cabrillo Hwy/Rockaway Beach Av.",
+  :disposition "Log Note Only."})
