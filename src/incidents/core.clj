@@ -1,6 +1,5 @@
 (ns incidents.core
   (:require [incidents.geo :as geo]
-            [incidents.parse :as parse]
             [incidents.db :as db]
             [incidents.server :as srv]
             [taoensso.timbre :as log]

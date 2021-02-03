@@ -21,10 +21,10 @@
                  [markdown-clj "0.9.41"]
                  [enlive "1.1.5"]
                  ;; [dire "0.5.2"] ; not actually used yet
-                 [org.apache.pdfbox/pdfbox "1.8.4"] ;note: this is up to 2.0.x, but API has changed quite a bit. Also may not use any more since have been forced to OCR
                  [alandipert/enduro "1.2.0"]
                  [environ "0.4.0"]
                  [com.taoensso/timbre "3.0.1"]
+                 [me.raynes/fs "1.4.6"]
                  [org.parkerici/multitool "0.0.10"]
                  [utilza "0.1.49" :exclusions [org.clojure/clojure]]]
   :plugins [[lein-environ "0.4.0"]
