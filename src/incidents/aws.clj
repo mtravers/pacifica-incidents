@@ -13,13 +13,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (comment
 
-  (def services (uaws/make-services [:textract]
+  (def services (uaws/make-services [:s3 :textract]
                                     {:credentials-provider (credentials/profile-credentials-provider "restivo")}))
 
 
-  (ulog/spewer (->> services
-                    :textract
-                    uaws/list-ops
-                    ))
+  (ulog/spewer
+   (uaws/list-ops services :textract))
+
+  (ulog/spewer
+   (uaws/docs services :textract :AnalyzeDocument))
 
   )
