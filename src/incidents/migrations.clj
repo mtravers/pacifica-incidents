@@ -5,7 +5,7 @@
             [incidents.utils :as utils]
             [utilza.repl :as urepl]
             [incidents.scrape :as scrape]
-            [incidents.parse :as parse]))
+            ))
 
 ;; THese things are migrations, but not really, because
 ;; this is a database, but not really.
@@ -25,7 +25,7 @@
 
 
 
-(defn- fix-stupid-pdfs!
+#_(defn- fix-stupid-pdfs!
   "One-off function to fix bad data"
   []
   (db/save-data!)
@@ -91,7 +91,7 @@
   (db/save-data!))
 
 
-(defn new-parsing-system
+#_(defn new-parsing-system
   "Use the new pdf parsing library"
   [file-dir]
   (doseq [f (->> file-dir

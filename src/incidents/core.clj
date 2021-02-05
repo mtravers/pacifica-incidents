@@ -9,8 +9,10 @@
             )
   (:gen-class))
 
+
 ;; IMPORTANT: This bare exec is here to dothis FIRST before running anything, at compile time
-(log/merge-config! (:timbre-config env/env))
+#_(log/merge-config! (:timbre-config env/env)) ;; XXX fails to compile anymore
+
 
 
 ;; IMPORTANT: enables the very very awesome use of clojure.tools.trace/trace-vars , etc
@@ -31,6 +33,7 @@
       (log/info "web server started (presumbably)")
       (catch Exception e
         (log/error e)))))
+
 
 
 (comment

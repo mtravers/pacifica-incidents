@@ -182,7 +182,8 @@
 
   
   ;; should really be a PUT or something, but whatever.
-  (compojure/GET "/scrape" {:keys [db]}
+  ;; XXX the function taht this endpoint calls has mysteriously vanished
+  #_(compojure/GET "/scrape" {:keys [db]}
                  (-> (or db @db/db)
                      scrape/start-pdf-downloading
                      (pr-str "running")
