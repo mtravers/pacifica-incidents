@@ -129,7 +129,7 @@
      entries)
 
      rest
-     (map parse-entry))
+     (map parse-entry)
 
 
 ;;; TODO also should maybe get the date.
@@ -139,7 +139,6 @@
   (->> f
        read-file
        parse-textract))
-)
 
-(map read-file )
   
+)
