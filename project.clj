@@ -16,6 +16,7 @@
                  [com.cognitect.aws/api "0.8.498" :exclusions [org.eclipse.jetty/jetty-http
                                                                org.eclipse.jetty/jetty-io
                                                                org.eclipse.jetty/jetty-util]]
+                 [com.cognitect.aws/endpoints  "1.1.11.946"]
                  [com.cognitect.aws/s3 "810.2.817.0"]
                  [com.cognitect.aws/textract "809.2.797.0"]
                  [com.taoensso/timbre "4.10.0"] ;; NEVER UPGRRADE TO VERSION 5 IT IS BROKEN
