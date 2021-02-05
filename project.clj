@@ -25,7 +25,7 @@
                  [environ "0.4.0"]
                  [com.taoensso/timbre "3.0.1"]
                  [me.raynes/fs "1.4.6"]
-                 [org.parkerici/multitool "0.0.10"]
+                 [org.parkerici/multitool "0.0.11"] ;TODO public release for ken
                  [utilza "0.1.49" :exclusions [org.clojure/clojure]]]
   :plugins [[lein-environ "0.4.0"]
             [lein-ring "0.8.7"]]
