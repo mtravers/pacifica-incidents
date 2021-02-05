@@ -20,14 +20,14 @@
   (second (re-matches #"(.+?://.*?)/.*" path)))
 
 (defn get-url [url]
- (-> url
-     (client/get {:insecure? true})
-     :body))
+  (-> url
+      (client/get {:insecure? true})
+      :body))
 
 (defn get-url-as-stream [url]
- (-> url
-     (client/get {:insecure? true :as :stream})
-     :body))
+  (-> url
+      (client/get {:insecure? true :as :stream})
+      :body))
 
 (defn scrape-urls
   [s]
@@ -67,12 +67,14 @@
   (get-all-pdfs! @db/db  "http://www.cityofpacifica.org/depts/police/media/media_bulletin.asp")
   (-main))
 
- 
-(comment
-(def index-url "https://www.cityofpacifica.org/depts/police/media/media_bulletin.asp")
 
-(def files
-  (->> index-url
-       scrape-urls
-       (map download)
-       ))
+(comment
+  (def index-url "https://www.cityofpacifica.org/depts/police/media/media_bulletin.asp")
+
+  (def files
+    (->> index-url
+         scrape-urls
+         (map download)
+         ))
+
+  )
