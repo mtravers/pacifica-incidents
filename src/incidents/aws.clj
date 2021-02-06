@@ -12,21 +12,6 @@
             ))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(comment
-
-  (def services (uaws/make-services [:s3 :textract]
-                                    {:credentials-provider (credentials/profile-credentials-provider "restivo")}))
-
-
-  (ulog/spewer
-   (uaws/list-ops services :textract))
-
-  (ulog/spewer
-   (uaws/docs services :textract :AnalyzeDocument))
-
-  )
-
-
 (defn invoke-paged
   "Takes a service, a map of options to pass to invoke, and a key to find the actual results.
   Calls invoke with those args on an AWS function.
@@ -47,36 +32,18 @@
         (result-key new-acc)
         (recur new-acc)))))
 
-;;; Fixed version of fn from utiliza
-(defn invoke-paged
-  "Takes a service, a map of options to pass to invoke, and a key to find the actual results.
-  Calls invoke with those args on an AWS function.
-  Pages through all the results.
-  Returns the aggregate results, which will be result-key"
-  [service invoke-options result-key]
-  (loop [acc []
-         options invoke-options]
-    (print ".")
-    (let [res (aws/invoke service options)
-          new-acc (concat acc (result-key res))]
-      (when (:ErrorResponse res)
-        (throw (ex-info "AWS Call Failed" res)))
-      (if (-> res :NextToken empty?)
-        new-acc
-        (recur new-acc (assoc-in options [:request :NextToken] (:NextToken res)))))))
-
 
 (u/defn-memoized client []
   (aws/client {:api :textract
-                :region "us-west-2"
-                :credentials-provider (credentials/profile-credentials-provider "default")}))
+               :region "us-west-2"
+               :credentials-provider (credentials/profile-credentials-provider "default")}))
 
 (defn job-id->blocks
   [job-id]
-  (invoke-paged
+  (uaws/invoke-paged
    (client)
    {:op :GetDocumentAnalysis
-    :request {:JobId job-id}}
+    :request {:JokbId job-id}}
    :Blocks))
 
 
