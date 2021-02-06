@@ -16,5 +16,5 @@ jobs:
     - name: Install dependencies
       run: lein deps
     - name: Run a check
-      run: lein update-in : assoc :pedantic? :warn -- check
+      run: "lein update-in : assoc :pedantic? :warn -- check"
 
