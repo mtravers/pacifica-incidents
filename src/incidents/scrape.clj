@@ -109,7 +109,7 @@
          (map download)
          ))
 
-  )
+
 
 ;;; Get textract output from job-ids
 (u/doseq* [f (range (count job-ids)) job-id job-ids]
@@ -121,4 +121,6 @@
 
   (println
    (format
-    "aws textract  get-document-analysis --job-id %s  --region us-west-2 > %s" job-id (str "data/parsed/" (fs/base-name (:local f))))))
+    "aws textract  get-document-analysis --job-id %s  --region us-west-2 > %s" job-id (str "data/parsed/" (fs/base-name (:local f)))))
+
+  )
