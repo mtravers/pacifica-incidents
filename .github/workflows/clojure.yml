@@ -15,5 +15,6 @@ jobs:
     - uses: actions/checkout@v2
     - name: Install dependencies
       run: lein deps
-    - name: Run tests
-      run: lein test
+    - name: Run a check
+      run: lein update-in : assoc :pedantic? :warn -- check
+
