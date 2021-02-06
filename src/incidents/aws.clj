@@ -7,6 +7,7 @@
             [clojure.walk :as walk]
             [utilza.log :as ulog]
             [utilza.aws :as uaws]
+            [org.parkerici.multitool.core :as u]
             [cognitect.aws.client.api :as aws]
             ))
 
@@ -53,34 +54,30 @@
   Pages through all the results.
   Returns the aggregate results, which will be result-key"
   [service invoke-options result-key]
-  (loop [acc {}
+  (loop [acc []
          options invoke-options]
     (print ".")
     (let [res (aws/invoke service options)
-          new-acc (-> acc
-                      (update-in [result-key] concat (result-key res)))]
+          new-acc (concat acc (result-key res))]
       (when (:ErrorResponse res)
         (throw (ex-info "AWS Call Failed" res)))
       (if (-> res :NextToken empty?)
-        (result-key new-acc)
+        new-acc
         (recur new-acc (assoc-in options [:request :NextToken] (:NextToken res)))))))
 
 
+(u/defn-memoized client []
+  (aws/client {:api :textract
+                :region "us-west-2"
+                :credentials-provider (credentials/profile-credentials-provider "default")}))
 
-;;; mt – working!
-(comment
-
-  (def c (aws/client {:api :textract
-                      :credentials-provider (credentials/profile-credentials-provider "default") :region "us-west-2"
-                      }))
-
-  (aws/invoke c {:op :StartDocumentAnalysis
-                 :request {:DocumentLocation {:S3Object {:Bucket "incidents", :Name "01-25-2021.pdf"}},
-                           :FeatureTypes ["TABLES"]}} )
+(defn job-id->blocks
+  [job-id]
+  (invoke-paged
+   (client)
+   {:op :GetDocumentAnalysis
+    :request {:JobId job-id}}
+   :Blocks))
 
 
-  (invoke-paged c {:op :GetDocumentAnalysis
-                        :request {:JobId "36987ba8955ed7d70049056b0813ccd813e5c9e476a53ebaf00864a5be490c24"}} :Blocks)
-
-  )
 

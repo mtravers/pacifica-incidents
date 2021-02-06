@@ -4,10 +4,13 @@
             [environ.core :as env]
             [incidents.reports :as reports]
             [incidents.geo :as geo]
+            [incidents.aws :as aws]
             [net.cgrand.enlive-html :as enlive]
             [clojure.java.io :as io]
             [clojure.string :as s]
             [me.raynes.fs :as fs]
+            [org.parkerici.multitool.core :as u]
+            [org.parkerici.multitool.cljcore :as ju]
             [taoensso.timbre :as log])
   (:gen-class))
 
@@ -92,6 +95,7 @@
   "5cee3228eef4974b746c1ef2aab505d9168ea996359df7281546a988c2e5ad80"
   "bab37866c214e188208b8695e9b3bd978bca33f551f589e859046fa35c212ddf"])
 
+#_
 (u/doseq* [f files2 job-id job-ids]
   (println
    (format
@@ -107,3 +111,14 @@
 
   )
 
+;;; Get textract output from job-ids
+(u/doseq* [f (range (count job-ids)) job-id job-ids]
+          (ju/schppit (str "data/parsed/" f (str ".json"))
+                       (aws/job-id->blocks job-id)))
+
+
+
+
+  (println
+   (format
+    "aws textract  get-document-analysis --job-id %s  --region us-west-2 > %s" job-id (str "data/parsed/" (fs/base-name (:local f))))))
