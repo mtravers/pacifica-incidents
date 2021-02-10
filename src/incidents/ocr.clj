@@ -104,12 +104,6 @@
 (comment
 
 ;;; Now with AWS API we have all in one file and already list-of-blocks edn form
-(->> "data/parsed/6.edn"
-     slurp
-     read-string
-     direct
-     entries
-     rest
-     (map parse-entry))
+
   
 )
