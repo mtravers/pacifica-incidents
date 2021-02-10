@@ -100,22 +100,8 @@
 (deftest count-geos
   (testing "first two geos")
   (is (= (get-uri-from-test-db "/api/geos" "count=2")
-         '({:geo nil,
-            :address nil,
-            :time 1381024140000,
-            :type "Fire Assist",
-            :id 131005161,
-            :disposition "Log Note Only.",
-            :description "Officer initiated activity Cabrillo Hwy, Pacifica. ."}
-           {:geo {:lat 37.6408391, :lng -122.4903562},
-            :address
-            "Ocean Shore Elementary School on Oceana Bl. , Pacifica, CA",
-            :time 1367445000000,
-            :type "Susp Circ 911",
-            :id 130501187,
-            :disposition "Checks Ok.",
-            :description
-            "Occurred at Ocean Shore Elementary School on Oceana Bl. , Pacifica. 911 HANGUP"}))))
+         '({:geo nil, :address nil, :time 1381024140000, :type "Fire Assist", :id 131005161, :disposition "Log Note Only.", :description "Officer initiated activity Cabrillo Hwy, Pacifica. ."}
+           {:geo {:lat 37.5854681, :lng -122.4968526}, :address "Adobe Dr. , Pacifica, CA", :time 1351823880000, :type "Suspicious Vehicle", :id 121101191, :disposition "Cancelled.", :description "Occurred on Adobe Dr. , Pacifica. Large moving type trk  assoc with 2 subject at the x's house  -- were  knocking at her door/she doesn't know who they are  /"}))))
 
 
 
