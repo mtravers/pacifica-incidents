@@ -7,7 +7,6 @@
   :dependencies [
                  ;; [com.cemerick/friend "0.2.0"] ;; gah, not yet.
                  ;; [dire "0.5.2"] ; not actually used yet
-                 [alandipert/enduro "1.2.0"]
                  [camel-snake-kebab "0.4.2"]
                  [cheshire "5.10.0"]
                  [clj-commons/conch "0.9.2"]

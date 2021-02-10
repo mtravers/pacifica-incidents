@@ -87,16 +87,32 @@
 
 (def bucket "incidents")
 
-(defn pdf->s3
-  [file]
-  (let [key (ju/random-uuid)]
+(defn file->s3
+  [file s3key]
     (with-open [stream (clojure.java.io/input-stream file)]
       (aws/invoke (client :s3)
                   {:op :PutObject
                    :request {:Bucket bucket
-                             :Key key
-                             ;; TODO ;probably not
-                             :Body stream }}))
+                             :Key s3key
+                             :Body stream}}))
+  )
+
+(defn s3->file
+  [s3key file]
+  (let [resp (aws/invoke (client :s3)
+                         {:op :GetObject
+                          :request {:Bucket bucket
+                                    :Key s3key
+                                    }})
+        stream (:Body resp)]
+    (with-open [w (clojure.java.io/writer file)]
+      (clojure.java.io/copy stream w))))
+
+
+(defn pdf->s3
+  [file]
+  (let [key (ju/random-uuid)]
+    (file->s3 file key)
     key))
 
 ;;; TODO start the job and wait for it to be ready
