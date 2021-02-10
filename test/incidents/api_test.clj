@@ -372,8 +372,10 @@
   ;; suck everything down from backup
   (db/recover-from-backup  "/tmp/backupdata.json")
   
-            
+  
+  (urepl/massive-spew "resources/testdata/geos-api-all.edn" (get-uri-from-test-db "/api/geos" ""))
 
+  
   )
 
 
