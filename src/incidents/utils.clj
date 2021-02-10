@@ -1,5 +1,5 @@
 (ns incidents.utils
-  (:require [incidents.db :as db]
+  (:require 
             [clojure.core.reducers :as r]))
 
 

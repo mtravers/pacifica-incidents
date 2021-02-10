@@ -8,19 +8,26 @@
             [incidents.ocr :refer :all]))
 
 
-;; XXX this is broken
-#_(deftest basic-parse
+(deftest basic-parse
   (testing "simple ocr parse test"
-    (is  (= (->> "resources/testdata/textract-output.js"
-                 read-file
-                 parse-table
-                 entries
-                 rest
-                 (map parse-entry))
-            (->> "resources/testdata/textstract-parsed.edn"
-                 slurp
-                 edn/read-string)))))
+    (is  (= (->> "resources/testdata/01-26-2021.textract.edn"
+                           slurp
+                           read-string
+                           direct
+                           entries
+                           rest
+                           (map parse-entry))
+            (-> "resources/testdata/01-26-2021.parsed.edn"
+                slurp
+                edn/read-string)))))
 
 
 
 
+
+(comment
+
+ 
+
+
+  )

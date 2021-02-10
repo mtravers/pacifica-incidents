@@ -1,0 +1,193 @@
+({:time "00:06",
+  :type "School Check",
+  :location "Ingrid B Lacy Middle School, Palmetto Av, Pacifica. .",
+  :disposition "Checks Ok."}
+ {:time "00:20",
+  :type "Fraud",
+  :location "Sheila Ln, Pacifica. .",
+  :disposition "Report Taken."}
+ {:time "00:22",
+  :type "Subject Stop",
+  :location "Clarendon Rd/Lakeside Dr, Pacifica. .",
+  :disposition "Log Note Only."}
+ {:time "00:30",
+  :type "School Check",
+  :location "Ocean Shore Elementary School, Oceana Bl, Pacifica.",
+  :disposition "Checks"}
+ {:time "00:53",
+  :type "School Check",
+  :location "Cabrillo School, Crespi Dr, Pacifica. .",
+  :disposition "Checks Ok."}
+ {:time "01:08",
+  :type "Suspicious Vehicle",
+  :location "Calera Creek, Cabrillo Hwy, Pacifica.",
+  :disposition "Log Note Only."}
+ {:time "01:19",
+  :type "Traffic Law Vehicle",
+  :location "Edgemar Av, Pacifica.",
+  :disposition "Parking Cite."}
+ {:time "02:48",
+  :type "SPCA Case",
+  :location "Rockaway Beach Av/Old County Rd, Pacifica. .",
+  :disposition "Referred To Other"}
+ {:time "03:49",
+  :type "Amber Alert",
+  :location "LAPD Amber Alert.",
+  :disposition "Canceled."}
+ {:time "06:00",
+  :type "Alarm",
+  :location "Crespi Dr.",
+  :disposition "False Alarm."}
+ {:time "07:06",
+  :type "Pacifica Public Works Call",
+  :location "Catalina Av/Rutland Dr.",
+  :disposition "Referred To Other Agency."}
+ {:time "11:32",
+  :type "Suspicious Circumstances",
+  :location "Paloma Av.",
+  :disposition "Log Note Only."}
+ {:time "12:25",
+  :type "SPCA Case",
+  :location "Big Bend Dr/Oddstad Bl.",
+  :disposition "Gone On Arrival."}
+ {:time "12:34",
+  :type "Disturbance",
+  :location "Palmetto Av.",
+  :disposition "Log Note Only."}
+ {:time "12:35",
+  :type "Susp Circ 911",
+  :location "Del Mar Av.",
+  :disposition "Log Note Only."}
+ {:time "13:02",
+  :type "Citizen Assist",
+  :location "Oddstad Bl, Pacifica. .",
+  :disposition "Log Note Only."}
+ {:time "13:16",
+  :type "Traffic Law Abandoned",
+  :location "El Dorado Dr.",
+  :disposition "Log Note Only."}
+ {:time "13:38",
+  :type "Traffic Law Abandoned",
+  :location "Alcala Ct.",
+  :disposition "Log Note Only."}
+ {:time "13:39",
+  :type "Traffic Law Abandoned",
+  :location "Montezuma Dr. .",
+  :disposition "Abated/Advised."}
+ {:time "15:22",
+  :type "Welfare Check",
+  :location "Crespi Dr.",
+  :disposition "Log Note Only."}
+ {:time "15:34",
+  :type "Traffic Law Abandoned",
+  :location "Seabreeze Ct.",
+  :disposition "Parking Cite."}
+ {:time "16:59",
+  :type "Traffic Law Vehicle",
+  :location "Esplanade Av/W Manor Dr, Pacifica. .",
+  :disposition "Abated/Advised."}
+ {:time "17:02",
+  :type "Civil Case",
+  :location "Redwood Wy. .",
+  :disposition "Log Note Only."}
+ {:id "2101260277",
+  :time "17:03",
+  :type "School Check",
+  :location "Ingrid B Lacy Middle School, Palmetto Av, Pacifica. .",
+  :disposition "Checks"}
+ {:id "2101260288",
+  :time "17:40",
+  :type "School Check",
+  :location "Good Shepherd School, Oceana Bl, Pacifica.",
+  :disposition "Checks Ok."}
+ {:id "2101260292",
+  :time "17:55",
+  :type "School Check",
+  :location "Terra Nova High School, Terra Nova Bl, Pacifica.",
+  :disposition "Checks Ok."}
+ {:id "2101260294",
+  :time "18:19",
+  :type "Burglary",
+  :location "Esplanade Av.",
+  :disposition "Report Taken."}
+ {:id "2101260303",
+  :time "18:51",
+  :type "Traffic Law Vehicle",
+  :location "Paloma Av/Beach Blvd, Pacifica. .",
+  :disposition "Warning (Cite/Verbal)."}
+ {:id "2101260307",
+  :time "19:06",
+  :type "Susp Circ 911",
+  :location "San Pedro Terrace Rd.",
+  :disposition "Not Dispatched."}
+ {:id "2101260311",
+  :time "19:15",
+  :type "Malicious Mischief",
+  :location "Oceana Bl.",
+  :disposition "Report Taken."}
+ {:id "2101260322",
+  :time "19:48",
+  :type "Susp Circ 911",
+  :location "Esplanade Av.",
+  :disposition "Not Dispatched."}
+ {:id "2101260323",
+  :time "19:51",
+  :type "Hazardous Condition",
+  :location "Milagra Dr.",
+  :disposition "Abated/Advised."}
+ {:id "2101260324",
+  :time "19:54",
+  :type "DISABLED VEH",
+  :location "Cabrillo Hwy/Sea Bowl Ln, Pacifica. .",
+  :disposition "Checks Ok."}
+ {:id "2101260337",
+  :time "20:52",
+  :type "Hazardous Condition",
+  :location "Palmetto Av/Hilton Wy, Pacifica.",
+  :disposition "Abated/Advised."}
+ {:id "2101260340",
+  :time "21:00",
+  :type "School Check",
+  :location "Ocean Shore Elementary School, Oceana Bl, Pacifica.",
+  :disposition "Checks"}
+ {:id "2101260341",
+  :time "21:11",
+  :type "School Check",
+  :location "Oceana High School, Paloma Av, Pacifica. .",
+  :disposition "Checks Ok."}
+ {:id "2101260346",
+  :time "21:43",
+  :type "Traffic Law Vehicle",
+  :location "Palmetto Av. .",
+  :disposition "Log Note Only."}
+ {:id "2101260353",
+  :time "22:22",
+  :type "SPCA Case",
+  :location "Avalon Dr.",
+  :disposition "Unfounded."}
+ {:id "2101260355",
+  :time "22:34",
+  :type "Acc No Injury",
+  :location "Peralta Rd.",
+  :disposition "Report Taken."}
+ {:id "2101260360",
+  :time "23:12",
+  :type "Pacifica Public Works Call",
+  :location
+  "Linda Mar Shopping Center, Linda Mar BI/Cabrillo Hwy, Pacifica. .",
+  :disposition "Referred To Other Agency."}
+ {:id "2101260368",
+  :time "23:37",
+  :type "Hazardous Condition",
+  :location "Cabrillo Hwy/Westport Dr, Pacifica.",
+  :disposition "Log Note Only."}
+ {:id "2101260370",
+  :time "23:44",
+  :type "Hazardous Condition",
+  :location "Skyline B1/Manor Dr.",
+  :disposition "Log Note Only."}
+ {:id "2101260372",
+  :time "23:56",
+  :type "Hazardous Condition",
+  :location "Bill Drake Wy, Pacifica. .",
+  :disposition "Log Note Only."})

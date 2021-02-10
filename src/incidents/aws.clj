@@ -1,5 +1,5 @@
 (ns incidents.aws
-  (:require [incidents.db :as db]
+  (:require 
             [incidents.utils :as utils]
             [cognitect.aws.credentials :as credentials]
             [taoensso.timbre :as log]
