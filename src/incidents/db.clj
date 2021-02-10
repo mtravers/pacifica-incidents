@@ -3,38 +3,34 @@
   To persist to disk, just call (save-data!)
   To read from disk, just (read-data!)
   You can supply args to read/write from those."
-
-  (:require [incidents.pgdb :as pgdb]
-            [clojure.edn :as edn]
+  (:require [clojure.edn :as edn]
             [cheshire.core :as json]
             [utilza.repl :as urepl]
             [taoensso.timbre :as log]
+            [incidents.aws :as aws]
+            [me.raynes.fs :as fs]
+            [org.parkerici.multitool.cljcore :as ju]
             [environ.core :as env])
   (:import java.util.Date))
 
-;; Why not keep it simple, like this:
-;;    http://www.brandonbloom.name/blog/2013/06/26/slurp-and-spit/
+;;; Key within s3://incidents
+(def save-file "db/latest.edn") ;TODO probably want to save versions
 
-
+;;; The in-memory db
 (defonce db (atom {}))
-(defonce save-agent (agent nil))
 
-
-
+;;; TODO no real reasons these have to go through files
 (defn save-data!
   []
-  (pgdb/save! @db))
+  (let [local (fs/temp-file "db")]
+    (ju/schppit local @db)
+    (aws/file->s3 local save-file)))
 
 (defn read-data!
-  "With no args, reads from postgres
-   With one arg, reads from the path/filename specified."
-  ([]
-     (reset! db (pgdb/read!))
-     )
-  ([dbfilename]
-     (reset! db (->> dbfilename slurp edn/read-string))
-     ;; Don't return the whole db so as not to crash emacs.
-     nil))
+  []
+  (let [local (fs/temp-file "db")]
+    (aws/s3->file save-file local)
+    (reset! db (ju/read-from-file local))))
 
 (defn update-record
   "Returns a function to update the db by applying f to the record at id.
