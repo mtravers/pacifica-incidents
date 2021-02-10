@@ -1,6 +1,6 @@
 (ns incidents.utils
-  (:require 
-            [clojure.core.reducers :as r]))
+  (:require [clojure.core.reducers :as r]))
+
 
 
 ;;; Apply k to all vals of db. Not sure why it is named all-keys.
