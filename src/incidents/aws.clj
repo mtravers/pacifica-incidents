@@ -1,6 +1,5 @@
 (ns incidents.aws
-  (:require [incidents.db :as db]
-            [incidents.utils :as utils]
+  (:require [incidents.utils :as utils]
             [cognitect.aws.credentials :as credentials]
             [taoensso.timbre :as log]
             [cheshire.core :as json]
