@@ -22,6 +22,7 @@
 ;;; TODO no real reasons these have to go through files
 (defn save-data!
   []
+  (log/info "Saving db")
   (let [local (fs/temp-file "db")]
     (ju/schppit local @db)
     (aws/file->s3 local save-file)))
@@ -32,6 +33,12 @@
     (aws/s3->file save-file local)
     (reset! db (ju/read-from-file local))))
 
+(defn update! [f & args]
+  (read-data!)                          ;? not sure but this ensures we are synced
+  (apply swap! db f args)
+  (save-data!))
+
+;;; not sure this is needed
 (defn update-record
   "Returns a function to update the db by applying f to the record at id.
    Suitable for use with swap!"
