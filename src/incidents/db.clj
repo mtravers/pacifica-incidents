@@ -38,6 +38,12 @@
   (apply swap! db f args)
   (save-data!))
 
+;;; More useful
+(defn update-in! [path f & args]
+  (read-data!)                          ;? not sure but this ensures we are synced
+  (apply swap! db update-in path f args)
+  (save-data!))
+
 ;;; not sure this is needed
 (defn update-record
   "Returns a function to update the db by applying f to the record at id.

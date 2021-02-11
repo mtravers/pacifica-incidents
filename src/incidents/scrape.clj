@@ -79,10 +79,10 @@
         site-files (u/index-by :date (scrape-urls index-url))
         new (apply dissoc site-files (keys db-files))
         new-download (map (comp upload download) (vals new))]
-    (db/update! update-in [:files] conj new-download))) ;?
+    (db/update-in! [:files] conj new-download))) ;?
 
 ;;; For testing – remove some files from the db
 (defn delete-files
   [n]
-  (db/update! update-in [:files] (partial drop n)))
+  (db/update-in! [:files] (partial drop n)))
 
