@@ -27,6 +27,11 @@
     (ju/schppit local @db)
     (aws/file->s3 local save-file)))
 
+(defn initialize!
+  []
+  (reset! db {})
+  (save-data!))
+
 (defn read-data!
   []
   (let [local (fs/temp-file "db")]
@@ -44,7 +49,9 @@
   (apply swap! db update-in path f args)
   (save-data!))
 
-;;; not sure this is needed
+;;; Stuff below here is from old system and may not be needed any more
+
+
 (defn update-record
   "Returns a function to update the db by applying f to the record at id.
    Suitable for use with swap!"

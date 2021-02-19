@@ -6,6 +6,7 @@
             [clojure.walk :as walk]
             [utilza.log :as ulog]
             [utilza.aws :as uaws]
+            [me.raynes.fs :as fs]
             [org.parkerici.multitool.core :as u]
             [org.parkerici.multitool.cljcore :as ju]
             [cognitect.aws.client.api :as aws]
@@ -26,6 +27,14 @@
 
   )
 
+;;; TODO this doesn't show much detail about error 
+(defn invoke-with-error
+  [service op]
+  (let [result (aws/invoke service op)]
+    (when (or (:Error result)
+              (:cognitect.anomalies/category result))
+      (throw (ex-info "AWS error" {:op op :aws-result result})))
+    result))
 
 (defn invoke-paged
   "Takes a service, a map of options to pass to invoke, and a key to find the actual results.
@@ -35,9 +44,9 @@
   [service invoke-options result-key]
   (loop [acc {}]
     (print ".")
-    (let [res (aws/invoke service (if (-> acc :NextToken empty?)
-                                    invoke-options
-                                    (assoc-in invoke-options [:request :NextToken] (:NextToken acc))))
+    (let [res (invoke-with-error service (if (-> acc :NextToken empty?)
+                                           invoke-options
+                                           (assoc-in invoke-options [:request :NextToken] (:NextToken acc))))
           new-acc (-> acc
                       (update-in [result-key] concat (result-key res))
                       (assoc :NextToken (:NextToken res)))]
@@ -56,9 +65,8 @@
   [service invoke-options result-key]
   (loop [acc []
          options invoke-options]
-    (let [res (aws/invoke service options)
+    (let [res (invoke-with-error service options)
           new-acc (concat acc (result-key res))]
-      (prn :status (:JobStatus res) (:NextToken res))
       (when (:ErrorResponse res)
         (throw (ex-info "AWS Call Failed" res)))
       (if (= (:JobStatus res) "SUCCEEDED") ; note: this may be specific to :textract api
@@ -74,7 +82,7 @@
 (u/defn-memoized client [service]
   (aws/client {:api service
                :region "us-west-2"
-               :credentials-provider (credentials/profile-credentials-provider "default")}))
+               :credentials-provider (credentials/profile-credentials-provider "incidents2")}))
 
 (defn job-id->blocks
   [job-id]
@@ -84,51 +92,54 @@
     :request {:JobId job-id}}
    :Blocks))
 
-(def bucket "incidents")
+(def bucket "pacifica-incidents")
 
 (defn file->s3
   [file s3key]
-    (with-open [stream (clojure.java.io/input-stream file)]
-      (aws/invoke (client :s3)
-                  {:op :PutObject
-                   :request {:Bucket bucket
-                             :Key s3key
-                             :Body stream}}))
+  (with-open [stream (clojure.java.io/input-stream file)]
+    (invoke-with-error (client :s3)
+                       {:op :PutObject
+                        :request {:Bucket bucket
+                                  :Key s3key
+                                  :Body stream}}))
   )
+
+(defn spit-to-s3 [thing key]
+  (let [local (fs/temp-name "spit")]
+    (ju/schppit local thing)
+    (file->s3 local key)
+    key))
 
 (defn s3->file
   [s3key file]
-  (let [resp (aws/invoke (client :s3)
-                         {:op :GetObject
-                          :request {:Bucket bucket
-                                    :Key s3key
-                                    }})
+  (let [resp (invoke-with-error (client :s3)
+                                {:op :GetObject
+                                 :request {:Bucket bucket
+                                           :Key s3key
+                                           }})
         stream (:Body resp)]
     (with-open [w (clojure.java.io/writer file)]
       (clojure.java.io/copy stream w))))
 
 
-(defn pdf->s3
+
+;;; TODO start the job and wait for it to be ready
+(defn parse-pdf-s3
+  [key]
+  (let [job-id (:JobId
+                (invoke-with-error (client :textract)
+                                   {:op :StartDocumentAnalysis
+                                    :request {:DocumentLocation {:S3Object {:Bucket bucket
+                                                                            :Name key}}
+                                              :FeatureTypes ["TABLES"]}}))]
+    (log/info "Starting Textract job" job-id)
+    (job-id->blocks job-id)))
+
+(defn parse-pdf-local
   [file]
   (let [key (ju/random-uuid)]
     (file->s3 file key)
-    key))
-
-;;; TODO start the job and wait for it to be ready
-(defn parse-pdf
-  [file]
-  (let [key (pdf->s3 file)
-        job-id (:JobId
-                (aws/invoke (client :textract)
-                            {:op :StartDocumentAnalysis
-                             :request {:DocumentLocation {:S3Object {:Bucket bucket
-                                                                     :Name key}}
-                                       :FeatureTypes ["TABLES"]}}))]
-    
-
-    (prn :job-id job-id)
-    (job-id->blocks job-id)))
+    (parse-pdf-s3 key)))
 
 
-(comment
-  (def b2 (parse-pdf "data/pdfs/01-10-2020.pdf")))
+

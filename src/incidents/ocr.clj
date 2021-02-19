@@ -59,7 +59,6 @@
 
 (defn parse-table
   [table]
-  (prn :parse-table (count (:children table)))
   (->> table
        :children
        (group-by :RowIndex)
@@ -71,7 +70,6 @@
  
 (defn parse-nontable
   [page-blocks]
-  (prn :parse-nontable (count (:children page-blocks)))
   (let [block-top #(get-in % [:Geometry :BoundingBox :Top])
         lines (u/partition-diff (fn [a b] (< (- (block-top b) (block-top a)) 0.01))
                               (sort-by block-top (:children page-blocks)))
@@ -91,8 +89,8 @@
 
 (defn parse-entry
   [[line1 line2]]
-  (let [[_ time type] (re-matches #"(\d+:\d+)\s+(.*?)" (second line1))
-        [_ location disposition] (re-matches #"(?:.*) (?:on|at) (.*) Disposition: (.*)" (second line2))]
+  (let [[_ time type] (and (second line2) (re-matches #"(\d+:\d+)\s+(.*?)" (second line1)))
+        [_ location disposition] (and (second line2) (re-matches #"(?:.*) (?:on|at) (.*) Disposition: (.*)" (second line2)))]
     (u/clean-map
      {:id (nth line1 2)
       :time time
@@ -100,6 +98,16 @@
       :location location
       :disposition disposition
       })))
+
+(defn parse-textract
+  [tx]
+  (->> tx
+       direct
+       entries
+       rest
+       (map parse-entry)))
+
+
 
 (comment
 

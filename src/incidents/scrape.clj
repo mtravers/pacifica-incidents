@@ -5,6 +5,7 @@
             [incidents.reports :as reports]
             [incidents.geo :as geo]
             [incidents.aws :as aws]
+            [incidents.ocr :as ocr]
             [net.cgrand.enlive-html :as enlive]
             [clojure.java.io :as io]
             [clojure.string :as s]
@@ -70,19 +71,30 @@
   (let [files (->> index-url
                    scrape-urls
                    (map download)
-                   (map upload))]
+                   (map upload)
+                   (u/index-by :url))]
     (db/update! assoc :files files)))
 
 (defn incremental-scrape!
   []
-  (let [db-files (u/index-by :date (:files @db/db))
-        site-files (u/index-by :date (scrape-urls index-url))
+  (let [db-files (:files @db/db)
+        site-files (u/index-by :url (scrape-urls index-url))
         new (apply dissoc site-files (keys db-files))
         new-download (map (comp upload download) (vals new))]
-    (db/update-in! [:files] conj new-download))) ;?
+    (db/update-in! [:files] merge (u/index-by :url new-download))))
 
 ;;; For testing – remove some files from the db
 (defn delete-files
   [n]
   (db/update-in! [:files] (partial drop n)))
 
+(defn analyze-file
+  [{:keys [s3 url date] :as f}]
+  (let [blocks (aws/parse-pdf-s3 (subs s3 1)) ;Argh
+        entries (ocr/parse-textract blocks)]
+    (log/info (count entries) "parsed from " url)
+    (db/update-in! [:files url] assoc
+                   :blocks (aws/spit-to-s3 blocks (str "textract/" date ".edn"))
+                   :entries entries
+                   )))
+    
