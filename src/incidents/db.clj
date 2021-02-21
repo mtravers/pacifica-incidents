@@ -9,6 +9,7 @@
             [taoensso.timbre :as log]
             [incidents.aws :as aws]
             [me.raynes.fs :as fs]
+            [org.parkerici.multitool.core :as u]
             [org.parkerici.multitool.cljcore :as ju]
             [environ.core :as env])
   (:import java.util.Date))
@@ -38,16 +39,17 @@
     (aws/s3->file save-file local)
     (reset! db (ju/read-from-file local))))
 
-(defn update! [f & args]
-  (read-data!)                          ;? not sure but this ensures we are synced
+
+
+;;; More general
+(defn with-db [f args]
+  (read-data!)
   (apply swap! db f args)
   (save-data!))
 
-;;; More useful
-(defn update-in! [path f & args]
-  (read-data!)                          ;? not sure but this ensures we are synced
-  (apply swap! db update-in path f args)
-  (save-data!))
+(defn update! [f & args]
+  (with-db f args))
+
 
 ;;; Stuff below here is from old system and may not be needed any more
 
@@ -79,10 +81,26 @@
                           (json/decode true))]
                   [id (assoc rec :time (Date. time))]))))
 
-(comment
 
+(defn files []
+  (-> @db
+      :files
+      vals))
 
-
-
+(defn entry-inst [date e]
+  (assoc e :inst (u/ignore-errors (java.util.Date. (str date " " (:date e))))))
   
-  )
+(defn unified-entries
+  []
+  (mapcat (fn [{:keys [entries date]}]
+            (map (partial entry-inst date) entries))
+          (files)))
+
+(defn max-time
+  []
+  (u/max-by identity (map :inst (unified-entries))))
+
+(defn min-time
+  []
+  (u/min-by identity (map :inst (unified-entries))))
+

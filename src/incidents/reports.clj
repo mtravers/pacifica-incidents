@@ -10,8 +10,6 @@
             [environ.core :as env]))
 
 
-
-
 (defn disposition-total
   [db]
   (utils/total-not-null-counts db :disposition))
@@ -94,16 +92,9 @@
   (count (unique-dates db)))
 
 (defn timestamps-min-max
-  [db]
-  (->> db
-       vals
-       (map :time)
-       sort
-       (map #(.getTime %))
-       ((juxt first last))
-       (zipmap [:min :max])))
-
-
+  [_]
+  {:min (db/min-time)
+   :max (db/max-time)})
 
 (defn  address-counts
   [db]
