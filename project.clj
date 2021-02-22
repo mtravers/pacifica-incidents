@@ -54,9 +54,9 @@
              }
   ;; defaults, you can overidde in .lein-env, or java environment
   :env {:dl-index-url "https://www.cityofpacifica.org/depts/police/media/media_bulletin.asp"
-        :geocoding-url "http://maps.googleapis.com/maps/api/geocode/json"
-        :db-filename "/tmp/incidents.db"
-        :geo-rate-limit-sleep-ms 1000 ;; for google
+        :geocoding-url "https://maps.googleapis.com/maps/api/geocode/json"
+        :geo-rate-limit-sleep-ms 1000 ; for google
+;        :gmap-api-key is secret, put it in env var GMAP_API_KEY
         :port 8000 ;; default webserver port
         :timbre-config {:appenders {:spit {:enabled? true
                                            :fmt-output-opts {:nofonts? true}}

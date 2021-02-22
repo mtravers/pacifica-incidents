@@ -2,6 +2,7 @@
   (:require [clj-http.client :as client]
             [incidents.db :as db]
             [taoensso.timbre :as log]
+            [org.parkerici.multitool.core :as u]
             [environ.core :as env]))
 
 (defonce running-update (atom nil))
@@ -16,25 +17,31 @@
     (log/error "Cancelling geo job, google has said cut it out.")
     (reset! enable-google? false)))
 
+(defn geocode-address-1
+  [addr]
+  (try
+    (let [{{:keys [error_message results] :as body} :body}
+          (client/get (:geocoding-url env/env)
+                      {:query-params {:key (:gmap-api-key env/env)
+                                      :address addr
+                                      :sensor false}
+                       :as :json})]
+      (if error_message 
+        (throw (ex-info "Geo error" {:addr addr :error error_message})) ;; (handle-geo-error body)
+        (some-> results
+                first  ; Most likely only really want the first result anyway.
+                :geometry
+                :location)))
+    (catch Exception e
+      (log/error e addr))))
+
 (defn geocode-address
   [addr]
   (when (and addr @enable-google?)
     ;; Doing the sleep here, so that the doseq can blast through dead records quickly
-    (Thread/sleep (:geo-rate-limit-sleep-ms env/env))
+    (Thread/sleep (u/coerce-numeric (:geo-rate-limit-sleep-ms env/env))) ;For some reason this is getting stringified
     (log/debug "Fetching from google: " addr)
-    (try
-      (let [{{:keys [error_message results] :as body} :body}
-            (client/get (:geocoding-url env/env)
-                        {:query-params {:address addr, :sensor false}
-                         :as :json})]
-        (if error_message 
-          (handle-geo-error body)
-          (some-> results
-                  first  ; Most likely only really want the first result anyway.
-                  :geometry
-                  :location)))
-      (catch Exception e
-        (log/error e addr)))))
+    (geocode-address-1 addr)))
 
 (defn find-address
   [s]
