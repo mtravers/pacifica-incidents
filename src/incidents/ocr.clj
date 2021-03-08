@@ -4,6 +4,7 @@
             [clojure.string :as s]
             [me.raynes.fs :as fs]
             [org.parkerici.multitool.core :as u]
+            [taoensso.timbre :as log]
             ))
 
 ;;; Parsing AWS Textract output into usable form
@@ -79,6 +80,7 @@
 
 (defn parse-page
   [page]
+  (log/info "Parsing page" (:Id page))
   (if-let [table (u/walk-find #(= (:BlockType %) "TABLE") page)]
     (parse-table table)
     (parse-nontable page)))

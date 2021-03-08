@@ -92,12 +92,19 @@
 
 (defn analyze-file
   [{:keys [s3 url date] :as f}]
+  (log/info "Analyzing " url date)
   (let [blocks (aws/parse-pdf-s3 (subs s3 1)) ;Argh
         entries (ocr/parse-textract blocks)]
     (log/info (count entries) "parsed from " url)
-    (db/update! #(update-in [:files url]
-                            assoc
-                            :blocks (aws/spit-to-s3 blocks (str "textract/" date ".edn"))
-                            :entries entries
-                            ))))
+    (db/update! update-in
+                [:files url]
+                assoc
+                :blocks (aws/spit-to-s3 blocks (str "textract/" date ".edn"))
+                :entries entries
+                )))
+
+(defn analyze-remaining-files
+  []
+  (doseq [f (remove :entries (vals files))]
+    (analyze-file f)))
     

@@ -20,12 +20,16 @@
 ;;; The in-memory db
 (defonce db (atom {}))
 
+(defn save-data-local!
+  [f]
+  (ju/schppit f @db))
+
 ;;; TODO no real reasons these have to go through files
 (defn save-data!
   []
   (log/info "Saving db")
   (let [local (fs/temp-file "db")]
-    (ju/schppit local @db)
+    (save-data-local! local)
     (aws/file->s3 local save-file)))
 
 (defn initialize!
