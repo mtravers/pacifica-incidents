@@ -26,7 +26,7 @@
                  [firealarm "0.1.2" :exclusions [clj-stacktrace]]
                  [markdown-clj "1.10.5"]
                  [me.raynes/fs "1.4.6"]
-                 [org.parkerici/multitool "0.0.11"] ;TODO public release for ken
+                 [org.parkerici/multitool "0.0.13"] ;TODO public release for ken
                  [utilza "0.1.105" :exclusions [org.clojure/clojure]]
                  [org.clojure/clojure "1.10.2"]
                  [org.clojure/java.jdbc "0.7.12"]

@@ -43,8 +43,6 @@
     (aws/s3->file save-file local)
     (reset! db (ju/read-from-file local))))
 
-
-
 ;;; More general
 (defn with-db [f args]
   (read-data!)

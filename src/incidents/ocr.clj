@@ -67,14 +67,14 @@
        vals
        (map parse-row)
        ;; Split on time, it's reliably detected while the id on the right is not
-       (u/partition-if #(re-matches #"^\d\d:\d\d.*" (second %)))))
+       (u/partition-if (fn [row] (some #(re-matches #"^\d\d:\d\d.*" %) row)))))
  
 (defn parse-nontable
   [page-blocks]
   (let [block-top #(get-in % [:Geometry :BoundingBox :Top])
         lines (u/partition-diff (fn [a b] (< (- (block-top b) (block-top a)) 0.01))
-                              (sort-by block-top (:children page-blocks)))
-        items (u/partition-if (fn [line] (u/coerce-numeric-hard (:Text (first line)))))
+                                (sort-by block-top (:children page-blocks)))
+        items (u/partition-if (fn [line] (u/coerce-numeric-hard (:Text (first line)))) lines)
         ]
     items))
 
@@ -89,17 +89,23 @@
   [pages]
   (mapcat parse-page pages))
 
+;;; → multitool
+(defn safe-nth [seq n]
+  (and (> (count seq) n)
+       (nth seq n)))
+
 (defn parse-entry
   [[line1 line2]]
-  (let [[_ time type] (and (second line2) (re-matches #"(\d+:\d+)\s+(.*?)" (second line1)))
-        [_ location disposition] (and (second line2) (re-matches #"(?:.*) (?:on|at) (.*) Disposition: (.*)" (second line2)))]
-    (u/clean-map
-     {:id (nth line1 2)
-      :time time
-      :type type
-      :location location
-      :disposition disposition
-      })))
+  (u/ignore-report                      ;TODO may not be a good idea
+   (let [[_ time type] (and (second line2) (re-matches #"(\d+:\d+)\s+(.*?)" (second line1)))
+         [_ location disposition] (and (second line2) (re-matches #"(?:.*) (?:on|at) (.*) Disposition: (.*)" (second line2)))]
+     (u/clean-map
+      {:id (safe-nth line1 2)                 ;TODO sometimes missing, need to handle
+       :time time
+       :type type
+       :location location
+       :disposition disposition
+       }))))
 
 (defn parse-textract
   [tx]
@@ -110,10 +116,3 @@
        (map parse-entry)))
 
 
-
-(comment
-
-;;; Now with AWS API we have all in one file and already list-of-blocks edn form
-
-  
-)

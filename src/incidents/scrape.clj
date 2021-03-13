@@ -105,6 +105,6 @@
 
 (defn analyze-remaining-files
   []
-  (doseq [f (remove :entries (vals files))]
+  (doseq [f (remove :entries (vals (:files @db/db)))]
     (analyze-file f)))
     
