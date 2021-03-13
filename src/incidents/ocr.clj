@@ -2,7 +2,6 @@
   (:require [clojure.java.io :as io]
             [clojure.data.json :as json]
             [clojure.string :as s]
-            [me.raynes.fs :as fs]
             [org.parkerici.multitool.core :as u]
             [taoensso.timbre :as log]
             ))

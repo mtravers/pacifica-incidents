@@ -1,7 +1,6 @@
 (ns incidents.api
   (:require [incidents.db :as db]
             [incidents.utils :as utils]
-            [incidents.scrape :as scrape]
             [ring.util.response :as rutil]
             [markdown.core :as md]
             [taoensso.timbre :as log]
@@ -9,7 +8,8 @@
             [incidents.reports :as reports]
             [clojure.walk :as walk]
             [compojure.core :as compojure]
-            [compojure.route :as route])
+            [org.parkerici.multitool.core :as u]
+            )
   (:import java.util.Date))
 
 
@@ -31,7 +31,7 @@
 ;; cheshire's config instead of crudely walking trees here.
 (defn serialize-for-json
   [t]
-  (walk/postwalk #(if (= java.util.Date (class %))
+  (walk/postwalk #(if (= Date (class %))
                     (.getTime %)
                     %)
                  t))
@@ -41,25 +41,11 @@
   [{:keys [count]} xs]
   (cond->> xs count (take (Integer/parseInt count))))
 
-
-(defn- convert-dates
-  "Takes params map, and returns a map of :min :max dates IFF the input is valid"
-  [{:keys [min max]}]
-  (when (and min max (every? #(-> % empty? not) [min max]))
-    (let [min (Long/parseLong min)
-          max (Long/parseLong max)]
-      (when (every? (partial < 0) [min max])
-        {:min min
-         :max max}))))
-
-
 (defn- with-dates
-  [params xs]
-  (if-let [{:keys [min max]} (convert-dates params)]
-    (filter (fn [{:keys [time]}]
-              (let [millis (.getTime time)]
-                (and (> millis min)
-                     (< millis max))))
+  [{:keys [min max] :as _params} xs]
+  (if (and min max)
+    (filter (fn [{:keys [datime]}]
+              (u/<* min datime max))
             xs)
     xs))
 
@@ -117,18 +103,27 @@
        (with-count params) ;; must be last before serializing
        serialize-for-json))
 
+(defn- coerce-date
+  [s]
+  (and (string? s) (Date. (Long/parseLong s))))
+
+(defn- coerce-params
+  [params]
+  (-> params
+      (update :min coerce-date)
+      (update :max coerce-date)))
 
 ;; Sorry this looks like ass, but it works.
 ;; Make things as simple as possible, but no simpler.
 (defn get-geos
   "Gets only unique geos, summarized by date and count params."
   [db params]
-  (let [sorted (->> db
-                    vals
+  (let [params (coerce-params params)
+        sorted (->> (db/entries)
                     (with-dates params)
                     (with-search-string params)
                     ;;(with-types params)
-                    (sort-by :time)
+                    (sort-by :datime)
                     reverse)
         geos (utils/all-keys db :geo)]
     (->> (for [g geos]
@@ -139,8 +134,6 @@
          (with-count params)
          serialize-for-json
          )))
-
-
 
 
 (compojure/defroutes routes
@@ -189,7 +182,7 @@
                      (pr-str "running")
                      json-response))
 
-  (compojure/GET "/docs" {:keys [params]}
+  (compojure/GET "/docs" {:keys [_params]}
                  (-> "doc/API.md"
                      slurp
                      md/md-to-html-string))

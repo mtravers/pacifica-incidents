@@ -71,7 +71,6 @@
       (read-data!)
       (log/info "DB loaded (presumably)"))))
 
-
 (defn recover-from-backup
   "Takes url to disk file or web site, and forces the current db to match it"
   [url]
@@ -82,7 +81,6 @@
                           slurp
                           (json/decode true))]
                   [id (assoc rec :time (Date. time))]))))
-
 
 (defn files []
   (-> @db
@@ -106,3 +104,6 @@
   []
   (u/min-by identity (map :inst (unified-entries))))
 
+(defn entries
+  []
+  (mapcat :entries (vals (:files @db))))

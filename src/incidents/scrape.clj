@@ -11,7 +11,6 @@
             [clojure.string :as s]
             [me.raynes.fs :as fs]
             [org.parkerici.multitool.core :as u]
-            [org.parkerici.multitool.cljcore :as ju]
             [taoensso.timbre :as log])
   (:gen-class))
 
@@ -88,7 +87,17 @@
 ;;; For testing – remove some files from the db
 (defn delete-files
   [n]
-  (db/update! #(update-in [:files] (partial drop n))))
+  (db/update! update-in [:files] (partial drop n)))
+
+;;; WANT a more general way to say, update these sub-maps.
+(defn parse-times
+  [{:keys [date entries] :as file}]
+  (assoc file
+         :entries
+         (map (fn [{:keys [time] :as entry}]
+                (assoc entry :datime (java.util.Date. (str date " " time))))
+              entries
+              )))
 
 (defn analyze-file
   [{:keys [s3 url date] :as f}]
@@ -96,15 +105,25 @@
   (let [blocks (aws/parse-pdf-s3 (subs s3 1)) ;Argh
         entries (ocr/parse-textract blocks)]
     (log/info (count entries) "parsed from " url)
-    (db/update! update-in
+    (db/update! assoc-in
                 [:files url]
-                assoc
-                :blocks (aws/spit-to-s3 blocks (str "textract/" date ".edn"))
-                :entries entries
-                )))
+                (-> f
+                    (assoc :blocks (aws/spit-to-s3 blocks (str "textract/" date ".edn"))
+                           :entries entries)
+                    parse-times))))
+
+(defn update-files!
+  [f]
+  (doseq [file (vals (:files @db/db))]
+    (swap! db/db assoc-in
+           [:files (:url file)]
+           (f file)))
+  (db/save-data!))
 
 (defn analyze-remaining-files
   []
   (doseq [f (remove :entries (vals (:files @db/db)))]
     (analyze-file f)))
     
+
+
