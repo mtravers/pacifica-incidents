@@ -10,7 +10,9 @@
             [taoensso.timbre :as log]
             [environ.core :as env]
             [incidents.api :as api]
-            [incidents.db :as db]))
+            [incidents.db :as db]
+            [org.parkerici.multitool.core :as u]
+            ))
 
 
 (defonce srv (agent nil))
@@ -19,13 +21,31 @@
   (firealarm/exception-wrapper
    (firealarm/file-reporter "/tmp/web.log")))
 
+;;; → multitool
+(defn expand-template-string
+  "Template is a string containing {foo} elements, which get replaced by corresponding values from bindings"
+  [template bindings]
+  (let [matches (->> (re-seq #"\{(.*?)\}" template) ;extract the template fields from the entity
+                     (map (fn [[match key]]
+                            [match (or (bindings key)
+                                       (bindings (keyword key))
+                                       "")])))]
+    (reduce (fn [s [match key]]
+              (clojure.string/replace s (u/re-pattern-literal match) (str key)))
+            template matches)))
+
+(u/def-lazy map-page-content
+  (expand-template-string
+   (slurp "resources/public/map.html")
+   env/env))
+
 (defn map-static-page
   "Miserable hack. For some reason, file-response is botched on heroku"
   []
   ;; (resp/file-response "map.html" {:root "resources/public"})
   {:status 200
    :headers {"Content-Type" "text/html; charset=utf-8"}
-   :body (slurp "resources/public/map.html")})
+   :body @map-page-content})
 
 (compojure/defroutes routes
   (compojure/GET "/" [] (map-static-page))

@@ -1,6 +1,7 @@
 var map;
 var markers = [];
 
+
 function map_init(lat, lng) {
     var myOptions = {
 	zoom: 12,
@@ -136,17 +137,18 @@ function fillDetails(api_data) {
     $("#end_datepicker").datepicker("setDate", new Date(api_data["max"]));
 }
 
-$(document).ready(function() {
+// called after map api code is loaded
+function initMap() {
     prepare_form();
     map_init(37.621592, -122.4885218);
     $.ajax("/api/dates",
 	   { success:
-	   function(response) {
-	       fillDetails(response);
-	   },
+	     function(response) {
+		 fillDetails(response);
+	     },
 	     error: 
 	     function(XHR, textStatus, errorThrown) {
 		 alert("error: " + textStatus + "; " + errorThrown);}
 	   });
-    });
+};
 
