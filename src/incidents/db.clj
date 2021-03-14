@@ -24,6 +24,10 @@
   [f]
   (ju/schppit f @db))
 
+(defn restore-local!
+  [f]
+  (reset! db (read-string (slurp f))))
+
 ;;; TODO no real reasons these have to go through files
 (defn save-data!
   []
@@ -107,3 +111,11 @@
 (defn entries
   []
   (mapcat :entries (vals (:files @db))))
+
+(defn update-files!
+  [f]
+  (doseq [file (vals (:files @db))]
+    (swap! db assoc-in
+           [:files (:url file)]
+           (f file)))
+  (save-data!))

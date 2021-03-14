@@ -118,22 +118,25 @@
 (defn get-geos
   "Gets only unique geos, summarized by date and count params."
   [db params]
-  (let [params (coerce-params params)
-        sorted (->> (db/entries)
-                    (with-dates params)
-                    (with-search-string params)
+  (let [params (coerce-params params)]
+    (->> (db/entries)
+         (with-dates params)
+         (with-search-string params)
                     ;;(with-types params)
-                    (sort-by :datime)
-                    reverse)
-        geos (utils/all-keys db :geo)]
-    (->> (for [g geos]
-           (->> sorted
-                (filter #(= g (:geo %)))
-                first)) ;; only want the most recent.
-         (filter map?) ;; skip the nil's and empties.
-         (with-count params)
+         (sort-by :datime)
+         reverse
          serialize-for-json
          )))
+
+;;; This did some kind of grouping by geo? 
+    ;;     geos (utils/all-keys db :geo)]
+    ;; (->> (for [g geos]
+    ;;        (->> sorted
+    ;;             (filter #(= g (:geo %)))
+    ;;             first)) ;; only want the most recent.
+    ;;      (filter map?) ;; skip the nil's and empties.
+    ;;      (with-count params)
+
 
 
 (compojure/defroutes routes

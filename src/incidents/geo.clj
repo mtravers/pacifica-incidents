@@ -3,6 +3,7 @@
             [incidents.db :as db]
             [taoensso.timbre :as log]
             [org.parkerici.multitool.core :as u]
+            [clojure.string :as s]
             [environ.core :as env]))
 
 (defonce running-update (atom nil))
@@ -35,7 +36,7 @@
     (catch Exception e
       (log/error e addr))))
 
-(defn geocode-address
+(u/defn-memoized geocode-address
   [addr]
   (when (and addr @enable-google?)
     ;; Doing the sleep here, so that the doseq can blast through dead records quickly
@@ -43,69 +44,41 @@
     (log/debug "Fetching from google: " addr)
     (geocode-address-1 addr)))
 
-(defn find-address
+(defn clean-address
+  "Turn incidents location desc into valid address"
   [s]
-  ;; the Pacifica needs to be there so that it doesn't pull
-  ;; up Monterey road in Monterey, for example.
-  (when s
-    (when-let [match (-> #".*?(at|on) (.*Pacifica).*"
-                         (re-matches s)
-                         (nth 2))]
-      (str (clojure.string/replace match #"/" " & ") ", CA"))))
-
-
+  (and s (str (s/replace s #"/" " & ") ", Pacifica CA")))
 
 (defn ensure-address
   "Makes damn sure there's an address in there."
-  [{:keys [address description] :as item}]
+  [{:keys [address location] :as item}]
   (if address
     item
-    (assoc item :address (find-address description))))
+    (assoc item :address (clean-address location))))
 
-
-(defn find-existing-geo
-  "Looks for dupes already in db"
-  [addr]
-  (when addr
-    (some->> @db/db
-             vals
-             (filter #(= (:address %) addr))
-             (filter #(some-> % :geo empty? not))
-             first
-             :geo)))
-
-
-
-(defn copy-or-fetch-geo
+(defn add-geo
   [{:keys [address] :as item}]
-  (assoc item :geo (or (find-existing-geo address)
-                       (geocode-address address))))
+  (if address
+    (assoc item :geo (geocode-address address))
+    item))
 
-
-(defn add-geo-and-address
+(defn ensure-geo
   "Takes an item map. Returns the item map with geocode data and address inserted."
   [item]
   {:pre [(map? item)]}
   (some->> item
            ensure-address
-           copy-or-fetch-geo))
-
-
-
+           add-geo
+           ))
 
 (defn update-geos!
   "Geocode everything in the db
   that doesn't already have a geo.
   Shuffles them as a dirty hack to get around persistently bad addresses"
   []
-  (doseq [id (-> @db/db keys shuffle)
-          :when (and (some-> id nil? not) ;; there's one bad id in there
-                     (-> (get @db/db id nil) ;; CANNOT USE some->> here!!
-                         nil?
-                         not))]
-    (log/debug "adding geo for " id)
-    (swap! db/db  (db/update-record id add-geo-and-address)))
-  (db/save-data!))
+  (db/update-files!
+   (fn [file]
+     (update file :entries #(map ensure-geo %)))))
 
 
 (defn start-geocoding

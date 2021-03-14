@@ -112,13 +112,7 @@
                            :entries entries)
                     parse-times))))
 
-(defn update-files!
-  [f]
-  (doseq [file (vals (:files @db/db))]
-    (swap! db/db assoc-in
-           [:files (:url file)]
-           (f file)))
-  (db/save-data!))
+
 
 (defn analyze-remaining-files
   []
