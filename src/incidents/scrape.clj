@@ -65,6 +65,30 @@
     (aws/file->s3 (:local fmap) s3-key)
     (assoc fmap :s3 s3-key)))
       
+;;; WANT a more general way to say, update these sub-maps.
+(defn parse-times
+  [{:keys [date entries] :as file}]
+  (assoc file
+         :entries
+         (map (fn [{:keys [time] :as entry}]
+                (assoc entry :datime (java.util.Date. (str date " " time))))
+              entries
+              )))
+
+
+(defn analyze-file
+  [{:keys [s3 url date] :as f}]
+  (log/info "Analyzing " url date)
+  (let [blocks (aws/parse-pdf-s3 (subs s3 1)) ;Argh
+        entries (ocr/parse-textract blocks)]
+    (log/info (count entries) "parsed from " url)
+    (db/update! assoc-in
+                [:files url]
+                (-> f
+                    (assoc :blocks (aws/spit-to-s3 blocks (str "textract/" date ".edn"))
+                           :entries entries)
+                    parse-times))))
+
 (defn full-scrape!
   []
   (let [files (->> index-url
@@ -79,7 +103,8 @@
   (let [db-files (:files @db/db)
         site-files (u/index-by :url (scrape-urls index-url))
         new (apply dissoc site-files (keys db-files))
-        new-download (map (comp upload download) (vals new))]
+        new-download (map (comp upload download) (vals new))
+        ]
     (db/update! #(-> %
                      (update-in [:files] merge (u/index-by :url new-download))
                      (assoc :last-update (java.util.Date.))))))
@@ -88,29 +113,6 @@
 (defn delete-files
   [n]
   (db/update! update-in [:files] (partial drop n)))
-
-;;; WANT a more general way to say, update these sub-maps.
-(defn parse-times
-  [{:keys [date entries] :as file}]
-  (assoc file
-         :entries
-         (map (fn [{:keys [time] :as entry}]
-                (assoc entry :datime (java.util.Date. (str date " " time))))
-              entries
-              )))
-
-(defn analyze-file
-  [{:keys [s3 url date] :as f}]
-  (log/info "Analyzing " url date)
-  (let [blocks (aws/parse-pdf-s3 (subs s3 1)) ;Argh
-        entries (ocr/parse-textract blocks)]
-    (log/info (count entries) "parsed from " url)
-    (db/update! assoc-in
-                [:files url]
-                (-> f
-                    (assoc :blocks (aws/spit-to-s3 blocks (str "textract/" date ".edn"))
-                           :entries entries)
-                    parse-times))))
 
 
 

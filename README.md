@@ -6,12 +6,17 @@ Web service to display and map incident reports from the [Pacifica police blotte
 
 ## STATUS
 
-Broken, the version here has been updated to the point where it compiles.
+Rewritten:
+- to use AWS text extraction
+- to have a new stupid text "database"
+- to conform with Maps API (needs a key now)
+- to not group geos
 
-known problems:
-- the postgres library is broken (currently using a file persistence hack which may or may not work)
-- google map api seems unhappy
-- tests are failing, not sure why
+TODO:
+- integrate the scrape / analyze / geo stuff into an automated pipeline
+- redo geo grouping if necessary
+- redo frontend in cljs (if it gets any more complicated)
+- clean up, there's lots of dead code
 
 
 ## Usage

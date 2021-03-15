@@ -6,7 +6,6 @@
             [taoensso.timbre :as log]
             [cheshire.core :as json]
             [incidents.reports :as reports]
-            [clojure.walk :as walk]
             [compojure.core :as compojure]
             [org.parkerici.multitool.core :as u]
             )
@@ -26,17 +25,20 @@
    :body (json/encode data true)})
 
 
-;; TODO: now that we're using cheshire instead of liberator,
-;; this .getTime type-handling for Date could be added as a singleton into
-;; cheshire's config instead of crudely walking trees here.
-(defn serialize-for-json
-  [t]
-  (walk/postwalk #(if (= Date (class %))
-                    (.getTime %)
-                    %)
-                 t))
+;;; Ensure dates get written out as ints
+(extend java.util.Date
+  clojure.data.json/JSONWriter
+  {:-write (fn [x out]
+             (.print out (.getTime x)))})
 
+(defn tweak-for-json
+  [incidents]
+  (->> incidents
+       (filter :geo)
+       (filter :id)                     ;TODO temp, should give these a synthetic id
+       (map #(select-keys % [:id :datime :geo :type :location :disposition]))))
 
+;;; Don't understand what this is for
 (defn- with-count
   [{:keys [count]} xs]
   (cond->> xs count (take (Integer/parseInt count))))
@@ -92,16 +94,16 @@
 
 (defn get-all
   [db params]
-  (->> db
-       vals
-       (with-geo params)
-       (with-dates params)
-       (with-search-string params)
-       (with-type-string params)
-       (sort-by :time)
-       reverse
-       (with-count params) ;; must be last before serializing
-       serialize-for-json))
+  (let [params (coerce-params params)]
+    (->> (db/entries)
+         (with-geo params)
+         (with-dates params)
+         (with-search-string params)
+         (with-type-string params)
+                                        ;       (sort-by :time)
+                                        ;       reverse
+                                        ;       (with-count params) ;; must be last before serializing
+         tweak-for-json)))
 
 (defn- coerce-date
   [s]
@@ -122,10 +124,10 @@
     (->> (db/entries)
          (with-dates params)
          (with-search-string params)
-                    ;;(with-types params)
-         (sort-by :datime)
-         reverse
-         serialize-for-json
+         ;; (with-types params)
+         ;; (sort-by :datime)
+         ;; reverse
+         tweak-for-json
          )))
 
 ;;; This did some kind of grouping by geo? 
@@ -140,18 +142,26 @@
 
 
 (compojure/defroutes routes
+
+  ;; Get all incidents matching 
   (compojure/GET "/" {:keys [params db]}
                  (-> (or db @db/db)
                      (get-all params)
                      json-response))
-
   
+  (compojure/GET "/dates"  {:keys [db]}
+                 (-> (or db @db/db)
+                     reports/timestamps-min-max
+                     json-response))
+
+  ;; Not currently using, we display individual incidents not grouped by geo
   (compojure/GET "/geos" {:keys [params db]}
                  (-> (or db @db/db)
                      (get-geos params)
                      json-response))
-
   
+  ;; Following are not used in code, for devops I guess?
+
   ;; TODO: error handling/validation for non-valid keys?
   (compojure/GET "/keys/:kind" {{:keys [kind]} :params db :db}
                  (some->> kind
@@ -169,12 +179,6 @@
                           (utils/key-set-counts (or db @db/db))
                           json-response))
 
-
-  
-  (compojure/GET "/dates"  {:keys [db]}
-                 (-> (or db @db/db)
-                     reports/timestamps-min-max
-                     json-response))
 
   
   ;; should really be a PUT or something, but whatever.
