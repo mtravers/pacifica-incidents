@@ -26,46 +26,17 @@
   []
   (future
     (try
-      (db/db-init)
       (let [{:keys [port]} env/env]
         (log/info (format "starting web server on port %s" port))
         (srv/start port))
       (log/info "web server started (presumbably)")
+      (db/db-init)
       (catch Exception e
         (log/error e)))))
 
 
 
-(comment
 
-  ;; cron job 1:
-  (scrape/start-pdf-downloading)
-
-
-  ;; cron job 2
-  (geo/start-geocoding)
-
-  
-  (-main)
-
-  )
-
-
-
-
-
-(comment
-  ;; attempt to parse everthang
-
-  ;; TODO: Do this as part of the downloading operation
-  
-  (count @db/db)
-
-  (db/read-data!)
-  
-  (log/info "wtf?")
-  
-  )
 
 
 

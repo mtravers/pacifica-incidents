@@ -67,7 +67,6 @@
           (recur acc options))))))
 
 (u/defn-memoized client [service]
-  (prn :argh (System/getenv "AWS_ACCESS_KEY_ID") (System/getenv "AWS_SECRET_ACCESS_KEY"))
   (aws/client {:api service
                :region "us-west-2"
                :credentials-provider (credentials/environment-credentials-provider)}))
