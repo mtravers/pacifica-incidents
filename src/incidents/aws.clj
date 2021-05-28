@@ -82,7 +82,7 @@
 (u/defn-memoized client [service]
   (aws/client {:api service
                :region "us-west-2"
-               :credentials-provider (credentials/profile-credentials-provider "incidents2")}))
+               :credentials-provider (credentials/environment-credentials-provider)}))
 
 (defn job-id->blocks
   [job-id]
