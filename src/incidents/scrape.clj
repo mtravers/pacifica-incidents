@@ -14,6 +14,7 @@
             [taoensso.timbre :as log])
   (:gen-class))
 
+;;; TODO someday add https://northcountyfire.org/category/media-releases/
 (def index-url "https://www.cityofpacifica.org/depts/police/media/media_bulletin.asp")
 
 (defn basepath

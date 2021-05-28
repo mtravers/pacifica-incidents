@@ -15,6 +15,8 @@
   (:import java.util.Date))
 
 ;;; Key within s3://incidents
+;;; TODO version this, maybe with AWS feature
+;;; https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html
 (def save-file "db/latest.edn") ;TODO probably want to save versions
 
 ;;; The in-memory db
@@ -44,8 +46,10 @@
 (defn read-data!
   []
   (let [local (fs/temp-file "db")]
+    (prn :local local)
     (aws/s3->file save-file local)
-    (reset! db (ju/read-from-file local))))
+    (reset! db (ju/read-from-file local))
+    nil))
 
 ;;; More general
 (defn with-db [f args]

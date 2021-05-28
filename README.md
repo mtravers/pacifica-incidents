@@ -21,8 +21,14 @@ TODO:
 
 ## Usage
 
-Start server:
+Start server: (TODO Not working, use lein run?)
 > lein ring server
+
+### Dev notes
+
+Database is in s3://incidents/b/latest.edn (should be versioned)
+
+    aws s3 ls s3://incidents --profile=incidents
 
 ## License
 

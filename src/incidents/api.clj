@@ -92,6 +92,17 @@
             xs)
     xs))
 
+(defn- coerce-date
+  [s]
+  (and (string? s) (Date. (Long/parseLong s))))
+
+(defn- coerce-params
+  [params]
+  (-> params
+      (update :min coerce-date)
+      (update :max coerce-date)))
+
+
 (defn get-all
   [db params]
   (let [params (coerce-params params)]
@@ -105,15 +116,6 @@
                                         ;       (with-count params) ;; must be last before serializing
          tweak-for-json)))
 
-(defn- coerce-date
-  [s]
-  (and (string? s) (Date. (Long/parseLong s))))
-
-(defn- coerce-params
-  [params]
-  (-> params
-      (update :min coerce-date)
-      (update :max coerce-date)))
 
 ;; Sorry this looks like ass, but it works.
 ;; Make things as simple as possible, but no simpler.
