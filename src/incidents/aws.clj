@@ -13,19 +13,7 @@
             ))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(comment
 
-  (def services (uaws/make-services [:s3 :textract]
-                                    {:credentials-provider (credentials/profile-credentials-provider "restivo")}))
-
-
-  (ulog/spewer
-   (uaws/list-ops services :textract))
-
-  (ulog/spewer
-   (uaws/docs services :textract :AnalyzeDocument))
-
-  )
 
 ;;; TODO this doesn't show much detail about error 
 (defn invoke-with-error
@@ -78,8 +66,8 @@
           (java.lang.Thread/sleep 1000)
           (recur acc options))))))
 
-
 (u/defn-memoized client [service]
+  (prn :argh (System/getenv "AWS_ACCESS_KEY_ID") (System/getenv "AWS_SECRET_ACCESS_KEY"))
   (aws/client {:api service
                :region "us-west-2"
                :credentials-provider (credentials/environment-credentials-provider)}))

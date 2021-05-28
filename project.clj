@@ -10,13 +10,13 @@
                  [camel-snake-kebab "0.4.2"]
                  [cheshire "5.10.0"]
                  [clj-commons/conch "0.9.2"]
-                 [clj-http "3.12.1"]
+                 [clj-http "3.12.2"]
                  [clj-time "0.15.2"]
-                 [com.cognitect.aws/api "0.8.498" :exclusions [org.eclipse.jetty/jetty-http
+                 [com.cognitect.aws/api "0.8.505" :exclusions [org.eclipse.jetty/jetty-http
                                                                org.eclipse.jetty/jetty-io
                                                                org.eclipse.jetty/jetty-util]]
-                 [com.cognitect.aws/endpoints  "1.1.11.946"]
-                 [com.cognitect.aws/s3 "810.2.817.0"]
+                 [com.cognitect.aws/endpoints  "1.1.11.1001"]
+                 [com.cognitect.aws/s3 "811.2.889.0"]
                  [com.cognitect.aws/textract "809.2.797.0"]
                  [com.taoensso/timbre "4.10.0"] ;; NEVER UPGRRADE TO VERSION 5 IT IS BROKEN
                  [compojure "1.6.2" :exclusions [ring/ring-core]]
@@ -31,9 +31,9 @@
                  [org.clojure/clojure "1.10.2"]
                  [org.clojure/java.jdbc "0.7.12"]
                  [org.clojure/tools.trace "0.7.10"] ;; required for dev
-                 [ring "1.9.0"]
+                 [ring "1.9.3"]
                  [ring.middleware.jsonp "0.1.6"]
-                 [ring/ring-devel "1.9.0"]]
+                 [ring/ring-devel "1.9.3"]]
   :plugins [[lein-environ "1.2.0"]
             [lein-ring "0.12.5"]]
   :ring {:handler incidents.server/app
