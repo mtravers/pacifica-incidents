@@ -34,7 +34,7 @@ function clearMarkers() {
 // really should take other params, prob in a map
 function map_update(params) {
     // load data
-    $.ajax("/api/geos", {
+    $.ajax("/api", {
 	data: params,
 	success:
 	function(response) {
