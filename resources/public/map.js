@@ -109,7 +109,7 @@ function prepare_form() {
 	if (text !== undefined && text !== ""){
 	    params.search = text;
 	}
-	map_update();
+	map_update(params);
 	return false;
     });
 }
