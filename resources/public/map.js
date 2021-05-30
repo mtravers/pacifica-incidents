@@ -9,17 +9,7 @@ function map_init(lat, lng) {
 	mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-
-    // load data
-    $.ajax("/api", {
-	//	data: {lat: lat, lng: lng},
-	success:
-	function(response) {
-	    displayIncidents(map, response);
-	},
-	error: 
-	function(XHR, textStatus, errorThrown) {alert("error: " + textStatus + "; " + errorThrown);}
-    });
+    map_update(defaultParams());
 }
 
 // left out of maps api
@@ -45,9 +35,6 @@ function map_update(params) {
     });
 }
 
-// TODO not actually used, maybe get rid of it
-var cache = {};
-
 function displayIncidents(map, incidents, params) {
     clearMarkers();
     cache = {};
@@ -55,7 +42,6 @@ function displayIncidents(map, incidents, params) {
     var w = new google.maps.InfoWindow();
     for (idx in incidents) {
 	var incident = incidents[idx];
-	cache[incident.id] = incident;
 	var loc = incident.geo;
 	var marker = new google.maps.Marker({
 	    position: new google.maps.LatLng(loc.lat,loc.lng),
@@ -97,49 +83,53 @@ function prepMarker(marker, incident, map, w, params) {
 function get_datepickers_as_timestamps(){
     var start = $('#start_datepicker').datepicker("getDate");
     var end = $('#end_datepicker').datepicker("getDate");
-    return {start: start !== null ? start.getTime() : 0,
-	    end:  end !== null ? end.getTime() : 0};
+    return {start: start && start.getTime(),
+	    end:   end && end.getTime()};
+}
+
+function update() {
+    map_update(params);
+}
+
+function init_datepicker(field, v) {
+    $(field).datepicker();
+    $(field).datepicker("setDate", new Date(v));
 }
 
 function prepare_form() {
-    $("#start_datepicker").datepicker();
-    $("#end_datepicker").datepicker();
+    var params = defaultParams();
+    init_datepicker("#start_datepicker", params.min);
+    init_datepicker("#end_datepicker", params.max);
     $("#update").click(function(event) {
-        var start_end = get_datepickers_as_timestamps();
+	var start_end = get_datepickers_as_timestamps();
 	var text = $('#text_search').val();
 	var params = {};
-	// I know this sucks, but it's gotta happen somewhere, might as well be here.
-	if(start_end !== undefined && 
-	   start_end.end !== null && start_end.end > 0 && 
-	   start_end.start !== null && start_end.start > 0 ){
-		params.min = start_end.start;
-		params.max = start_end.end;
+	if (start_end.start) { params.min = start_end.start; }
+	if (start_end.end) { params.max = start_end.end; }
+	if (text !== undefined && text !== ""){
+	    params.search = text;
 	}
-	if(text !== undefined && text !== ""){
-		params.search = text;
-	}
-	map_update(params);
+	map_update();
 	return false;
     });
 }
 
-function fillDetails(api_data) {
-    $("#start_datepicker").datepicker("setDate", new Date(api_data["min"]));
-    $("#end_datepicker").datepicker("setDate", new Date(api_data["max"]));
+function dateDaysAgo(date, days) {
+    return new Date(date.getTime() - 1000 * 3600 * 24 * days);
 }
 
 // called after map api code is loaded
 function initMap() {
     prepare_form();
     map_init(37.621592, -122.4885218);
-    $.ajax("/api/dates",
-	   { success:
-	     function(response) {
-		 fillDetails(response);
-	     },
-	     error: 
-	     function(XHR, textStatus, errorThrown) {
-		 alert("error: " + textStatus + "; " + errorThrown);}
-	   });
-};
+}
+
+
+function defaultParams() {
+    return { "max": new Date().getTime(),
+	     "min": dateDaysAgo(new Date(), 7).getTime()
+	   };
+}
+
+
 

@@ -18,11 +18,11 @@ TODO:
 - redo frontend in cljs (if it gets any more complicated)
 - clean up, there's lots of dead code
 
-
 ## Usage
 
-Start server: (TODO Not working, use lein run?)
-> lein ring server
+> lein run
+
+Opens a server on port 8000.
 
 ### Dev notes
 

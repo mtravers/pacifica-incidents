@@ -8,6 +8,7 @@
             [incidents.reports :as reports]
             [compojure.core :as compojure]
             [org.parkerici.multitool.core :as u]
+            [clojure.string :as str]
             )
   (:import java.util.Date))
 
@@ -72,29 +73,24 @@
             xs)
     xs))
 
-
-
-
-(defn- with-type-string
-  "filter results based on searching for type supplied"
-  [{:keys [type]} xs]
-  (if type
-    (filter (partial utils/simpler-contains  :type type)
-            xs)
-    xs))
-
-
 (defn- with-search-string
   "filter results based on search string"
   [{:keys [search]} xs]
   (if search
-    (filter (partial utils/simpler-contains  :description search)
+    (filter (fn [entry]
+              (some (fn [key]
+                      (and (key entry)
+                           (str/includes? (key entry) search)))
+                    [:type :disposition :location]))
             xs)
     xs))
 
 (defn- coerce-date
   [s]
-  (and (string? s) (Date. (Long/parseLong s))))
+  (cond
+    (string? s) (Date. (Long/parseLong s))
+    (number? s) (Date. s)
+    :else nil))
 
 (defn- coerce-params
   [params]
@@ -104,17 +100,17 @@
 
 
 (defn get-all
-  [db params]
+  [params]
   (let [params (coerce-params params)]
     (->> (db/entries)
          (with-geo params)
          (with-dates params)
          (with-search-string params)
-         (with-type-string params)
                                         ;       (sort-by :time)
                                         ;       reverse
                                         ;       (with-count params) ;; must be last before serializing
-         tweak-for-json)))
+         tweak-for-json
+         )))
 
 
 ;; Sorry this looks like ass, but it works.
@@ -146,11 +142,11 @@
 (compojure/defroutes routes
 
   ;; Get all incidents matching 
-  (compojure/GET "/" {:keys [params db]}
-                 (-> (or db @db/db)
-                     (get-all params)
+  (compojure/GET "/" {:keys [params]}
+                 (-> (get-all params)
                      json-response))
   
+  ;; No longer used
   (compojure/GET "/dates"  {:keys [db]}
                  (-> (or db @db/db)
                      reports/timestamps-min-max
