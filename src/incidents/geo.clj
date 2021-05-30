@@ -6,6 +6,8 @@
             [clojure.string :as s]
             [environ.core :as env]))
 
+;;; Background machinery
+
 (defonce running-update (atom nil))
 
 (defonce enable-google? (atom true))
@@ -44,10 +46,20 @@
     (log/debug "Fetching from google: " addr)
     (geocode-address-1 addr)))
 
+(defn add-pacifica
+  [s]
+  (if (re-find #"Pacifica" s)
+    s
+    (str s ", Pacifica CA")))
+
 (defn clean-address
   "Turn incidents location desc into valid address"
   [s]
-  (and s (str (s/replace s #"/" " & ") ", Pacifica CA")))
+  (and s
+       (-> s
+           (s/replace #"/" " & ")
+           (s/replace #"\WBI\W" " Bl ") ;a common scan error that breaks geo.
+           add-pacifica)))
 
 (defn ensure-address
   "Makes damn sure there's an address in there."
@@ -93,6 +105,20 @@
                                      (log/error e))
                                    (finally
                                      (db/save-data!))))))
+
+(defn geocode-missing-items
+  []
+  (doseq [entry (->> (db/entries)
+                     (filter :address)
+                     (remove :geo))]
+    (-> entry
+        ensure-address
+        ensure-geo)
+    ;; Fuck what are you supposed to with them? Need to rething db structure dammit.
+    ))
+
+
+
 
 (comment
   ;; do it in a separate thread, which is killable.
